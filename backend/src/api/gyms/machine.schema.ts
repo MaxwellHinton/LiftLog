@@ -35,22 +35,6 @@ export class Machine{
         advanced: number;
         elite: number;
     }
-
-    @Prop({
-        type: {
-            currentWeight: { type: Number, default: 0},
-            currentReps: { type: Number, default: 0},
-            currentGoal: { type: Number, default: 0},
-            incrementWeight: { type: Number, default: 0}
-        },
-        default: {}
-    })
-    log?: {
-        currentWeight?: number;
-        currentReps?: number;
-        currentGoal?: number;
-        incrementWeightBy?: number;
-    }
 };
 
 export const MachineSchema = SchemaFactory.createForClass(Machine);

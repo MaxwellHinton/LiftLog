@@ -33,14 +33,6 @@ class MachineDto {
         advanced: number;
         elite: number;
     }
-
-    @IsOptional()
-    log?: {
-        currentWeight?: number;
-        currentReps?: number;
-        currentGoal?: number;
-        incrementWeightBy?: number; // This will give the user an idea of how to progressively overload. I.e., add 2.5kg this week.
-    }
 }
 
 // Gyms contain:

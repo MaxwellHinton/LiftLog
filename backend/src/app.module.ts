@@ -3,11 +3,13 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { GymModule } from './api/gyms/gym.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.DB_URI),
+    GymModule,
   ],
   controllers: [
     AppController
