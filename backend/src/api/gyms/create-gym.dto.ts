@@ -3,7 +3,7 @@ import { Type } from 'class-transformer';
 import { Types } from 'mongoose';
 
 // Gym machine class is created here because each gym will contain
-// essentially a list of machines that have their data embedded.
+// a list of machines that have their data embedded.
 class MachineDto {
 
     @IsString()
@@ -39,7 +39,7 @@ class MachineDto {
         currentWeight?: number;
         currentReps?: number;
         currentGoal?: number;
-        incrementWeight?: number; // This will give the user an idea of how to progressively overload. I.e., add 2.5kg this week.
+        incrementWeightBy?: number; // This will give the user an idea of how to progressively overload. I.e., add 2.5kg this week.
     }
 }
 
@@ -50,7 +50,6 @@ export class CreateGymDto {
     @IsString()
     @IsNotEmpty()
     name: string;
-
     // location: string; maybe for future use. 
 
     // The machine array validates that all machines are machineDto's providing another layer of variable checking.
