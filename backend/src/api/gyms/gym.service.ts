@@ -1,6 +1,6 @@
 import { Injectable} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { Gym, GymDocument } from './gym.schema';
 import { CreateGymDto } from './create-gym.dto';
 import { Machine } from './machine.schema';
@@ -68,7 +68,7 @@ export class GymService{
         ).exec();
     }
 
-    /* -------------------- Gym related User queries --------------------*/ 
+    // /* -------------------- Gym related User queries --------------------*/ 
     
     // add user to gym
     async addUser(gymId: String, userId: String): Promise<Gym> {

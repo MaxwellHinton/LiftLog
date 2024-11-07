@@ -1,16 +1,18 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { forwardRef, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
+import { Model } from "mongoose";
 import { RegisterUserDto } from "./register-user.dto";
 import { UpdateUserProfileDto } from "./update-user.dto";
 import { User, UserDocument } from "./users.schema";
-import { GymService } from "../gyms/gym.service";
+import { GymUserService } from "../gym-user/gym-user.service";
+import { Gym } from "../gyms/gym.schema";
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
-        private gymService: GymService,
+        @Inject(forwardRef(() => GymUserService))
+        private gymUserService: GymUserService,
     ) {}
 
     // create new user
@@ -31,12 +33,12 @@ export class UserService {
         // check if user has also updated their current gym
         if(updateUserDto.currentGym && updateUserDto.currentGym !== user.currentGym){
             console.log(`Users current gym is changing from ${user.currentGym} to ${updateUserDto.currentGym}`);
-            
+
             if(user.currentGym){
-                await this.gymService.removeUser(user.currentGym.toString(), userId);
+                await this.gymUserService.removeUserFromGym(userId, user.currentGym);
             }
 
-            await this.gymService.addUser(updateUserDto.currentGym, userId);
+            await this.gymUserService.addUserToGym(userId, updateUserDto.currentGym,);
         }
 
         return this.userModel.findByIdAndUpdate(
@@ -56,7 +58,7 @@ export class UserService {
         ).exec()
 
         // also add user to the gyms users array
-        await this.gymService.addUser(gymId, userId);
+        await this.gymUserService.addUserToGym(userId, gymId);
         return user;
     }
 
@@ -75,35 +77,17 @@ export class UserService {
         const user = await this.userModel.findById(userId).exec()
 
         if(user.currentGym){
-            await this.gymService.removeUser(user.currentGym, userId);
+            await this.gymUserService.removeUserFromGym(userId, user.currentGym);
         }
 
         return this.userModel.findByIdAndDelete(userId).exec();
-
     }
 
     // delete user from gym
     async removeUserFromGym(userId: string, gymId: string): Promise<User>{
-        
-        const user = await this.userModel.findById(userId).exec()
-
-        if(!user){
-            throw new NotFoundException(`User with ID ${userId} was not found.`);
-        }
-
-        if(!gymId){
-            throw new NotFoundException(`Gym with ID ${gymId} was not found.`);
-        }
-
-        // First thing we do is update the users current gym to ""
-        await this.userModel.findByIdAndUpdate(
-            userId,
-            { $unset: { currentGym: ""} },
-            { new: true }
-        ).exec()
 
         // Use the gymService function to remove them from the gym.
-        await this.gymService.removeUser(gymId, userId);
-        return user;
+        await this.gymUserService.removeUserFromGym(userId, gymId);
+        return await this.userModel.findById(userId).exec();
     }
 }

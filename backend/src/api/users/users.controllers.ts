@@ -3,10 +3,14 @@ import { UserService } from './users.service';
 import { RegisterUserDto } from './register-user.dto';
 import { UpdateUserProfileDto } from './update-user.dto';
 import { User } from './users.schema';
+import { GymUserService } from '../gym-user/gym-user.service';
 
 @Controller('users')
 export class UsersController {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+        private readonly userService: UserService,
+        private readonly gymUserSerivce: GymUserService
+    ) {}
 
     // /users with POST creates a user using only RegisterDto
     @Post()
@@ -29,7 +33,7 @@ export class UsersController {
         @Param('id') userId: string,
         @Param('gymId') gymId: string,
     ){
-        return this.userService.addUserToGym(userId, gymId);
+        return this.gymUserSerivce.addUserToGym(userId, gymId);
     }
 
     @Get(':id')
@@ -53,7 +57,7 @@ export class UsersController {
     async removeUserFromGym(
         @Param('id') userId: string,
         @Param('gymId') gymId: string
-    ): Promise<User> {
-        return await this.userService.removeUserFromGym(userId, gymId);
+    ): Promise<void> {
+        return await this.gymUserSerivce.removeUserFromGym(userId, gymId);
     }
 }
