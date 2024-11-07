@@ -71,7 +71,7 @@ export class GymService{
     /* -------------------- Gym related User queries --------------------*/ 
     
     // add user to gym
-    async addUser(gymId: string, userId: Types.ObjectId): Promise<Gym> {
+    async addUser(gymId: String, userId: String): Promise<Gym> {
         return this.gymModel.findByIdAndUpdate(
             gymId,
             { $push: { users: userId} },
@@ -80,7 +80,7 @@ export class GymService{
     }
 
     // remove user from gym
-    async removeUser(gymId: string, userId: Types.ObjectId): Promise<Gym> {
+    async removeUser(gymId: String, userId: String): Promise<Gym> {
         return this.gymModel.findByIdAndUpdate(
             gymId,
             { $pull: { users: userId } },

@@ -60,12 +60,12 @@ export class GymController {
     /* -------------------- Gym related User functions --------------------*/ 
 
     @Post(':id/users/:userId')
-    async addUser(@Param('id') id: string, @Param('userId') userId: string): Promise<Gym> {
-        return this.gymService.addUser(id, new Types.ObjectId(userId));
+    async addUser(@Param('id') gymId: string, @Param('userId') userId: string): Promise<Gym> {
+        return this.gymService.addUser(gymId, userId);
     }
 
     @Delete(':id/users/:userId')
-    async removeUser(@Param('id') id: string, @Param('userId') userId: string): Promise<Gym> {
-        return this.gymService.removeUser(id, new Types.ObjectId(userId));
+    async removeUser(@Param('id') gymId: string, @Param('userId') userId: string): Promise<Gym> {
+        return this.gymService.removeUser(gymId, userId);
     }
 }

@@ -1,5 +1,5 @@
 // src/users/dto/update-user-profile.dto.ts
-import { IsString, IsOptional, IsInt, IsArray, IsObject, IsUrl } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsObject, IsUrl } from 'class-validator';
 
 class MachineLogDto {
     @IsInt()
@@ -36,7 +36,7 @@ export class UpdateUserProfileDto {
   @IsOptional()
   goals?: {
     longTermGoal?: string;
-    consistency?: number;
+    consistency?: number; // days per week you want to workout
     machineGoals?: {
       [machineId: string]: MachineLogDto
     };

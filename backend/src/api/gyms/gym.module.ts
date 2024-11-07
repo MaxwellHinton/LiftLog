@@ -10,5 +10,6 @@ import { Gym, GymSchema } from './gym.schema';
     ],
     providers: [GymService],
     controllers: [GymController],
+    exports: [GymService],
 })
 export class GymModule {}
