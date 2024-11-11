@@ -3,19 +3,19 @@
 
 export const machineIcons = {
     benchPress: { 
-        icon: '/icons/64x64/benchpress64.png',
+        icon: '../public/icons/64x64/benchpress64.png',
         displayName: "Barbell Bench Press"
     },
     backSquat: {
-        icon: '/icons/64x64/backsquat64.png',
+        icon: '../public/icons/64x64/backsquat64.png',
         displayName: 'Back Squat',
     } ,
     pullup: {
-        icon: '/icons/64x64/pullup64.png',
+        icon: '../public/icons/64x64/pullup64.png',
         displayName: 'Pull Ups',
     },
     barbellBicepCurl: {
-        icon: '/icons/64x64/barbellbicepcurl64.png',
+        icon: '../public/icons/64x64/barbellbicepcurl64.png',
         displayName: 'Barbell Bicep curls',
     },
 };

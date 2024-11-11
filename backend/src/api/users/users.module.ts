@@ -15,4 +15,4 @@ import { GymUserService } from '../gym-user/gym-user.service';
     controllers: [UsersController],
     exports: [UserService, GymUserService]
 })
-export class UserModule {}
+export class UserModule {}  
