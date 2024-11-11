@@ -2,21 +2,21 @@
 import { IsString, IsOptional, IsInt, IsObject, IsUrl } from 'class-validator';
 
 class MachineLogDto {
-    @IsInt()
-    @IsOptional()
-    currentWeight?: number;
+  @IsInt()
+  @IsOptional()
+  currentWeight?: number;
 
-    @IsInt()
-    @IsOptional()
-    currentReps?: number;
+  @IsInt()
+  @IsOptional()
+  currentReps?: number;
 
-    @IsInt()
-    @IsOptional()
-    currentGoal?: number;
+  @IsInt()
+  @IsOptional()
+  currentGoal?: number;
 
-    @IsInt()
-    @IsOptional()
-    incrementWeight?: number;
+  @IsInt()
+  @IsOptional()
+  incrementWeight?: number;
 }
 
 export class UpdateUserProfileDto {
@@ -38,8 +38,7 @@ export class UpdateUserProfileDto {
     longTermGoal?: string;
     consistency?: number; // days per week you want to workout
     machineGoals?: {
-      [machineId: string]: MachineLogDto
+      [machineId: string]: MachineLogDto;
     };
   };
-
 }

@@ -13,11 +13,7 @@ import { UserModule } from './api/users/users.module';
     GymModule,
     UserModule,
   ],
-  controllers: [
-    AppController
-  ],
-  providers: [
-    AppService
-  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

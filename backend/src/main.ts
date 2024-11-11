@@ -9,10 +9,10 @@ async function bootstrap() {
     origin: 'https://liftlog-app.vercel.app/',
     methods: 'GET, POST, PUT, DELETE, OPTIONS',
     allowedHeaders: 'Content-type, Authorization',
-    credentials: true
+    credentials: true,
   });
 
   await app.listen(port, () => console.log(`Backend running on port: ${port}`));
 }
 
-bootstrap(); 
+bootstrap();

@@ -7,12 +7,12 @@ import { UserModule } from '../users/users.module';
 import { GymUserService } from '../gym-user/gym-user.service';
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([{ name: Gym.name, schema: GymSchema }]),
-        forwardRef(() => UserModule),
-    ],
-    providers: [GymService, GymUserService],
-    controllers: [GymController],
-    exports: [GymService, GymUserService],
+  imports: [
+    MongooseModule.forFeature([{ name: Gym.name, schema: GymSchema }]),
+    forwardRef(() => UserModule),
+  ],
+  providers: [GymService, GymUserService],
+  controllers: [GymController],
+  exports: [GymService, GymUserService],
 })
 export class GymModule {}
