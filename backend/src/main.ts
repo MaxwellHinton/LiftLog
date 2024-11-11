@@ -1,15 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { INestApplication } from '@nestjs/common';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+let cachedApp: INestApplication;
 
-  const port = process.env.PORT || 8082;
-  await app.listen(port);
-
-  console.log(`Backend running on port: ${port}`);
-  
-  return app; // Add this line to export the app instance
+async function bootstrap(): Promise<INestApplication> {
+  if (!cachedApp) {
+    const app = await NestFactory.create(AppModule);
+    await app.init(); // Ensure app is initialized but not listening directly
+    cachedApp = app;
+  }
+  return cachedApp;
 }
 
-export default bootstrap(); // Ensure you export the function call as the default
+export default bootstrap;
