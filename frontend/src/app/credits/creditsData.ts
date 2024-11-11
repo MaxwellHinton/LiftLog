@@ -26,5 +26,42 @@ export const creditsData = [
       authorUrl: 'https://www.flaticon.com/authors/leremy',
       flaticonUrl: 'https://www.flaticon.com/free-icon/workout_9992358?term=bicep+curls&page=1&position=74&origin=search&related_id=9992358',
     },
+    {
+      iconName: 'Menu free icon',
+      author: 'seyfdesigner',
+      authorUrl: 'https://www.flaticon.com/authors/seyfdesigner',
+      flaticonUrl: 'https://www.flaticon.com/free-icon/menu_8369200?related_id=8369200',
+    },
+    // BACKGROUND ICON CREDITS
+    {
+      iconName: 'Chevron free icon',
+      author: 'Freepik',
+      authorUrl: 'https://www.freepik.com/?_gl=1*m8b6eu*fp_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*fp_ga_1ZY8468CQB*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.*test_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*test_ga_523JXC6VL7*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.',
+      flaticonUrl: 'https://www.flaticon.com/free-icon/chevron_1665586?term=down&page=1&position=21&origin=search&related_id=1665586',
+    },
+    {
+      iconName: 'Treadmill free icon',
+      author: 'Freepik',
+      authorUrl: 'https://www.freepik.com/?_gl=1*m8b6eu*fp_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*fp_ga_1ZY8468CQB*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.*test_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*test_ga_523JXC6VL7*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.',
+      flaticonUrl: 'https://www.flaticon.com/free-icon/treadmill_2382633?term=gym&page=1&position=7&origin=search&related_id=2382633',
+    },
+    {
+      iconName: 'excercise free icon',
+      author: 'Freepik',
+      authorUrl: 'https://www.freepik.com/?_gl=1*m8b6eu*fp_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*fp_ga_1ZY8468CQB*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.*test_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*test_ga_523JXC6VL7*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.',
+      flaticonUrl: 'https://www.flaticon.com/free-icon/exercise_12487321',
+    },
+    {
+      iconName: 'Weight free icon',
+      author: 'Freepik',
+      authorUrl: 'https://www.freepik.com/?_gl=1*m8b6eu*fp_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*fp_ga_1ZY8468CQB*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.*test_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*test_ga_523JXC6VL7*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.',
+      flaticonUrl: 'https://www.flaticon.com/free-icon/weight_1000008?term=dumbbell&page=1&position=9&origin=search&related_id=1000008',
+    },
+    {
+      iconName: 'Gym free icon',
+      author: 'Freepik',
+      authorUrl: 'https://www.freepik.com/?_gl=1*m8b6eu*fp_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*fp_ga_1ZY8468CQB*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.*test_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*test_ga_523JXC6VL7*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.',
+      flaticonUrl: 'https://www.flaticon.com/free-icon/gym_3306838?term=gym&page=1&position=16&origin=search&related_id=3306838',
+    }
   ];
   
