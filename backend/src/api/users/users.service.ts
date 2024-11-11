@@ -5,7 +5,6 @@ import { RegisterUserDto } from "./register-user.dto";
 import { UpdateUserProfileDto } from "./update-user.dto";
 import { User, UserDocument } from "./users.schema";
 import { GymUserService } from "../gym-user/gym-user.service";
-import { Gym } from "../gyms/gym.schema";
 
 @Injectable()
 export class UserService {
