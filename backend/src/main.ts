@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-export async function bootstrap() {
+async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const port = process.env.PORT;  // Dynamically assign the port
-  await app.listen(port || 8082);
+  const port = process.env.PORT || 8082;
+  await app.listen(port);
 
-  console.log(`Backend running on port: ${port}`);  // Log the correct port
+  console.log(`Backend running on port: ${port}`);
+  
+  return app; // Add this line to export the app instance
 }
-bootstrap();
+
+export default bootstrap(); // Ensure you export the function call as the default
