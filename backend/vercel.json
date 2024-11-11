@@ -12,6 +12,7 @@
         "dest": "dist/main.js",
         "methods": ["GET", "POST", "PUT", "OPTIONS"]
       }
-    ]
+    ],
+    "rewrites": [{ "source": "/(.*)", "destination": "dist/main.js" }]
   }
   
