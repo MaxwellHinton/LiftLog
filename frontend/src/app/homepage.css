@@ -1,0 +1,142 @@
+/* imports */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap');
+
+.homepage-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .middle-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    position: relative;
+  }
+  
+  .homepage-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  
+  .logo-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 100px;
+    z-index: 2;
+  }
+  
+  .logo-text {
+    font-size: 2.5rem;
+    font-family: 'Roboto mono';
+    font-weight: bold;
+    line-height: 1.2;
+  }
+
+  .menu-button {
+    background: none;
+    border: none;
+    padding: 0 10px;
+    cursor: pointer;
+  }
+  
+  .menu-button img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /*  bottom half of page */
+
+  .scrollDownIndicator {
+    margin-top: 70px;
+  }
+  .scrollDownIndicator img {
+    width: 58px;
+    height: 58px;
+  }
+  
+  .text-center {
+    height: 202px;
+    width: 535px;
+  }
+
+  .main-text {
+    font-family: 'Archivo', 'sans-serif';
+    font-size: 36px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .contact-footer-container {
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+  .contact-footer {
+    background-color: white;
+    padding: 10px 15px;
+    width: 50px;
+    border-radius: 25px;
+    width: 421px;
+    height: 80px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    text-align: center;
+}
+  
+  .creator-text {
+    font-family: 'Roboto Mono';
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  
+  .icon-links {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  .social-icon {
+    width: 50px;
+    height: 45px;
+  }
+  
