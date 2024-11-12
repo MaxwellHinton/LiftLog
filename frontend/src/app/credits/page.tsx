@@ -1,3 +1,9 @@
+
+
 export default function CreditsPage(){
-    return <div>Credits Page</div>;
+    return (
+            <div>
+                <h1>Credits Page</h1>
+            </div>
+    );
 } 
