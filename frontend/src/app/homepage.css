@@ -2,141 +2,216 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap');
 
+html, body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  font-family: 'Archivo', sans-serif;
+  overflow-x: hidden;
+}
+
+
 .homepage-container {
-    position: relative;
+    /* position: relative; */
     width: 100vw;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* flex-direction: column;
     height: 100vh;
-    flex-direction: column;
     display: flex;
-    justify-content: center;
-    overflow: hidden;
+    justify-content: center; */
+    /*overflow: hidden;*/
   }
 
-  .middle-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin-top: auto;
-    margin-bottom: auto;
-    position: relative;
-  }
-  
-  .homepage-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-  }
-  
-  .logo-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 100px;
-    z-index: 2;
-  }
-  
-  .logo-text {
-    font-size: 2.5rem;
-    font-family: 'Roboto mono';
-    font-weight: bold;
-    line-height: 1.2;
-  }
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: 2rem;
+  padding-top: 80px;
+  scroll-snap-align: start;
+  background-image: url('/icons/background/backgroundFrame.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
 
-  .menu-button {
-    background: none;
-    border: none;
-    padding: 0 10px;
-    cursor: pointer;
-  }
-  
-  .menu-button img {
-    width: 64px;
-    height: 64px;
-  }
+.homepage-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
 
-  .container {
-    position: relative;
-    z-index: 1;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.logo-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 125px;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 100px;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.middle-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 240px;
+  margin-bottom: auto;
+  position: relative;
+}
+
+.main-text {
+  font-family: 'Archivo', 'sans-serif';
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: black;
+  text-align: center;
+  overflow: hidden;
+  animation: blink-caret 0.75s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: black; }
+  
+}
+.scrollDownIndicator {
+  position: absolute;
+  display: flex;
+  margin-top: 200px;
+  flex-direction: column;
+  align-items: center;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.scrollDownIndicator img {
+  width: 58px;
+  height: 58px;
+  transition: transform 0.5s ease, opacity 0.3s ease;
+}
+
+.scrollDownIndicator:hover img {
+  transform: translateY(40px) scale(0.7);
+  opacity: 0.5;
+}
+
+.text-center {
+  height: 202px;
+  width: 535px;
+}
+  
+.logo-text {
+  font-size: 2.5rem;
+  font-family: 'Roboto mono';
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.menu-button img {
+  width: 64px;
+  transition: transform 0.2s ease-in-out;
+  height: 64px;
+}
+
+.menu-button:hover img {
+  transform: translateY(-4px);
+  animation: reverberate 1s infinite
+}
+@keyframes reverberate {
+  0%, 100% {
+    opacity: 1;
   }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
   /*  bottom half of page */
 
-  .scrollDownIndicator {
-    margin-top: 70px;
-  }
-  .scrollDownIndicator img {
-    width: 58px;
-    height: 58px;
-  }
-  
-  .text-center {
-    height: 202px;
-    width: 535px;
-  }
-
-  .main-text {
-    font-family: 'Archivo', 'sans-serif';
-    font-size: 36px;
-    font-weight: bold;
-    color: black;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .contact-footer-container {
-    position: fixed;
-    bottom: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
+.contact-footer-container {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
 }
 
-  .contact-footer {
-    background-color: white;
-    padding: 10px 15px;
-    width: 50px;
-    border-radius: 25px;
-    width: 421px;
-    height: 80px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: inline-block;
-    text-align: center;
+
+.contact-footer {
+  background-color: white;
+  padding: 10px 15px;
+  width: 50px;
+  border-radius: 25px;
+  width: 421px;
+  height: 80px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.contact-footer:hover {
+  transform: translateY(-4px);
+}
+
+.creator-text {
+  font-family: 'Roboto Mono';
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin: 0;
+  margin-bottom: 10px;
 }
   
-  .creator-text {
-    font-family: 'Roboto Mono';
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin: 0;
-    margin-bottom: 10px;
-  }
-  
-  .icon-links {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-  }
-  
-  .social-icon {
-    width: 50px;
-    height: 45px;
-  }
-  
+.icon-links {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.social-icon {
+  width: 50px;
+  height: 45px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.social-icon:hover {
+  animation: reverberate 2s infinite;
+  transform: translateY(-4px);
+}
