@@ -52,14 +52,14 @@ const HomePage = () => {
             <p className="creator-text">Created by Maxwell Hinton</p>
             <div className="icon-links">
               <a
-                href="https://github.com/your-github"
+                href="https://github.com/MaxwellHinton"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <img src="/icons/other/github-mark.png" alt="GitHub" className="social-icon" />
               </a>
               <a
-                href="https://linkedin.com/in/your-linkedin"
+                href="https://www.linkedin.com/in/maxwell-hinton-3489702b7"
                 target="_blank"
                 rel="noopener noreferrer"
               >
