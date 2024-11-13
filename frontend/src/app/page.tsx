@@ -6,6 +6,7 @@ const HomePage = () => {
   // main text 
   const [text, setText] = useState('');
   const fullText = "Smash your fitness goals with LiftLog. Your personalized gym tracking application.";
+  const [isDarkerShadow, setIsDarkerShadow] = useState(false);
 
   // drop down menu
   const [showMenu, setShowMenu] = useState(false);
@@ -14,6 +15,7 @@ const HomePage = () => {
     setShowMenu(!showMenu);
   }
 
+  // typing animation useEffect
   useEffect(() => {
     let index = 0;
 
@@ -26,6 +28,28 @@ const HomePage = () => {
       }
     }, 50);
     return () => clearInterval(interval);
+  }, []);
+
+  // contact footer darker shadow use effect
+  useEffect(() => {
+    const homeSection = document.getElementById('home');
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsDarkerShadow(!entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    
+    if(homeSection){
+      observer.observe(homeSection);
+    }
+
+    return () => {
+      if(homeSection) {
+        observer.unobserve(homeSection);
+      };
+    };
   }, []);
 
   return (
@@ -65,7 +89,7 @@ const HomePage = () => {
         </div>
 
         <div className="contact-footer-container">
-          <footer className="contact-footer">
+          <footer className={`contact-footer ${isDarkerShadow? 'darker-shadow' : ''}`}>
             <p className="creator-text">Created by Maxwell Hinton</p>
             <div className="icon-links">
               <a
@@ -89,11 +113,11 @@ const HomePage = () => {
 
       <section id="about" className="section about-section">
         <a href="#about"></a>
-        <h2>What is LiftLog?</h2>
-        <p>LiftLog is your ultimate gym tracking companion, designed to help you set and achieve fitness goals with ease. Track workouts, log progress, and stay motivated on your journey!</p>
+          <h2>What is LiftLog?</h2>
+          <p>LiftLog is your ultimate gym tracking companion, designed to help you set and achieve fitness goals with ease. Track workouts, log progress, and stay motivated on your journey!</p>
       </section>
 
-      <section id="signup" className="section signup-section">
+      <section id="signup" className="section signup-section" >
       <a href="#signup"></a>
         <h2>Signup</h2>
         <p>Join LiftLog today to start tracking your gym progress. Sign up and get personalized insights and motivation to hit your fitness milestones.</p>

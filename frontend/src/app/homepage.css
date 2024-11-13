@@ -26,11 +26,23 @@ html, body {
   padding: 2rem;
   padding-top: 80px;
   scroll-snap-align: start;
-  background-image: url('/icons/background/backgroundBLUE.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+#home {
+  background-image: url('/icons/background/backgroundBLUE.png');
+}
+#about {
+  background-image: url('/icons/background/backgroundWHITE.png');
+}
+#signup {
+  background-image: url('/icons/background/backgroundWHITE.png');
+}
+#contact {
+  background-image: url('/icons/background/backgroundWHITE.png');
 }
 
 .homepage-background {
@@ -219,6 +231,7 @@ html, body {
   width: 421px;
   height: 80px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: black 1px;
   display: inline-block;
   text-align: center;
   transition: transform 0.3s ease-in-out;
@@ -226,6 +239,10 @@ html, body {
 
 .contact-footer:hover {
   transform: translateY(-4px);
+}
+
+.contact-footer.darker-shadow {
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
 }
 
 .creator-text {
