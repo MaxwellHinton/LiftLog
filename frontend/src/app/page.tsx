@@ -3,13 +3,21 @@ import React, { useEffect, useState } from 'react';
 import './homepage.css';
 
 const HomePage = () => {
+  // main text 
   const [text, setText] = useState('');
   const fullText = "Smash your fitness goals with LiftLog. Your personalized gym tracking application.";
+
+  // drop down menu
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleMenuClick = () => {
+    setShowMenu(!showMenu);
+  }
 
   useEffect(() => {
     let index = 0;
 
-    const interval = setInterval(() => {
+    const interval = setInterval(() => { // repeats the lambda function () => a certain amount of times
       setText(fullText.slice(0, index));
       index++;
 
@@ -25,12 +33,21 @@ const HomePage = () => {
       
       <section id="home" className="section">
 
-        <div className="logo-header">
-          <h1 className="logo-text">Lift<br />Log.</h1>
-          <button className="menu-button">
-            <img src="/icons/64x64/menu.png" alt="Menu" />
-          </button>
+      <div className="logo-header">
+        <h1 className="logo-text">Lift<br />Log.</h1>
+
+        <div className={`nav-menu ${showMenu ? 'show' : ''}`}>
+          <a href="#home" className="nav-menu-items">Home</a>
+          <a href="#about" className="nav-menu-items">About</a>
+          <a href="#signup" className="nav-menu-items">Signup</a>
+          <a href="#contact" className="nav-menu-items">Contact</a>
         </div>
+
+        <button className="menu-button" onClick={handleMenuClick}>
+          <img src="/icons/64x64/menu.png" alt="Menu" />
+        </button>
+      </div>
+
 
         <div className="middle-container">
           <main className="text-center">
@@ -72,7 +89,7 @@ const HomePage = () => {
 
       <section id="about" className="section about-section">
         <a href="#about"></a>
-        <h2>About Liftlog</h2>
+        <h2>What is LiftLog?</h2>
         <p>LiftLog is your ultimate gym tracking companion, designed to help you set and achieve fitness goals with ease. Track workouts, log progress, and stay motivated on your journey!</p>
       </section>
 
