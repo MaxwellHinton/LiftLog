@@ -72,21 +72,19 @@ const HomePage = () => {
         </button>
       </div>
 
+      <div className="middle-container">
+        <main className="text-center">
+          <p className="main-text">{text}</p>
+        </main>
+      </div>
 
-        <div className="middle-container">
-          <main className="text-center">
-            <p className="main-text">{text}</p>
-
-          </main>
-        </div>
-
-        <div className="scrollDownIndicator">
-          <img
-            src="/icons/64x64/chevron.png"
-            alt="Scroll down"
-            className="scroll-icon"
-          />
-        </div>
+      <div className="scrollDownIndicator">
+        <img
+          src="/icons/64x64/chevron.png"
+          alt="Scroll down"
+          className="scroll-icon"
+        />
+      </div>
 
         <div className="contact-footer-container">
           <footer className={`contact-footer ${isDarkerShadow? 'darker-shadow' : ''}`}>

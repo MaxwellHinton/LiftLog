@@ -275,10 +275,11 @@ html, body {
 /* about section styling */
 
 .about-section p {
-  font-family: 'Archivo' 'sans-serif';
+  font-family: 'Archivo' sans-serif;
   font-size: 24px;
   width: 50%;
   text-align: left;
+  width: 400px;
 }
 
 .about-section h2 {
@@ -286,4 +287,5 @@ html, body {
   font-family: 'Archivo' 'sans-serif';
   font-size: 30px;
   font-weight: bold;
+  width: 200px;
 }
