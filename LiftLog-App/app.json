@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "LiftLog-expo-app",
-    "slug": "LiftLog-expo-app",
+    "name": "LiftLog-App",
+    "slug": "LiftLog-App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
