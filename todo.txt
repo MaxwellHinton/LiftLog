@@ -1,11 +1,14 @@
 Todo:
 
-Lower background icon opacity.
-Make background icons smaller.
-
 Complete form submission
 
 Make actual app, only on Mobile.
 
 
-cream color: #FFFBE8
+
+
+
+
+Colors for use:
+    cream color: #FFFBE8
+    navy blue: 3d5ca5
