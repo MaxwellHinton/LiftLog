@@ -1,0 +1,14 @@
+Todo:
+
+Complete form submission
+
+Make actual app, only on Mobile.
+
+
+
+
+
+
+Colors for use:
+    cream color: #FFFBE8
+    navy blue: 3d5ca5

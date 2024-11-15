@@ -1,12 +1,12 @@
 /* imports */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&display=swap');
 
 html, body {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
-  font-family: 'Archivo', sans-serif;
   overflow-x: hidden;
 }
 
@@ -26,11 +26,23 @@ html, body {
   padding: 2rem;
   padding-top: 80px;
   scroll-snap-align: start;
-  background-image: url('/icons/background/backgroundBLUE.png');
   background-size: cover;
-  background-position: center;
+  background-position: auto;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+#home {
+  background-image: url('/icons/background/backgroundHOME.png');
+}
+#about {
+  background-image: url('/icons/background/backgroundWHITE.png');
+}
+#signup {
+  background-image: url('/icons/background/backgroundWHITE.png');
+}
+#contact {
+  background-image: url('/icons/background/backgroundWHITE.png');
 }
 
 .homepage-background {
@@ -55,9 +67,9 @@ html, body {
 }
 
 .main-text {
-  font-family: 'Archivo', 'sans-serif';
+  font-family: 'Public Sans';
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: lighter;
   margin-bottom: 20px;
   color: black;
   text-align: center;
@@ -101,7 +113,7 @@ html, body {
   top: 0;
   left: 0;
   right: 0;
-  height: 125px;
+  height: 100px;
   background-color: white;
   display: flex;
   justify-content: space-between;
@@ -157,10 +169,9 @@ html, body {
 
 .nav-menu-items {
   font-family: 'Roboto Mono';
-  font-weight: bold;
-  font-size: 30px;
+  font-size: 26px;
   text-decoration: none;
-  color: black;
+  color: #3d5ca5;
 
   opacity: 0;
   transform: scale(0.5) translateX(-50px);
@@ -217,8 +228,9 @@ html, body {
   width: 50px;
   border-radius: 25px;
   width: 421px;
-  height: 80px;
+  height: 60px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: black 1px;
   display: inline-block;
   text-align: center;
   transition: transform 0.3s ease-in-out;
@@ -226,6 +238,10 @@ html, body {
 
 .contact-footer:hover {
   transform: translateY(-4px);
+}
+
+.contact-footer.darker-shadow {
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
 }
 
 .creator-text {
@@ -243,8 +259,8 @@ html, body {
 }
 
 .social-icon {
-  width: 50px;
-  height: 45px;
+  width: 40px;
+  height: 35px;
   position: relative;
   overflow: hidden;
   transition: transform 0.2s ease-in-out;
@@ -257,16 +273,210 @@ html, body {
 
 /* about section styling */
 
+.about-section .content-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.about-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.content-section {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  align-items: center;
+  max-width: 700px;
+  width: 100%
+}
+
+.image-container {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+}
+
+
 .about-section p {
-  font-family: 'Archivo' 'sans-serif';
-  font-size: 24px;
+  font-family: 'Public Sans';
+  font-size: 22px;
   width: 50%;
+  text-align: left;
+  width: 350px;
+}
+
+h2 {
+  color: #3d5ca5 ;
+  font-family: 'Public Sans';
+  font-size: 30px;
+  width: 300px;
   text-align: left;
 }
 
-.about-section h2 {
-  color: #4169E1 ;
-  font-family: 'Archivo' 'sans-serif';
+.header-line {
+  width: 350px;
+  height: 1px;
+  background-color: black;
+  margin-bottom: 10px;
+}
+
+.about-section ul {
+  list-style-type: decimal;
+  list-style-position: outside;
+  padding-left: 28px;
+}
+
+.about-section li {
+  text-align: left;
+  font-family: 'Public Sans';
+  font-size: 22px;
+  color: black;
+  margin-bottom: 5px;
+}
+
+/* Signup section styling */
+
+.signup-section {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px; /* Start higher up on the page */
+}
+
+.signup-section p {
+  font-family: 'Public Sans';
+  font-size: 18px;
+  width: 50%;
+  text-align: left;
+  width: 350px;
+}
+
+.signup-section .header-line {
+  width: 350px;
+  height: 1px;
+  background-color: black;
+  margin-bottom: 10px;
+}
+
+.signup-section form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: 'Public Sans';
+  font-size: 22px;
+  color: black;
+  width: 350px;
+}
+
+.signup-section .content-section {
+  gap: 20px;
+  grid-template-columns: 1fr 2fr;
+}
+
+.signup-section label {
+  margin-bottom: 3px;
+  font-size: 20px;
+}
+
+.signup-section input {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 12px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.signup-button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.signup-section .signup-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  color: white;
+  background-color: #3d5ca5;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signup-section .signup-button:hover {
+  background-color: #2c3e50;
+}
+
+.image-container {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  margin-right: 80px;
+}
+
+/* Contact section styling */
+.contact-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0px; /* Start higher up on the page */
+}
+
+.contact-section p {
+  font-family: 'Public Sans';
+  font-size: 22px;
+  width: 50%;
+  text-align: left;
+  width: 350px;
+}
+
+.contact-section h2 {
+  color: #3d5ca5 ;
+  font-family: 'Public Sans';
   font-size: 30px;
   font-weight: bold;
+  width: 300px;
+  text-align: left;
+}
+
+.contact-section .header-line {
+  width: 350px;
+  height: 1px;
+  background-color: black;
+  margin-bottom: 10px;
+}
+
+.contact-section .contact-info {
+  font-family: 'Public Sans';
+  font-size: 22px;
+  color: black;
+  width: 350px;
+}
+
+.contact-section .contact-info a {
+  color: #3d5ca5;
+  text-decoration: none;
+  display: flex;
+}
+
+.contact-section .contact-info a:hover {
+  text-decoration: underline;
+}
+
+.contact-section .image-container {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  margin-left: 80px;
+  margin-bottom: 10px;
 }
