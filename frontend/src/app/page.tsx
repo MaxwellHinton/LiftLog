@@ -26,7 +26,7 @@ const HomePage = () => {
       if(index > fullText.length){
         clearInterval(interval);
       }
-    }, 50);
+    }, 35);
     return () => clearInterval(interval);
   }, []);
 
@@ -58,7 +58,7 @@ const HomePage = () => {
       <section id="home" className="section">
 
       <div className="logo-header">
-        <h1 className="logo-text">Lift<br />Log.</h1>
+        <h1 className="logo-text">LiftLog.</h1>
 
         <div className={`nav-menu ${showMenu ? 'show' : ''}`}>
           <a href="#home" className="nav-menu-items">Home</a>
@@ -95,14 +95,14 @@ const HomePage = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src="/icons/other/github-mark.png" alt="GitHub" className="social-icon" />
+                <img src="/icons/social/github-mark.png" alt="GitHub" className="social-icon" />
               </a>
               <a
                 href="https://www.linkedin.com/in/maxwell-hinton-3489702b7"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src="/icons/other/LI-In-Bug.png" alt="LinkedIn" className="social-icon" />
+                <img src="/icons/social/LI-In-Bug.png" alt="LinkedIn" className="social-icon" />
               </a>
             </div>
           </footer>
@@ -110,27 +110,72 @@ const HomePage = () => {
       </section>
 
       <section id="about" className="section about-section">
+        <div className="content-section">
+          <div className="text-container">
+            <h2>About LiftLog</h2>
+            <div className="header-line"></div>
+            <p>Manage every part of your fitness journey. Set goals for machines. LiftLog provides a personalized approach to gym tracking, tailored to 
+              your local gym. <br></br><br></br>
+              <span style={{ fontWeight: 'bold', color: '#3d5ca5' }}>Featuring:</span></p>
+              <ul>
+                <li>Progress tracking</li>
+                <li>Goal setting</li>
+                <li>Interactive Gym map</li>
+                <li>Leaderboards and local gym community engagement</li>
+              </ul>
+          </div>
+          <div className="image-container">
+            <img src="/icons/sections/dumbbell.png" alt="About Icon" />
+          </div>
+        </div>
         <a href="#about"></a>
-          <h2>What is LiftLog?</h2>
-          <p>LiftLog is your ultimate gym tracking companion, designed to help you set and achieve fitness goals with ease. Track workouts, log progress, and stay motivated on your journey!</p>
       </section>
 
-      <section id="signup" className="section signup-section" >
-      <a href="#signup"></a>
-        <h2>Signup</h2>
-        <p>Join LiftLog today to start tracking your gym progress. Sign up and get personalized insights and motivation to hit your fitness milestones.</p>
-        <button className="signup-button">Sign Up Now</button>
+      <section id="signup" className="section signup-section">
+        <div className="content-section">
+          <div className="image-container">
+            <img src="/icons/sections/muscle.png" alt="Signup Icon" />
+          </div>
+          <div className="text-container">
+            <h2>Signup</h2>
+            <div className="header-line"></div>
+            <p>Download the app and begin your journey today.<br></br>You can also sign up on this website.</p>
+            <form className="signup-form">
+              <label htmlFor="fname">First name:</label>
+              <input type="text" id="fname" name="fname"></input>
+              <label htmlFor="lname">Last name:</label>
+              <input type="text" id="lname" name="lname"></input>
+              <label htmlFor="email">Email:</label>
+              <input type="email" id="email" name="email"></input>
+              <label htmlFor="password">Password:</label>
+              <input type="password" id="password" name="password"></input>
+            </form>
+            <div className="signup-button-container">
+              <button className="signup-button" onClick={() => {
+                // Add your registration logic here
+              }}>Register</button>
+            </div>
+          </div>
+        </div>
+        <a href="#signup"></a>
       </section>
 
       <section id="contact" className="section contact-section">
-        <a href="#contact"></a>
-        <h2>Contact Me</h2>
-        <p>If you have questions or would like to know more about LiftLog, feel free to reach out!</p>
-        <div className="contact-info">
-          <a href="mailto:your-email@example.com">your-email@example.com</a>
+        <div className="content-section">
+          <div className="text-container">
+            <h2>Contact Me</h2>
+            <div className="header-line"></div>
+            <p>For any enquiries, contact me at:</p>
+            <div className="contact-info">
+              <a href="mailto:maxhintonbusiness@gmail.com">maxhintonbusiness@gmail.com</a>
+            </div>
+          </div>
+          <div className="image-container">
+            <img src="/icons/sections/contact-book.png" alt="Contact Icon" />
+          </div>
         </div>
+        <a href="#contact"></a>
       </section>
-      
     </div>
   );
 };

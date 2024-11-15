@@ -62,6 +62,25 @@ export const creditsData = [
       author: 'Freepik',
       authorUrl: 'https://www.freepik.com/?_gl=1*m8b6eu*fp_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*fp_ga_1ZY8468CQB*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.*test_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*test_ga_523JXC6VL7*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.',
       flaticonUrl: 'https://www.flaticon.com/free-icon/gym_3306838?term=gym&page=1&position=16&origin=search&related_id=3306838',
+    },
+    // Scrolling BIG ICONS paired with text.
+    {
+      iconName: "Dumbell free icon",
+      author: "Freepik",
+      authorUrl: "https://www.freepik.com/?_gl=1*b9111j*fp_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*fp_ga_1ZY8468CQB*MTczMTU1NDk5NS41LjEuMTczMTU1NTE4OC45LjAuMA..*test_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*test_ga_523JXC6VL7*MTczMTU1NDk5NS40LjEuMTczMTU1NTE4OC45LjAuMA..",
+      flaticonUrl: "https://www.flaticon.com/free-icon/dumbbell_1719695?term=gym&page=1&position=33&origin=search&related_id=1719695"
+    },
+    {
+      iconName: "Muscle free animated icon",
+      author: "Freepik",
+      authorUrl: "https://www.freepik.com/?_gl=1*m8b6eu*fp_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*fp_ga_1ZY8468CQB*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.*test_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*test_ga_523JXC6VL7*MTczMTI5NjA5My4zLjEuMTczMTI5NzEwNS40NC4wLjA.",
+      flaticonUrl: "https://www.flaticon.com/free-animated-icon/muscle_8756253?term=gym&page=1&position=3&origin=search&related_id=8756253"
+    },
+    {
+      iconName: "Contact book free icon",
+      author: "icongeek26",
+      authorUrl: "https://www.flaticon.com/authors/icongeek26",
+      flaticonUrl: "https://www.flaticon.com/free-icon/contact-book_1250592?term=contact&page=1&position=13&origin=search&related_id=1250592"
     }
   ];
   

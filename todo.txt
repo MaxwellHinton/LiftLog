@@ -1,0 +1,11 @@
+Todo:
+
+Lower background icon opacity.
+Make background icons smaller.
+
+Complete form submission
+
+Make actual app, only on Mobile.
+
+
+cream color: #FFFBE8
