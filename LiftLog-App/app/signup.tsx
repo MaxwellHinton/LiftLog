@@ -16,7 +16,7 @@ export default function SignupScreen() {
 
   const handleNext = () => {
     // You might want to pass data to the next screen
-    router.push('./personal-info');
+    router.push('./additional-info');
   };
 
   const handleBack = () => {
@@ -26,27 +26,24 @@ export default function SignupScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Sign Up</Text>
+      <Text style={styles.header}>Sign Up to LiftLog</Text>
       <TextInput
-        placeholder="First Name"
+        placeholder="Name"
+        placeholderTextColor="#888"
         value={firstName}
         onChangeText={setFirstName}
         style={styles.input}
       />
       <TextInput
-        placeholder="Last Name"
-        value={lastName}
-        onChangeText={setLastName}
-        style={styles.input}
-      />
-      <TextInput
         placeholder="Username"
+        placeholderTextColor="#888"
         value={username}
         onChangeText={setUsername}
         style={styles.input}
       />
       <TextInput
         placeholder="Email"
+        placeholderTextColor="#888"
         value={email}
         onChangeText={setEmail}
         style={styles.input}
@@ -55,6 +52,7 @@ export default function SignupScreen() {
       />
       <TextInput
         placeholder="Password"
+        placeholderTextColor="#888"
         value={password}
         onChangeText={setPassword}
         style={styles.input}
@@ -62,6 +60,7 @@ export default function SignupScreen() {
       />
       <TextInput
         placeholder="Age"
+        placeholderTextColor="#888"
         value={age}
         onChangeText={setAge}
         style={styles.input}
@@ -69,11 +68,22 @@ export default function SignupScreen() {
       />
       <TextInput
         placeholder="Gender"
+        placeholderTextColor="#888"
         value={gender}
         onChangeText={setGender}
         style={styles.input}
       />
-      <Button title="Next" onPress={handleNext} />
+      <Button
+      title="Next"
+      onPress={() => {
+        // if (password.length >= 6) {
+        // handleNext();
+        // } else {
+        // alert('Your password must be at least 6 characters long');
+        // }
+        handleNext();
+      }}
+      />
       <Button title="Back" onPress={handleBack} />
     </View>
   );
