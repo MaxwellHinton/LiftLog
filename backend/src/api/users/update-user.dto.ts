@@ -1,5 +1,5 @@
 // src/users/dto/update-user-profile.dto.ts
-import { IsString, IsOptional, IsInt, IsObject, IsUrl } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsObject, IsUrl, IsNotIn, IsNumber } from 'class-validator';
 
 class MachineLogDto {
   @IsInt()
@@ -24,7 +24,7 @@ export class UpdateUserProfileDto {
   @IsOptional()
   currentGym?: string;
 
-  @IsInt()
+  @IsNumber()
   @IsOptional()
   weight?: number;
 
