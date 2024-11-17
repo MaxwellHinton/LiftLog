@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Gym, GymDocument } from './gym.schema';
@@ -74,17 +74,54 @@ export class GymService {
 
   // /* -------------------- Gym related User queries --------------------*/
 
-  // add user to gym
-  async addUser(gymId: string, userId: string): Promise<Gym> {
-    return this.gymModel
-      .findByIdAndUpdate(gymId, { $push: { users: userId } }, { new: true })
-      .exec();
+async addUser(gymId: string, userId: string): Promise<Gym> {
+  console.log(`Adding user ${userId} to gym ${gymId}`);
+
+  const updatedGym = await this.gymModel
+    .findByIdAndUpdate(
+      gymId,
+      { $addToSet: { users: userId } }, // $addToSet prevents duplicates
+      { new: true },
+    )
+    .exec();
+
+  if (!updatedGym) {
+    console.error(`Gym with ID ${gymId} not found`);
+    throw new NotFoundException(`Gym with ID ${gymId} not found`);
   }
+
+  console.log(`Gym after adding user:`, updatedGym);
+  return updatedGym;
+}
+  
+
+
+
+  // // add user to gym
+  // async addUser(gymId: string, userId: string): Promise<Gym> {
+  //   console.log(`Adding user ${userId} to gym ${gymId}`);
+  //   return this.gymModel
+  //     .findByIdAndUpdate(
+  //       gymId, 
+  //       { $addToSet: { users: userId } }, 
+  //       { new: true })
+  //     .exec()
+  //     .then((gym) => {
+  //       console.log(`Gym after adding user:`, gym);
+  //       return gym;
+  //     })
+  //     .catch((err) => {
+  //       console.error(`Error adding user to gym:`, err);
+  //       throw err;
+  //     });
+  //   }
 
   // remove user from gym
   async removeUser(gymId: string, userId: string): Promise<Gym> {
     return this.gymModel
-      .findByIdAndUpdate(gymId, { $pull: { users: userId } }, { new: true })
+      .findByIdAndUpdate(gymId, 
+        { $pull: { users: userId } }, 
+        { new: true })
       .exec();
   }
 }

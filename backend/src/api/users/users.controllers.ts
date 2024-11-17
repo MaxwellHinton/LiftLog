@@ -11,13 +11,11 @@ import { UserService } from './users.service';
 import { RegisterUserDto } from './register-user.dto';
 import { UpdateUserProfileDto } from './update-user.dto';
 import { User } from './users.schema';
-import { GymUserService } from '../gym-user/gym-user.service';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly userService: UserService,
-    private readonly gymUserSerivce: GymUserService,
   ) {}
 
   // /users with POST creates a user using only RegisterDto
@@ -35,11 +33,11 @@ export class UsersController {
     return await this.userService.updateUser(userId, updateUserDto);
   }
 
-  // add user to gym, specific update to ensure the gyms users array is updated as well as the users current gym.
-  @Put(':id/add-to-gym/:gymId')
-  async addToGym(@Param('id') userId: string, @Param('gymId') gymId: string) {
-    return this.gymUserSerivce.addUserToGym(userId, gymId);
-  }
+  // // add user to gym, specific update to ensure the gyms users array is updated as well as the users current gym.
+  // @Put(':id/add-to-gym/:gymId')
+  // async addToGym(@Param('id') userId: string, @Param('gymId') gymId: string) {
+  //   return this.gymUserSerivce.addUserToGym(userId, gymId);
+  // }
 
   @Get(':id')
   async findUserById(@Param('id') userId: string): Promise<User> {
@@ -57,12 +55,12 @@ export class UsersController {
     return await this.userService.deleteUser(userId);
   }
 
-  // Remove user from gym (sets current gym to nothing and removes from gym users array)
-  @Delete(':id/gym/:gymId')
-  async removeUserFromGym(
-    @Param('id') userId: string,
-    @Param('gymId') gymId: string,
-  ): Promise<void> {
-    return await this.gymUserSerivce.removeUserFromGym(userId, gymId);
-  }
+  // // Remove user from gym (sets current gym to nothing and removes from gym users array)
+  // @Delete(':id/gym/:gymId')
+  // async removeUserFromGym(
+  //   @Param('id') userId: string,
+  //   @Param('gymId') gymId: string,
+  // ): Promise<void> {
+  //   return await this.gymUserSerivce.removeUserFromGym(userId, gymId);
+  // }
 }

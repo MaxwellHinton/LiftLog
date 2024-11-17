@@ -9,14 +9,13 @@ import { Model } from 'mongoose';
 import { RegisterUserDto } from './register-user.dto';
 import { UpdateUserProfileDto } from './update-user.dto';
 import { User, UserDocument } from './users.schema';
-import { GymUserService } from '../gym-user/gym-user.service';
+import { GymService } from '../gyms/gym.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
-    @Inject(forwardRef(() => GymUserService))
-    private gymUserService: GymUserService,
+    @Inject(forwardRef(() => GymService)) private readonly gymService: GymService,
   ) {}
 
   // create new user
@@ -46,27 +45,39 @@ export class UserService {
       );
 
       if (user.currentGym) {
-        await this.gymUserService.removeUserFromGym(userId, user.currentGym);
+        await this.gymService.removeUser(user.currentGym, userId);
       }
 
-      await this.gymUserService.addUserToGym(userId, updateUserDto.currentGym);
+      console.log(`Adding user to new gym: ${updateUserDto.currentGym}`);
+      const updatedGym = await this.gymService.addUser(updateUserDto.currentGym, userId);
+      console.log(`Updated Gym:`, updatedGym);
+      
+      user.currentGym = updateUserDto.currentGym;
     }
+    const updatedUser = await this.userModel.findByIdAndUpdate(
+      userId,
+      { $set: updateUserDto },
+      { new: true },
+    )
+    .exec();
 
-    return this.userModel
-      .findByIdAndUpdate(userId, { $set: updateUserDto }, { new: true })
-      .exec();
+    console.log(`Updated User: `, updatedUser);
+    return updatedUser;
+    // return this.userModel
+    //   .findByIdAndUpdate(userId, { $set: updateUserDto }, { new: true })
+    //   .exec();
   }
 
-  // add user to gym
-  async addUserToGym(userId: string, gymId: string): Promise<User> {
-    const user = await this.userModel
-      .findByIdAndUpdate(userId, { $set: { currentGym: gymId } }, { new: true })
-      .exec();
+  // // add user to gym
+  // async addUserToGym(userId: string, gymId: string): Promise<User> {
+  //   const user = await this.userModel
+  //     .findByIdAndUpdate(userId, { $set: { currentGym: gymId } }, { new: true })
+  //     .exec();
 
-    // also add user to the gyms users array
-    await this.gymUserService.addUserToGym(userId, gymId);
-    return user;
-  }
+  //   // also add user to the gyms users array
+  //   await this.gymUserService.addUserToGym(userId, gymId);
+  //   return user;
+  // }
 
   // find user by id
   async findUserById(userId: string): Promise<User> {
@@ -82,17 +93,21 @@ export class UserService {
   async deleteUser(userId: string): Promise<User> {
     const user = await this.userModel.findById(userId).exec();
 
+    if(!user){
+      throw new NotFoundException(`User with ID ${userId} not found.`);
+    }
+
     if (user.currentGym) {
-      await this.gymUserService.removeUserFromGym(userId, user.currentGym);
+      await this.gymService.removeUser(user.currentGym, userId);
     }
 
     return this.userModel.findByIdAndDelete(userId).exec();
   }
 
-  // delete user from gym
-  async removeUserFromGym(userId: string, gymId: string): Promise<User> {
-    // Use the gymService function to remove them from the gym.
-    await this.gymUserService.removeUserFromGym(userId, gymId);
-    return await this.userModel.findById(userId).exec();
-  }
+  // // delete user from gym
+  // async removeUserFromGym(userId: string, gymId: string): Promise<User> {
+  //   // Use the gymService function to remove them from the gym.
+  //   await this.gymUserService.removeUserFromGym(userId, gymId);
+  //   return await this.userModel.findById(userId).exec();
+  // }
 }
