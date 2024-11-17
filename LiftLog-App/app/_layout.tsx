@@ -1,8 +1,13 @@
 import { Stack } from "expo-router";
+import { UserProvider } from "./userContext";
 
 export default function RootLayout() {
-  return <Stack 
-    screenOptions={ {
-      headerShown: false,
-    }}/>;
+  return (
+    <UserProvider>
+      <Stack 
+        screenOptions={ {
+          headerShown: false,
+        }}/>
+    </UserProvider>
+  );
 }

@@ -1,51 +1,71 @@
 // app/signup.tsx
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Link, useRouter } from 'expo-router';
+import { UserContext } from './userContext';
 
 export default function SignupScreen() {
   const router = useRouter();
-
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [age, setAge] = useState<string>('');
-  const [gender, setGender] = useState<string>('');
-
+  const { userData, setUserData } = useContext(UserContext)!;
+  
+  // const [firstName, setFirstName] = useState<string>('');
+  // const [lastName, setLastName] = useState<string>('');
+  // const [username, setUsername] = useState<string>('');
+  // const [email, setEmail] = useState<string>('');
+  // const [password, setPassword] = useState<string>('');
+  // const [age, setAge] = useState<string>('');
+  // const [gender, setGender] = useState<string>('');
+  
   const handleNext = () => {
+
+    const { username, firstname, lastname, age, gender, email, password } = userData;
     // You might want to pass data to the next screen
+    if (!username || !firstname || !lastname || !email || !password || !age || !gender || !email || !password ){
+      alert('Error: Please fill in all required fields.');
+
+      // could change all placeholder colors to red
+
+
+      return;  
+    }
+
+    if(userData.password.length < 6 ){
+      alert('Error: Password must be at least 6 characters long.');
+    }
+
     router.push('./additional-info');
   };
 
-  const handleBack = () => {
-    // router.push('./index');
-    router.back();
-  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Sign Up to LiftLog</Text>
       <TextInput
-        placeholder="Name"
+        placeholder="First name"
         placeholderTextColor="#888"
-        value={firstName}
-        onChangeText={setFirstName}
+        value={userData.firstname}
+        onChangeText={(text) => setUserData({ ...userData, firstname: text })}
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Last name"
+        placeholderTextColor="#888"
+        value={userData.lastname}
+        onChangeText={(text) => setUserData({ ...userData, lastname: text })}
         style={styles.input}
       />
       <TextInput
         placeholder="Username"
         placeholderTextColor="#888"
-        value={username}
-        onChangeText={setUsername}
+        value={userData.username}
+        onChangeText={(text) => setUserData({ ...userData, username: text })}
         style={styles.input}
       />
       <TextInput
         placeholder="Email"
         placeholderTextColor="#888"
-        value={email}
-        onChangeText={setEmail}
+        value={userData.email}
+        onChangeText={(text) => setUserData({ ...userData, email: text})}
         style={styles.input}
         keyboardType="email-address"
         autoCapitalize="none"
@@ -53,38 +73,31 @@ export default function SignupScreen() {
       <TextInput
         placeholder="Password"
         placeholderTextColor="#888"
-        value={password}
-        onChangeText={setPassword}
+        value={userData.password}
+        onChangeText={(text) => setUserData({ ...userData, password: text})}
         style={styles.input}
         secureTextEntry
       />
       <TextInput
         placeholder="Age"
         placeholderTextColor="#888"
-        value={age}
-        onChangeText={setAge}
+        value={userData.age.toString()}
+        onChangeText={(text) => setUserData({ ...userData, age: parseInt(text, 10) || 0})}
         style={styles.input}
         keyboardType="numeric"
       />
       <TextInput
         placeholder="Gender"
         placeholderTextColor="#888"
-        value={gender}
-        onChangeText={setGender}
+        value={userData.gender}
+        onChangeText={(text) => setUserData({ ...userData, gender: text})}
         style={styles.input}
       />
       <Button
-      title="Next"
-      onPress={() => {
-        // if (password.length >= 6) {
-        // handleNext();
-        // } else {
-        // alert('Your password must be at least 6 characters long');
-        // }
-        handleNext();
-      }}
+        title="Next"
+        onPress={handleNext}
       />
-      <Button title="Back" onPress={handleBack} />
+      <Button title="Back" onPress={() => router.back()} />
     </View>
   );
 }

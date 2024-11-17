@@ -1,49 +1,34 @@
-import { router } from 'expo-router';
-import React, { useState, useEffect } from 'react';
+import { useRouter } from 'expo-router';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Picker } from '@react-native-picker/picker';
-import { View, Text, TextInput, Button, 
-        StyleSheet, TouchableOpacity, Image,
-        Modal, 
-        FlatList
-    } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image,Modal, FlatList, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-
-const backButton= () => {
-    router.back();
-};
-
-const go = () => {
-
-};
-
-interface Gym {
-    _id: string;
-    name: string;
-    address? : string
-    imageUrl?: string;
-}
+import { UserContext } from './userContext';
+import { RegisterUserDto, UpdateUserProfileDto, GymDisplay } from './interfaces';
 
 
 export default function moreInfoScreen() {
+    const router = useRouter();
+    const { userData, setUserData } = useContext(UserContext)!;
     
+    // Gym selection display State variables
+    const [gyms, setGyms] = useState<GymDisplay[]>([]);
+
+    // optional user data state variables
     const [weight, setWeight] = useState<string>('');
-    const [selectedGym, setSelectedGym] = useState<Gym | null>(null);
-    const [gyms, setGyms] = useState<Gym[]>([]);
+    const [selectedGym, setSelectedGym] = useState<GymDisplay | null>(null);
     const [profilePicture, setProfilePicture] = useState<string>('');
 
-    // small gym window state
+    // Gym selection window state variable
     const [areGymsVisible, setAreGymsVisible] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchGyms = async () => {
             try {
-                const response = await axios.get<Gym[]>('https://liftlog-backend.up.railway.app/gyms');
+                const response = await axios.get<GymDisplay[]>('https://liftlog-backend.up.railway.app/gyms');
                 setGyms(response.data);
-                console.log('Fetched Gyms:', response.data);
             } catch(error) {
-                console.error('Error fetching gyms:', error)
-                alert('Error: Failed to load gyms. Please try again later.');
+                Alert.alert('Error',  'Failed to load gyms. Please try again later.');
             }
         };
 
@@ -55,7 +40,7 @@ export default function moreInfoScreen() {
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     
         if (permissionResult.granted === false){
-            alert('Permission to access camera roll is required to set a profile picture!');
+            Alert.alert('Permission Requierd', 'Permission to access camera roll is required to set a profile picture!');
             return;
         }
     
@@ -66,8 +51,57 @@ export default function moreInfoScreen() {
             quality: 1,
         });
     
-        if(!result.canceled) {
-            setProfilePicture(result.assets[0].uri);
+        if(!result.canceled && result.assets && result.assets.length > 0) {
+            setUserData( { ...userData, profilePicture: result.assets[0].uri });
+        }
+    };
+
+    // handle form submission
+    const handleSubmit = async () => {
+        // Prepare data to match backend DTO
+        try {
+            const registerData: RegisterUserDto = {
+                username: userData.username,
+                firstname: userData.firstname,
+                lastname: userData.lastname,
+                age: userData.age,
+                gender: userData.gender,
+                email: userData.email,
+                password: userData.password,
+            };
+
+            const updateProfileData: UpdateUserProfileDto = {
+                currentGym: selectedGym ? selectedGym._id : undefined,
+                weight: weight ? parseFloat(weight): undefined,
+                profilePicture: profilePicture || '',
+            };
+
+            Object.keys(updateProfileData).forEach((key) => {
+                const value = updateProfileData[key as keyof UpdateUserProfileDto];
+                if (value === undefined || value === '') {
+                    delete updateProfileData[key as keyof UpdateUserProfileDto];
+                }
+            });
+
+            const registerResponse = await axios.post('https://liftlog-backend.up.railway.app/users', registerData);
+            console.log('User registered: ', registerResponse.data);
+
+            // User is registered, now we add additional information if it was filled out.
+            // if it was filled out, the length is > 0
+            if(Object.keys(updateProfileData).length > 0) {
+                const userId = registerResponse.data._id;
+                console.log('UserID: ', userId);
+                console.log('Additional info: ', updateProfileData);
+                console.log('Their gym: ', updateProfileData.currentGym);
+                const updatedResponse = await axios.put(`https://liftlog-backend.up.railway.app/users/${userId}`, updateProfileData);
+                console.log('User profile updated:', updatedResponse.data);
+            }
+
+            Alert.alert('Success', 'Account created successfully!');
+            router.push('./home');
+        } catch (error) {
+            console.error('Error creating account: ', error);
+            Alert.alert('Error', 'Failed to create account. Please try agian later.');
         }
     };
 
@@ -143,20 +177,10 @@ export default function moreInfoScreen() {
                 </View>
                 </View>
             </Modal>
-            {/* <Picker
-                selectedValue={currentGym}
-                onValueChange={(itemValue) => setCurrentGym(itemValue)}
-                style={styles.picker}
-            >
-                <Picker.Item label="Select a Gym" value="" color='#888' />
-                {gyms.map((gym) => (
-                    <Picker.Item key={gym._id} label={gym.name} value={gym._id} color='#888'/>
-                ))}
-            </Picker> */}
 
-            <Button title="Submit" onPress={() => {}} />
-            <Button title="Not right now" onPress= {go} />
-            <Button title="back" onPress={backButton} />
+            <Button title="Submit" onPress={handleSubmit} />
+            <Button title="Not right now" onPress={handleSubmit} />
+            <Button title="back" onPress={() => router.back()} />
         </View>
     );
 }
