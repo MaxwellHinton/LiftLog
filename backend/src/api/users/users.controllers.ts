@@ -67,35 +67,35 @@ export class UsersController {
         cb(null, true);
       },
     }),
-  )
-  async uploadProfilePicture(
+  ) async uploadProfilePicture(
     @Param('id') userId: string,
     @UploadedFile() file: Multer.File,
-  ) {
-    if (!file) {
-      throw new HttpException('File not provided', HttpStatus.BAD_REQUEST);
+    ) {
+      console.log('uploadProfilePicture called');
+      if (!file) {
+        throw new HttpException('File not provided', HttpStatus.BAD_REQUEST);
+      }
+
+      console.log('Received file:', file);
+
+      const profilePicturePath = path.join('uploads', 'profile-pictures', file.filename);
+
+      try {
+        const updatedUser = await this.userService.updateUserProfilePicture(
+          userId,
+          profilePicturePath,
+        );
+
+        return {
+          message: 'Profile picture uploaded successfully',
+          profilePicture: profilePicturePath,
+          user: updatedUser,
+        };
+      } catch (error) {
+        console.error('Error updating user profile picture:', error);
+        throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+      }
     }
-
-    console.log('Received file:', file);
-
-    const profilePicturePath = path.join('uploads', 'profile-pictures', file.filename);
-
-    try {
-      const updatedUser = await this.userService.updateUserProfilePicture(
-        userId,
-        profilePicturePath,
-      );
-
-      return {
-        message: 'Profile picture uploaded successfully',
-        profilePicture: profilePicturePath,
-        user: updatedUser,
-      };
-    } catch (error) {
-      console.error('Error updating user profile picture:', error);
-      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
 
   @Get(':id')
   async findUserById(@Param('id') userId: string): Promise<User> {
