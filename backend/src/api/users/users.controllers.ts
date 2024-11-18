@@ -6,9 +6,18 @@ import {
   Delete,
   Param,
   Body,
+  UploadedFile,
+  UseInterceptors,
+  HttpException,
+  HttpStatus
 } from '@nestjs/common';
 import { UserService } from './users.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import * as path from 'path';
+import * as fs from 'fs';
 import { RegisterUserDto } from './register-user.dto';
+import { Multer } from 'multer';
 import { UpdateUserProfileDto } from './update-user.dto';
 import { User } from './users.schema';
 
@@ -33,11 +42,56 @@ export class UsersController {
     return await this.userService.updateUser(userId, updateUserDto);
   }
 
-  // // add user to gym, specific update to ensure the gyms users array is updated as well as the users current gym.
-  // @Put(':id/add-to-gym/:gymId')
-  // async addToGym(@Param('id') userId: string, @Param('gymId') gymId: string) {
-  //   return this.gymUserSerivce.addUserToGym(userId, gymId);
-  // }
+  @Post(':id/profile-picture')
+  @UseInterceptors(
+    FileInterceptor('profilePicture', {
+      storage: diskStorage({
+        destination: './uploads/profile-pictures',
+        filename: (req, file, cb) => {
+          const uniqueSuffix = `${Date.now()}-${file.originalname}`;
+          cb(null, uniqueSuffix);
+        },
+      }),
+
+      fileFilter: (req, file, cb) => {
+        if(!file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
+          return cb(
+            new HttpException(
+              'Only image files are allowed!',
+              HttpStatus.BAD_REQUEST,
+            ),
+            false,
+          );
+        }
+        cb(null, true);
+      },
+    }),
+  )
+
+  async uploadProfilePicture(
+    @Param('id') userId: string,
+    @UploadedFile() file: Multer.File,
+  ){
+    if(!file) {
+      throw new HttpException('File not provided', HttpStatus.BAD_REQUEST);
+    }
+
+    console.log('Recieved file:', file);
+
+    const profilePicturePath = `./uploads/profile-pictures${file.filename}`;
+
+    const updatedUser = await this.userService.updateUserProfilePicture(
+      userId,
+      profilePicturePath,
+    );
+
+    return {
+      message: 'Profile picture uploaded successfully',
+      profilePicture: profilePicturePath,
+      user: updatedUser,
+    };
+
+  }
 
   @Get(':id')
   async findUserById(@Param('id') userId: string): Promise<User> {

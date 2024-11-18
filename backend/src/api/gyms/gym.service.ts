@@ -93,28 +93,6 @@ async addUser(gymId: string, userId: string): Promise<Gym> {
   console.log(`Gym after adding user:`, updatedGym);
   return updatedGym;
 }
-  
-
-
-
-  // // add user to gym
-  // async addUser(gymId: string, userId: string): Promise<Gym> {
-  //   console.log(`Adding user ${userId} to gym ${gymId}`);
-  //   return this.gymModel
-  //     .findByIdAndUpdate(
-  //       gymId, 
-  //       { $addToSet: { users: userId } }, 
-  //       { new: true })
-  //     .exec()
-  //     .then((gym) => {
-  //       console.log(`Gym after adding user:`, gym);
-  //       return gym;
-  //     })
-  //     .catch((err) => {
-  //       console.error(`Error adding user to gym:`, err);
-  //       throw err;
-  //     });
-  //   }
 
   // remove user from gym
   async removeUser(gymId: string, userId: string): Promise<Gym> {
