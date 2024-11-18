@@ -15,6 +15,7 @@ import { UserService } from './users.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import * as path from 'path';
+import * as fs from 'fs';
 import { RegisterUserDto } from './register-user.dto';
 import { Multer } from 'multer';
 import { UpdateUserProfileDto } from './update-user.dto';
@@ -47,6 +48,7 @@ export class UsersController {
       storage: diskStorage({
         destination: (req, file, cb) => {
           const uploadPath = path.resolve(__dirname, '../../uploads/profile-pictures');
+          fs.mkdirSync(uploadPath, { recursive: true })
           cb(null, uploadPath);
         },
         filename: (req, file, cb) => {
