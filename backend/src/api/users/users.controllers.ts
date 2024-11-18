@@ -15,7 +15,6 @@ import { UserService } from './users.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import * as path from 'path';
-import * as fs from 'fs';
 import { RegisterUserDto } from './register-user.dto';
 import { Multer } from 'multer';
 import { UpdateUserProfileDto } from './update-user.dto';
@@ -46,13 +45,15 @@ export class UsersController {
   @UseInterceptors(
     FileInterceptor('profilePicture', {
       storage: diskStorage({
-        destination: './uploads/profile-pictures',
+        destination: (req, file, cb) => {
+          const uploadPath = path.resolve(__dirname, '../../uploads/profile-pictures');
+          cb(null, uploadPath);
+        },
         filename: (req, file, cb) => {
           const uniqueSuffix = `${Date.now()}-${file.originalname}`;
           cb(null, uniqueSuffix);
         },
       }),
-
       fileFilter: (req, file, cb) => {
         if(!file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
           return cb(
@@ -78,7 +79,7 @@ export class UsersController {
 
     console.log('Recieved file:', file);
 
-    const profilePicturePath = `./uploads/profile-pictures${file.filename}`;
+    const profilePicturePath =  path.join('uploads', 'profile-pictures', file.filename);
 
     const updatedUser = await this.userService.updateUserProfilePicture(
       userId,
