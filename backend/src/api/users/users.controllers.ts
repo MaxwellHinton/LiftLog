@@ -47,7 +47,8 @@ export class UsersController {
     FileInterceptor('profilePicture', {
       storage: diskStorage({
         destination: (req, file, cb) => {
-          const uploadPath = path.resolve(__dirname, '../../uploads/profile-pictures');
+          const uploadPath = path.resolve(__dirname, '../uploads/profile-pictures');
+          console.log('Upload path:', uploadPath);
           fs.mkdirSync(uploadPath, { recursive: true })
           cb(null, uploadPath);
         },
