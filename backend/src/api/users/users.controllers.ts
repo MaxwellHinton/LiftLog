@@ -116,12 +116,4 @@ export class UsersController {
     return await this.userService.deleteUser(userId);
   }
 
-  // // Remove user from gym (sets current gym to nothing and removes from gym users array)
-  // @Delete(':id/gym/:gymId')
-  // async removeUserFromGym(
-  //   @Param('id') userId: string,
-  //   @Param('gymId') gymId: string,
-  // ): Promise<void> {
-  //   return await this.gymUserSerivce.removeUserFromGym(userId, gymId);
-  // }
 }

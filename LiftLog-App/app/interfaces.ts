@@ -41,6 +41,4 @@ export interface GymDisplay {
 
 const interfaces = {};
   
-  export default interfaces;
-
-  
+export default interfaces;

@@ -163,6 +163,7 @@ export default function moreInfoScreen() {
                 {selectedGym ? (
                 <View style={styles.selectedGymContainer}>
                     <Image
+                        
                         source={require('../assets/placeholder-image.png')} // Use a local placeholder image
                         style={styles.gymImage}
                     />
