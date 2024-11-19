@@ -37,9 +37,11 @@ export default function moreInfoScreen() {
     
     // code for profile picture selection -- uses ImagePicker
     const pickImage = async () => {
+
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    
-        if (permissionResult.granted === false){
+        permissionResult.granted = true;
+
+        if (!permissionResult.granted){
             Alert.alert('Permission Requierd', 'Permission to access camera roll is required to set a profile picture!');
             return;
         }
@@ -49,10 +51,12 @@ export default function moreInfoScreen() {
             allowsEditing: true,
             aspect: [1, 1],
             quality: 1,
+            base64: true,
         });
     
         if(!result.canceled && result.assets && result.assets.length > 0) {
             setUserData( { ...userData, profilePicture: result.assets[0].uri });
+            setProfilePicture(result.assets[0].uri);
         }
     };
 
@@ -73,7 +77,6 @@ export default function moreInfoScreen() {
             const updateProfileData: UpdateUserProfileDto = {
                 currentGym: selectedGym ? selectedGym._id : undefined,
                 weight: weight ? parseFloat(weight): undefined,
-                profilePicture: profilePicture || '',
             };
 
             Object.keys(updateProfileData).forEach((key) => {
@@ -83,16 +86,41 @@ export default function moreInfoScreen() {
                 }
             });
 
+            // Register user with their required data.
             const registerResponse = await axios.post('https://liftlog-backend.up.railway.app/users', registerData);
             console.log('User registered: ', registerResponse.data);
+
+            const userId = registerResponse.data._id;
+
+            if (profilePicture) {
+                const formData = new FormData();
+                formData.append('profilePicture', {
+                  uri: profilePicture,
+                  name: 'profile.jpg',
+                  type: 'image/jpeg',
+                } as any);
+    
+                try{
+                    // try to upload the profile picture
+                    const uploadResponse = await axios.post(`https://liftlog-backend.up.railway.app/users/${userId}/profile-picture`, formData,{
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+                    console.log('Profile picture uploaded: ', uploadResponse.data);
+                    updateProfileData.profilePicture = uploadResponse.data.profilePicture;
+                } catch (error) {
+                    console.log("Error uploading profile picture: ", error);
+                    if(axios.isAxiosError(error)) {
+                        console.error('Axios error response uploading:', error.response?.data);
+                    }
+                }
+            }
 
             // User is registered, now we add additional information if it was filled out.
             // if it was filled out, the length is > 0
             if(Object.keys(updateProfileData).length > 0) {
-                const userId = registerResponse.data._id;
-                console.log('UserID: ', userId);
-                console.log('Additional info: ', updateProfileData);
-                console.log('Their gym: ', updateProfileData.currentGym);
+                
                 const updatedResponse = await axios.put(`https://liftlog-backend.up.railway.app/users/${userId}`, updateProfileData);
                 console.log('User profile updated:', updatedResponse.data);
             }
@@ -101,6 +129,10 @@ export default function moreInfoScreen() {
             router.push('./home');
         } catch (error) {
             console.error('Error creating account: ', error);
+
+            if(axios.isAxiosError(error)){
+                console.error('Axios error response:', error.response?.data);
+            }
             Alert.alert('Error', 'Failed to create account. Please try agian later.');
         }
     };
