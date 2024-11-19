@@ -80,7 +80,7 @@ export class UsersController {
 
       console.log('Received file:', file);
 
-      const profilePicturePath = path.join('uploads', 'profile-pictures', file.filename);
+      const profilePicturePath = path.join('uploads', 'profile-pictures', file.filename).replace(/\\/g, '/');
 
       try {
         const updatedUser = await this.userService.updateUserProfilePicture(
