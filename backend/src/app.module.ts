@@ -15,7 +15,7 @@ import { join } from 'path';
     GymModule,
     UserModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
+      rootPath: join(__dirname, 'api/uploads'),
       serveRoot: '/uploads',
     }),
   ],
