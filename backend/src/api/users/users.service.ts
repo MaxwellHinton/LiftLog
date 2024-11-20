@@ -70,11 +70,6 @@ export class UserService {
     return this.userModel.findById(userId).exec();
   }
 
-  // find user by username
-  async findUserByUsername(username: string): Promise<User> {
-    return this.userModel.findOne({ username }).exec();
-  }
-
   // delete user
   async deleteUser(userId: string): Promise<User> {
     const user = await this.userModel.findById(userId).exec();
