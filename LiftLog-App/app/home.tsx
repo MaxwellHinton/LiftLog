@@ -1,35 +1,76 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { Link, useRouter, Route, usePathname, router } from 'expo-router';
 
-const handleGetStarted = () => {
-  router.push('./signup');
-}
-
 export default function WelcomeScreen() {
+  const router = useRouter();
+  
+  const handleGetStarted = () => {
+    router.push('./signup');
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to LiftLog</Text>
-      <Text style={styles.subtitle}>Begin your fitness journey today!</Text>
+      <View style= {styles.header}>
+        <Image 
+          source={require('../assets/images/muscle.png')}
+          style={styles.logo}
+        />
+        <Text style={styles.title}>LiftLog</Text>
+        <Text style={styles.subtitle}>Begin your fitness journey today!</Text>
+      </View>
+
       <TouchableOpacity style={styles.button} onPress={handleGetStarted}>
-        <Text style={styles.buttonText}>Get Started</Text>
+        <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create( {
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  title: { fontSize: 32, fontWeight: 'bold'},
-  subtitle: { fontSize: 18, marginVertical: 20},
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    padding: '5%',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: '10%',
+  },
+  logo: {
+    width: '25%',
+    height: undefined,
+    aspectRatio: 1, // Ensures the logo maintains a square aspect ratio
+    marginBottom: '5%',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#555555',
+    textAlign: 'center',
+    marginTop: '2%',
+  },
   button: {
-    backgroundColor: '#3d5ca5',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+    width: '70%',
+    paddingVertical: '3%',
+    backgroundColor: '#97dbe7',
+    borderRadius: 50,
+    alignItems: 'center',
+    marginVertical: '3%',
   },
   buttonText: {
-    color: 'white',
     fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  signupText: {
+    fontSize: 14,
+    color: '#000000',
+    marginVertical: '2%',
   },
 });

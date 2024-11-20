@@ -65,9 +65,7 @@ export default function moreInfoScreen() {
         // Prepare data to match backend DTO
         try {
             const registerData: RegisterUserDto = {
-                username: userData.username,
-                firstname: userData.firstname,
-                lastname: userData.lastname,
+                yourName: userData.yourName,
                 age: userData.age,
                 gender: userData.gender,
                 email: userData.email,

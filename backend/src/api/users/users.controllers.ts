@@ -105,15 +105,9 @@ export class UsersController {
     return await this.userService.findUserById(userId);
   }
 
-  @Get('username/:username')
-  async findUserByUsername(@Param('username') username: string): Promise<User> {
-    return await this.userService.findUserByUsername(username);
-  }
-
   // deletes the users profile removing them from the users database
   @Delete(':id')
   async deleteUser(@Param('id') userId: string): Promise<User> {
     return await this.userService.deleteUser(userId);
   }
-
 }

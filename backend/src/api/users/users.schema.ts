@@ -38,16 +38,10 @@ class Goals {
 @Schema()
 export class User {
   @Prop({ type: String, required: true })
-  username: string;
+  yourName: string;
 
   @Prop({ type: String, required: true })
   password: string;
-
-  @Prop({ type: String, required: true })
-  firstname: string;
-
-  @Prop({ type: String, required: true })
-  lastname: string;
 
   @Prop({ type: Number, required: true })
   age: number;

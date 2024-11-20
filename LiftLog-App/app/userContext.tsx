@@ -12,9 +12,7 @@ export const UserContext = createContext<UserContextProps | undefined>(undefined
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [userData, setUserData] = useState<UserData>({
-        username: '',
-        firstname: '',
-        lastname: '',
+        yourName: '',
         email: '',
         password: '',
         age: 0,
