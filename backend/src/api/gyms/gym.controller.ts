@@ -72,21 +72,4 @@ export class GymController {
     return this.gymService.updateMachine(id, machineId, updateData);
   }
 
-  /* -------------------- Gym related User functions --------------------*/
-
-  // @Post(':id/users/:userId')
-  // async addUser(
-  //   @Param('id') gymId: string,
-  //   @Param('userId') userId: string,
-  // ): Promise<void> {
-  //   return this.gymUserService.addUserToGym(userId, gymId);
-  // }
-
-  // @Delete(':id/users/:userId')
-  // async removeUser(
-  //   @Param('id') gymId: string,
-  //   @Param('userId') userId: string,
-  // ): Promise<void> {
-  //   return this.gymUserService.removeUserFromGym(userId, gymId);
-  // }
 }

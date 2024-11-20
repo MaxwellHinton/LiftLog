@@ -13,15 +13,7 @@ import {
 export class RegisterUserDto {
   @IsString()
   @IsNotEmpty()
-  username: string;
-
-  @IsString()
-  @IsNotEmpty()
-  firstname: string;
-
-  @IsString()
-  @IsNotEmpty()
-  lastname: string;
+  yourName: string;
 
   @IsInt()
   @Min(14)
