@@ -1,9 +1,7 @@
 // interfaces.ts contains the user DTO structures
 
 export interface RegisterUserDto {
-    username: string;
-    firstname: string;
-    lastname: string;
+    yourName: string,
     age: number;
     gender: string;
     email: string;
