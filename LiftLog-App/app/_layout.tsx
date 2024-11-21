@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { UserProvider } from "./userContext";
+import { UserProvider } from "./contexts/userContext";
 import * as Font from 'expo-font';
 import { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";

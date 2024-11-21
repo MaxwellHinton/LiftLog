@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import { RegisterUserDto, UpdateUserProfileDto } from './interfaces';
+import { RegisterUserDto, UpdateUserProfileDto } from '../interfaces';
 
 interface UserData extends RegisterUserDto, UpdateUserProfileDto {}
 

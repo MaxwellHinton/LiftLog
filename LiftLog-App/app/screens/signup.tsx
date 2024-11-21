@@ -6,7 +6,8 @@ import {View, Text, TextInput, Image,
         Platform, TouchableWithoutFeedback,
         FlatList} from 'react-native';
 import { useRouter } from 'expo-router';
-import { UserContext } from './userContext';
+import { UserContext } from '../contexts/userContext';
+import LoginModal from './loginModal';
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function SignupScreen() {
   const [missingFields, setMissingFields] = useState<string[]>([]);
 
   const [isGenderModalVisible, setGenderModalVisible] = useState(false);
+  const [isLoginModalVisible, setLoginModalVisible] = useState(false);
   
   const handleGenderSelect = (selectedGender: string) => {
     setUserData({ ...userData, gender: selectedGender });
@@ -26,21 +28,21 @@ export default function SignupScreen() {
     const {  yourName, email, password, age, gender } = userData;
     const missing = [];
 
-    if (!yourName) missing.push('yourName');
-    if (!email) missing.push('email');
-    if (!password) missing.push('password');
-    if (!age) missing.push('age');
-    if (!gender) missing.push('gender');
+    // if (!yourName) missing.push('yourName');
+    // if (!email) missing.push('email');
+    // if (!password) missing.push('password');
+    // if (!age) missing.push('age');
+    // if (!gender) missing.push('gender');
 
-    if (missing.length > 0) {
-      setMissingFields(missing);
-      alert('Error: Please fill in all required fields.');
-      return;
-    }
+    // if (missing.length > 0) {
+    //   setMissingFields(missing);
+    //   alert('Error: Please fill in all required fields.');
+    //   return;
+    // }
 
-    if(userData.password.length < 6 ){
-      alert('Error: Password must be at least 6 characters long.');
-    }
+    // if(userData.password.length < 6 ){
+    //   alert('Error: Password must be at least 6 characters long.');
+    // }
 
     setMissingFields([]);
     router.push('./additional-info');
@@ -56,7 +58,7 @@ export default function SignupScreen() {
           {/* Header Section */}
           <View style={styles.header}>
             <Image 
-              source={require('../assets/images/muscle.png')}
+              source={require('../../assets/images/muscle.png')}
               style={styles.logo}
 
             />
@@ -170,10 +172,15 @@ export default function SignupScreen() {
           {/* Footer */}
           <Text style={styles.footerText}>
             Have an account?{' '}
-            <Text style={styles.link} onPress={() => router.push('./login')}>
+            <Text style={styles.link} onPress={() => setLoginModalVisible(true)}>
               Sign in
             </Text>
           </Text>
+
+          <LoginModal
+            visible={isLoginModalVisible}
+            onClose={(() => setLoginModalVisible(false))}
+          />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -261,6 +268,8 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontFamily: 'Reddit-Sans',
   },
+
+  // footer with link 
   footerText: {
     fontSize: 20,
     color: '#000000',
@@ -271,6 +280,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textDecorationLine: 'underline',
   },
+  
+  // Gender modal styling
+
   genderText: {
      fontSize: 16,
      color: '#000000',
