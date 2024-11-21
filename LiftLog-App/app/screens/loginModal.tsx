@@ -35,9 +35,15 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose }) => {
                         value={password}
                         onChangeText={setPassword}
                     />
-                    <Button title="Login" onPress={handleLogin} />
-                    <Button title="Close" onPress={onClose} />
+                    <View style={styles.buttonContainer}>
+                      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                          <Text style={styles.buttonText}>Login</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.button} onPress={onClose}>
+                          <Text style={styles.buttonText}>Close</Text>
+                      </TouchableOpacity>
                     </View>
+                  </View>
             </View>
         </Modal>
     );
@@ -49,6 +55,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       justifyContent: 'center',
       alignItems: 'center',
+      paddingHorizontal: '5%',
     },
     modalContainer: {
       backgroundColor: '#fff',
@@ -60,14 +67,34 @@ const styles = StyleSheet.create({
       fontSize: 24,
       fontWeight: 'bold',
       marginBottom: 20,
+      fontFamily: 'Roboto-Mono-Bold',
     },
     input: {
       height: 40,
       borderColor: 'gray',
       borderWidth: 1,
+      borderRadius: 20,
       marginBottom: 20,
       padding: 10,
       width: '100%',
+    },
+    buttonContainer: {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    button: {
+      width: '80%',
+      paddingVertical: '3%',
+      backgroundColor: '#80D0D2',
+      borderRadius: 50,
+      alignItems: 'center',
+      marginTop: '5%',
+    },
+    buttonText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#000000',
+      fontFamily: 'Reddit-Sans',
     },
   });
   

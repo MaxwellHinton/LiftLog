@@ -9,7 +9,7 @@ export default function WelcomeScreen() {
   const [isLoginVisible, setLoginVisible] = useState<boolean>(false);
   
   const handleGetStarted = () => {
-    router.push('./signup');
+    router.push('./screens/signup');
   }
   
   const handleLogIn = () => {
@@ -21,7 +21,7 @@ export default function WelcomeScreen() {
       <View style={styles.headerBox}/>
       <View style={styles.header}>
         <Image
-          source={require('../assets/images/muscle.png')}
+          source={require('../../assets/images/muscle.png')}
           style={styles.logo}
         />
         <Text style={styles.title}>LiftLog</Text>

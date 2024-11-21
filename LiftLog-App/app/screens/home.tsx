@@ -13,7 +13,7 @@ export default function WelcomeScreen() {
     <View style={styles.container}>
       <View style= {styles.header}>
         <Image 
-          source={require('../assets/images/muscle.png')}
+          source={require('../../assets/images/muscle.png')}
           style={styles.logo}
         />
         <Text style={styles.title}>LiftLog</Text>
