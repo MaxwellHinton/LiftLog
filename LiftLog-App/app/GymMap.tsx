@@ -57,19 +57,16 @@ const GymMap = () => {
         );
 
     })
-    .onEnd(() => {
+    .onFinalize(() => {
         const scaledWidth = 1000 * scale.value;
         const scaledHeight = 1000 * scale.value;
   
         const maxTranslateX = (scaledWidth - containerWidth) / 2;
         const maxTranslateY = (scaledHeight - containerHeight) / 2;
   
-        translateX.value = withTiming(
-          Math.min(Math.max(translateX.value, -maxTranslateX), maxTranslateX)
-        );
-        translateY.value = withTiming(
-          Math.min(Math.max(translateY.value, -maxTranslateY), maxTranslateY)
-        );
+        translateX.value =  Math.min(Math.max(translateX.value, -maxTranslateX), maxTranslateX);
+        
+        translateY.value = Math.min(Math.max(translateY.value, -maxTranslateY), maxTranslateY);
     });
 
     // combined gestures
@@ -95,7 +92,6 @@ const GymMap = () => {
         console.log('container width: ', containerWidth);
         console.log('screen height: ', screenHeight);
         console.log('screen width: ', screenWidth);
-
     };
 
 
@@ -113,6 +109,7 @@ const GymMap = () => {
                     <Animated.View style={{ flex: 1 }}>
                         <Animated.Image 
                             source={require('../assets/maps/1000x1000/HomeGym1000x1000.png')}
+                            //source={require('../assets/maps/HomeGymMap.png')}
                             style={[styles.mapImage, animatedStyles]}
                             resizeMode="contain"
                         />
@@ -166,6 +163,7 @@ const styles = StyleSheet.create({
     mapImage: {
         width: '100%',
         height: '100%',
+        alignContent: 'center',
     },
     imageContainer: {
         overflow: 'hidden',
