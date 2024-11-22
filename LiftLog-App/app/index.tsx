@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { Link, useRouter, Route, usePathname, router } from 'expo-router';
-import LoginModal from './loginModal';
+import LoginModal from './screens/loginModal';
 
 export default function WelcomeScreen() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function WelcomeScreen() {
       <View style={styles.headerBox}/>
       <View style={styles.header}>
         <Image
-          source={require('../../assets/images/muscle.png')}
+          source={require('../assets/images/muscle.png')}
           style={styles.logo}
         />
         <Text style={styles.title}>LiftLog</Text>

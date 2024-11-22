@@ -1,76 +1,137 @@
-import React from 'react';
-import { View, Text, Image, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
-import { Link, useRouter, Route, usePathname, router } from 'expo-router';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import GymMap from '../GymMap';
 
-export default function WelcomeScreen() {
-  const router = useRouter();
-  
-  const handleGetStarted = () => {
-    router.push('./signup');
-  }
-
+export default function Home() {
   return (
     <View style={styles.container}>
-      <View style= {styles.header}>
-        <Image 
-          source={require('../../assets/images/muscle.png')}
-          style={styles.logo}
-        />
-        <Text style={styles.title}>LiftLog</Text>
-        <Text style={styles.subtitle}>Begin your fitness journey today!</Text>
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={styles.profilePicContainer}>
+          <Image
+            source={require('../../assets/placeholder-image.png')} // Replace with the actual profile image URL
+            style={styles.profilePic}
+          />
+        </View>
+
+        <Text style={styles.welcomeText}>Welcome Max!</Text>
+        <TouchableOpacity style={styles.menuButton}>
+          <View style={styles.hamburgerBar} />
+          <View style={styles.hamburgerBar} />
+          <View style={styles.hamburgerBar} />
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleGetStarted}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-    </View>
+      {/* Gym Name and Search */}
+      <View style={styles.gymSearchSection}>
+        <Text style={styles.gymName}>Home Gym</Text>
+      </View>
+      
+      {/* Gym Map */}
+      <GymMap />
+
+      <View style={styles.logoContainer}>
+        <Image
+          source={require('../../assets/images/muscle.png')}
+          style={styles.logoImage}
+        />
+        <Text style={styles.logoText}>LiftLog</Text>
+      </View>
+      
+      </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  // Header styles
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#80D0D2',
+    paddingVertical: 20,
+    paddingHorizontal: 25,
+    justifyContent: 'space-between',
+  },
+  profilePicContainer: {
+    width: 70, 
+    height: 70,
+    borderRadius: 25, 
+    backgroundColor: '#cccccc',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
-    padding: '5%',
+    alignSelf: 'flex-start',
+    marginTop: 20,
   },
-  header: {
+  
+  profilePic: {
+    width: 70, 
+    height: 70,
+    borderRadius: 25,
+  },
+  
+  welcomeText: {
+    fontSize: 16,
+    right: '4%',
+    marginTop: '9%',
+    color: '#000000',
+    fontFamily: 'Reddit-Sans',
+  },
+  menuButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '10%',
+    marginTop: '6%',
   },
-  logo: {
-    width: '25%',
-    height: undefined,
-    aspectRatio: 1, // Ensures the logo maintains a square aspect ratio
+  hamburgerBar: {
+    width: 40,
+    height: 7,
+    backgroundColor: '#ffffff',
+    borderRadius: 7,
+  },
+
+
+  // Gym Name and Search Section
+  gymSearchSection: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20,
+  },
+  gymName: {
+    fontSize: 20,
+    fontFamily: 'Roboto-Mono-Bold',
+    color: '#000000',
+  },
+
+  // Map Section
+  mapSection: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 15,
+    borderRadius: 10,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#cccccc',
+  },
+
+  logoContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
     marginBottom: '5%',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  logoImage: {
+    width: 40,
+    height: 40,
+    marginBottom: '1%',
+  },
+  logoText: {
+    fontSize: 20,
+    fontFamily: 'Roboto-Mono-Bold',
     color: '#000000',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#555555',
-    textAlign: 'center',
-    marginTop: '2%',
-  },
-  button: {
-    width: '70%',
-    paddingVertical: '3%',
-    backgroundColor: '#97dbe7',
-    borderRadius: 50,
-    alignItems: 'center',
-    marginVertical: '3%',
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000000',
-  },
-  signupText: {
-    fontSize: 14,
-    color: '#000000',
-    marginVertical: '2%',
   },
 });

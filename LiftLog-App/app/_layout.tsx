@@ -3,6 +3,7 @@ import { UserProvider } from "./contexts/userContext";
 import * as Font from 'expo-font';
 import { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function RootLayout() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -25,11 +26,13 @@ export default function RootLayout() {
   }
 
   return (
-    <UserProvider>
-      <Stack 
-        screenOptions={ {
-          headerShown: false,
-        }}/>
-    </UserProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <UserProvider>
+        <Stack 
+          screenOptions={ {
+            headerShown: false,
+          }}/>
+      </UserProvider>
+    </GestureHandlerRootView>
   );
 }

@@ -23,6 +23,10 @@ export default function SignupScreen() {
     setGenderModalVisible(false);
   };
 
+  const goToHomeForDev = () => {
+    router.push('./home');
+  }
+
   const handleNext = () => {
 
     const {  yourName, email, password, age, gender } = userData;
@@ -162,7 +166,7 @@ export default function SignupScreen() {
 
 
           {/* Button */}
-          <TouchableOpacity style={styles.button} onPress={handleNext}>
+          <TouchableOpacity style={styles.button} onPress={/*handleNext*/goToHomeForDev}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
           {/* <TouchableOpacity style= {styles.button} onPress={()=> {router.back()}}>
