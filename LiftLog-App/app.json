@@ -9,13 +9,22 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyDJd9IKZeak9lZ4oSrSkwDEc_DeSJwNCLc"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDJd9IKZeak9lZ4oSrSkwDEc_DeSJwNCLc"
+        }
+      },
+      "package": "com.mongman"
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +46,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3910c742-a090-4407-ac03-1d3ce352e8a3"
+      }
     }
   }
 }
