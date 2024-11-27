@@ -7,6 +7,7 @@ import { GymModule } from './api/gyms/gym.module';
 import { UserModule } from './api/users/users.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { AuthModule } from './api/auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { join } from 'path';
       rootPath: join(__dirname, 'api/uploads'),
       serveRoot: '/uploads',
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
