@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 import GymMap from '../GymMap';
+import axios from 'axios';
 
 export default function Home() {
+
+  const [userData, setUserData] = useState(null);
+  const [userGoals, setUserGoals] = useState({});
+  const [gymMachines, setGymMachines] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userResponse = await axios.get("https://liftlog-backend.up.railway.app/users/")
+      } catch (error) {
+
+      }
+    } 
+  })
+
   return (
     <View style={styles.container}>
       {/* Header */}

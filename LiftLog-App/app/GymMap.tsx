@@ -7,15 +7,40 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import MapView, { Overlay, Region } from "react-native-maps";
+import MapView, { Marker, Overlay, Region } from "react-native-maps";
+import TransformedImage from './TransformedImage'; // Import the TransformedImage component
+
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
 const GymMap = () => {
-    const gymImageBounds = [
-        { latitude: -0.0002, longitude: -0.0002 }, // Southwest (bottom-left corner)
-        { latitude: 0.0002, longitude: 0.0002 },   // Northeast (top-right corner)
-    ];
+  const gymImageBounds = [
+      { latitude: 0, longitude: 0 }, // Southwest (bottom-left corner)
+      { latitude: 0.0008, longitude: 0.0008 },   // Northeast (top-right corner)
+  ];
+
+  const markers = [
+    {
+      id: 1, title: "Bench press", latitude: 0.0001032, longitude: 0.00019786666666666666,
+      image: require("../assets/machineMarkers/benchpress64.png")
+    },
+    {
+      id: 2, title: "Cardio Machines", latitude: 0.00042800000000000005, longitude: 0.00019786666666666666,
+      image: require("../assets/machineMarkers/barbellbicepcurl64.png")
+    },
+    {
+      id: 3, title: "Barbell Back Squat", latitude: 0.00036426666666666667, longitude: 0.0006512,
+      image: require("../assets/machineMarkers/backsquat64.png")
+    },
+    {
+      id: 4, title: "Pull ups", latitude: 0.0001032, longitude: 0.0006512,
+      image: require("../assets/machineMarkers/pullup64.png")
+    },
+    {
+      id: 5, title: "Preacher curls", latitude: 0.0006360000000000001, longitude: 0.0006512,
+      image: require("../assets/machineMarkers/barbellbicepcurl64.png")
+    }
+  ];
 
   const [isHelpVisible, setIsHelpVisible] = useState(false);
   const mapViewRef = useRef<MapView>(null);
@@ -27,14 +52,13 @@ const GymMap = () => {
   const handleRegionChangeComplete = (region: Region) => {
       
       
-      
     const minLat = gymImageBounds[0].latitude;
     const maxLat = gymImageBounds[1].latitude;
     const minLng = gymImageBounds[0].longitude;
     const maxLng = gymImageBounds[1].longitude;
 
     const MIN_ZOOM = 0.000001; // Closest zoom level
-    const MAX_ZOOM = 0.0005; // Farthest zoom level
+    const MAX_ZOOM = 0.0009; // Farthest zoom level
       
     let newLat = region.latitude;
     let newLng = region.longitude;
@@ -67,6 +91,13 @@ const GymMap = () => {
     }
   };
 
+  
+  function handleMarkerPress(id: number): void {
+
+
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <View style={styles.mapSection}>
       <MapView
@@ -74,14 +105,13 @@ const GymMap = () => {
         provider="google"
         style={styles.map}
         initialRegion={{
-          latitude: 0,
-          longitude: 0,
-          latitudeDelta: 0.000001, // Zooms in closer
+          latitude: 0.0004,
+          longitude: 0.0004,
+          latitudeDelta: 0.0001, // Zooms in closer
           longitudeDelta: 0.0002,
         }}
         scrollEnabled={true}
         zoomEnabled={true}
-         
         onRegionChangeComplete={handleRegionChangeComplete}
       >
         {/* Overlay for the gym image */}
@@ -92,6 +122,18 @@ const GymMap = () => {
           ]}
           image={require("../assets/maps/3000x3000/homeGym.png")}
         />
+
+        {markers.map(marker => (
+          <Marker
+          key={marker.id}
+          coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+          title={marker.title}
+          image={marker.image}
+          onPress={() => handleMarkerPress(marker.id)}
+        >
+
+        </Marker>
+        ))}
       </MapView>
 
       {/* Button Section */}

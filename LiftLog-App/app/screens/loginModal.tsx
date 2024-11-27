@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import axios from 'axios';
 
 interface LoginModalProps {
     visible: boolean;
@@ -98,4 +99,4 @@ const styles = StyleSheet.create({
     },
   });
   
-  export default LoginModal;
+export default LoginModal;
