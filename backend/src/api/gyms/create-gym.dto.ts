@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsArray,
   ValidateNested,
+  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Types } from 'mongoose';
@@ -40,6 +41,21 @@ class MachineDto {
   };
 }
 
+class GymMachineDto {
+
+  @ValidateNested()
+  @Type(() => MachineDto)
+  machine: MachineDto; // The machine metadata (from the global machine schema)
+
+  @IsNumber()
+  @IsNotEmpty()
+  lat: number; // Latitude for positioning the machine
+
+  @IsNumber()
+  @IsNotEmpty()
+  long: number; // Longitude for positioning the machine
+}
+
 // Gyms contain:
 // The name, a list of machines, and a list of users.
 export class CreateGymDto {
@@ -51,8 +67,8 @@ export class CreateGymDto {
   // The machine array validates that all machines are machineDto's providing another layer of variable checking.
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => MachineDto)
-  machines: MachineDto[];
+  @Type(() => GymMachineDto)
+  machines: GymMachineDto[];
 
   @IsArray()
   @IsOptional()
