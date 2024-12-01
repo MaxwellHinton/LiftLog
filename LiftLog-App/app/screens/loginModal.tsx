@@ -11,8 +11,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose }) => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const handleLogin = () => {
-        console.log('Logging in with:', email, password);
+    const handleLogin = async () => {
+        
+        /* 
+          make request to backend at /auth/login
+
+          handle response
+
+        */
+
+        // backend request
+
+        const loginResponse = await axios.post(``);
+
         onClose();
     };
 
