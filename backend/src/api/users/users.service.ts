@@ -5,11 +5,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { RegisterUserDto } from './register-user.dto';
 import { UpdateUserProfileDto } from './update-user.dto';
 import { User, UserDocument } from './users.schema';
 import { GymService } from '../gyms/gym.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -20,8 +21,49 @@ export class UserService {
 
   // create new user
   async createUser(userDto: RegisterUserDto): Promise<User> {
-    const newUser = new this.userModel(userDto);
+    const existingUser = await this.userModel.findOne({ email: userDto.email }).exec();
+    if (existingUser) {
+      throw new Error('A user with this email already exists');
+    }
+  
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(userDto.password, salt);
+  
+    const newUser = new this.userModel({
+      _id: new Types.ObjectId(),
+      ...userDto,
+      password: hashedPassword,
+    });
+  
     return newUser.save();
+  }
+  
+
+  // validate user for login
+
+  async validateUser(email: string, password: string): Promise<User | null> {
+
+    console.log(`starting user validation for email ${email}`);
+    const user = await this.userModel.findOne({ email }).exec();
+
+    if(!user){
+      console.log(`No user found with email: ${email}`)
+      return null;
+    }
+    console.log(`User found with email: ${email}, proceeding to password validation`);
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if(!isPasswordValid){
+      console.log(`Password validation failed for email: ${email}`);
+      return null; // password mismatch
+    }
+
+    console.log(`Password validation successful for email: ${email}`);
+
+    // Step 3: Return the user if validation is successful
+    console.log(`User validation successful for email: ${email}`);
+
+    return user;
   }
 
   // update user
