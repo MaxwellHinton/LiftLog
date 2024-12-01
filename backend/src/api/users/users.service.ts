@@ -71,9 +71,12 @@ export class UserService {
     userId: string,
     updateUserDto: UpdateUserProfileDto,
   ): Promise<User> {
-    const user = await this.userModel.findById(userId).exec();
+
+    console.log(`Searching for user with id: ${userId}`);
+    const user = await this.findUserById(userId);
 
     if (!user) {
+      console.log('User not found:', userId);
       throw new NotFoundException(`User with ID ${userId} not found.`);
     }
 

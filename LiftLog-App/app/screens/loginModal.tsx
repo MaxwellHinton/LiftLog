@@ -13,19 +13,30 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose }) => {
 
     const handleLogin = async () => {
         
-        /* 
-          make request to backend at /auth/login
+      /* 
+        make request to backend at /auth/login
 
-          handle response
+        handle response
 
-        */
+      */
 
-        // backend request
+      // backend request
 
-        const loginResponse = await axios.post(``);
+      const userLogin = {
+        email: email,
+        password: password
+      }
 
-        onClose();
-    };
+      try {
+        const loginResponse = await axios.post('https://liftlog-backend.up.railway.app/auth/login', userLogin);
+        console.log('User successfully logged in: ', loginResponse.data);
+
+      } catch (error) {
+
+      }
+
+      onClose();
+  };
 
     return(
         <Modal visible={visible} transparent animationType='slide'>

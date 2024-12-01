@@ -89,8 +89,10 @@ export default function moreInfoScreen() {
             console.log('User registered: ', registerResponse.data);
 
             const userId = registerResponse.data._id;
+            console.log(userId);
 
             if (profilePicture) {
+                console.log("Handling profile picture upload");
                 const formData = new FormData();
                 formData.append('profilePicture', {
                   uri: profilePicture,
@@ -108,7 +110,7 @@ export default function moreInfoScreen() {
                     console.log('Profile picture uploaded: ', uploadResponse.data);
                     updateProfileData.profilePicture = uploadResponse.data.profilePicture;
                 } catch (error) {
-                    console.log("Error uploading profile picture: ", error);
+                    console.error("Error uploading profile picture: ", error);
                     if(axios.isAxiosError(error)) {
                         console.error('Axios error response uploading:', error.response?.data);
                     }
@@ -118,9 +120,16 @@ export default function moreInfoScreen() {
             // User is registered, now we add additional information if it was filled out.
             // if it was filled out, the length is > 0
             if(Object.keys(updateProfileData).length > 0) {
+                console.log("Attempting to update the users information: ", userId);
+                console.log('Update payload being sent:', updateProfileData);
                 
-                const updatedResponse = await axios.put(`https://liftlog-backend.up.railway.app/users/${userId}`, updateProfileData);
-                console.log('User profile updated:', updatedResponse.data);
+                try {
+                    const updatedResponse = await axios.put(`https://liftlog-backend.up.railway.app/users/${userId}`, updateProfileData);
+                    console.log('User profile updated:', updatedResponse.data);
+
+                }catch(error){
+                    console.error("Updating is fucking up");
+                }
             }
 
             Alert.alert('Success', 'Account created successfully!');

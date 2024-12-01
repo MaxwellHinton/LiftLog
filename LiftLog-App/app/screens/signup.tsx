@@ -32,21 +32,21 @@ export default function SignupScreen() {
     const {  yourName, email, password, age, gender } = userData;
     const missing = [];
 
-    // if (!yourName) missing.push('yourName');
-    // if (!email) missing.push('email');
-    // if (!password) missing.push('password');
-    // if (!age) missing.push('age');
-    // if (!gender) missing.push('gender');
+    if (!yourName) missing.push('yourName');
+    if (!email) missing.push('email');
+    if (!password) missing.push('password');
+    if (!age) missing.push('age');
+    if (!gender) missing.push('gender');
 
-    // if (missing.length > 0) {
-    //   setMissingFields(missing);
-    //   alert('Error: Please fill in all required fields.');
-    //   return;
-    // }
+    if (missing.length > 0) {
+      setMissingFields(missing);
+      alert('Error: Please fill in all required fields.');
+      return;
+    }
 
-    // if(userData.password.length < 6 ){
-    //   alert('Error: Password must be at least 6 characters long.');
-    // }
+    if(userData.password.length < 6 ){
+      alert('Error: Password must be at least 6 characters long.');
+    }
 
     setMissingFields([]);
     router.push('./additional-info');
@@ -166,7 +166,7 @@ export default function SignupScreen() {
 
 
           {/* Button */}
-          <TouchableOpacity style={styles.button} onPress={/*handleNext*/goToHomeForDev}>
+          <TouchableOpacity style={styles.button} onPress={handleNext/*goToHomeForDev*/}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
           {/* <TouchableOpacity style= {styles.button} onPress={()=> {router.back()}}>
