@@ -112,7 +112,23 @@ export class UserService {
 
   // find user by id
   async findUserById(userId: string): Promise<User> {
-    return this.userModel.findById(userId).exec();
+    console.log("Searching for user with id: ", userId);
+
+    const isValidObjectId = Types.ObjectId.isValid(userId);
+
+    if(!isValidObjectId){
+      console.error('Invalid ObjectId:', userId);
+      return null;
+    }
+
+    const user = await this.userModel.findById(new Types.ObjectId(userId)).exec();
+    if(!user) {
+      console.log('User not found brev: ', userId);
+    } else {
+      console.log('User found brev: ', user);
+    }
+
+    return user;
   }
 
   // delete user
