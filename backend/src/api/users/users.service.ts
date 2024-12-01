@@ -147,7 +147,12 @@ export class UserService {
   }
 
   async updateUserProfilePicture(userId: string, profilePicturePath: string): Promise<User> {
-    const user = await this.userModel.findById(userId);
+
+    console.log('looking for user in profilepicture upload: ', userId);
+
+
+
+    const user = await this.userModel.findById(new Types.ObjectId(userId)).exec();
 
     if(!user){
       throw new NotFoundException('User not found');
