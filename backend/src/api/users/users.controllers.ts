@@ -118,6 +118,7 @@ export class UsersController {
   async findUserById(@Param('id') userId: string, @Request() req): Promise<User> {
 
     console.log('Attempting to get user with userId: ', userId);
+    console.log('req.user = ', req.user);
     console.log(`req.user.userId = ${req.user.userId}`);
     if(req.user.userId !== userId){
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);

@@ -122,11 +122,6 @@ export class UserService {
     }
 
     const user = await this.userModel.findById(new Types.ObjectId(userId)).exec();
-    if(!user) {
-      console.log('User not found brev: ', userId);
-    } else {
-      console.log('User found brev: ', user);
-    }
 
     return user;
   }
