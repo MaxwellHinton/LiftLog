@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import GymMap from '../GymMap';
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
+import apiClient from '../apiClient';
+
 
 export default function Home() {
 
@@ -11,14 +14,25 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserData = async () => {
       try {
-        const userResponse = await axios.get("https://liftlog-backend.up.railway.app/users/")
+        const userId = await SecureStore.getItemAsync('userId');
+        if(!userId) throw new Error('User ID not found');
+        const userResponse = await apiClient.get(`/users/${userId}`);
+        setUserData(userResponse.data);
       } catch (error) {
-
+        console.error('Failed to fetch user data:', error);
+      } finally {
+        setLoading(false);
       }
-    } 
+    };
+
+    fetchUserData();
   })
+
+  if(loading){
+    return <ActivityIndicator size="large" />;
+  }
 
   return (
     <View style={styles.container}>

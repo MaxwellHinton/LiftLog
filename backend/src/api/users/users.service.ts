@@ -150,8 +150,6 @@ export class UserService {
 
     console.log('looking for user in profilepicture upload: ', userId);
 
-
-
     const user = await this.userModel.findById(new Types.ObjectId(userId)).exec();
 
     if(!user){

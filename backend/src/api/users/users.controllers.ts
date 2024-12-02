@@ -9,7 +9,9 @@ import {
   UploadedFile,
   UseInterceptors,
   HttpException,
-  HttpStatus
+  HttpStatus,
+  UseGuards,
+  Request
 } from '@nestjs/common';
 import { UserService } from './users.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -20,6 +22,7 @@ import { RegisterUserDto } from './register-user.dto';
 import { Multer } from 'multer';
 import { UpdateUserProfileDto } from './update-user.dto';
 import { User } from './users.schema';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -33,17 +36,25 @@ export class UsersController {
     return await this.userService.createUser(userDto);
   }
 
+
   // /users/:id updates user information.
+  @UseGuards(JwtAuthGuard)  
   @Put(':id')
   async updateUser(
     @Param('id') userId: string,
     @Body() updateUserDto: UpdateUserProfileDto,
+    @Request() req
   ): Promise<User> {
+
+    if(req.user.userId !== userId){
+      throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+    }
     console.log('Update request received for userId:', userId);
     console.log('Update data received:', updateUserDto);
     return await this.userService.updateUser(userId, updateUserDto);
   }
 
+  @UseGuards(JwtAuthGuard) 
   @Post(':id/profile-picture')
   @UseInterceptors(
     FileInterceptor('profilePicture', {
@@ -102,14 +113,24 @@ export class UsersController {
       }
     }
 
+  @UseGuards(JwtAuthGuard)  
   @Get(':id')
-  async findUserById(@Param('id') userId: string): Promise<User> {
+  async findUserById(@Param('id') userId: string, @Request() req): Promise<User> {
+    if(req.user.userId !== userId){
+      throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+    }
+    
     return await this.userService.findUserById(userId);
   }
 
   // deletes the users profile removing them from the users database
+  @UseGuards(JwtAuthGuard)  
   @Delete(':id')
-  async deleteUser(@Param('id') userId: string): Promise<User> {
+  async deleteUser(@Param('id') userId: string, @Request() req): Promise<User> {
+
+    if(req.user.userId !== userId){
+      throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+    }
     return await this.userService.deleteUser(userId);
   }
 }
