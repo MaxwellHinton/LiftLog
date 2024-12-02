@@ -22,6 +22,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // Find the user in the database
     const user = await this.userService.findUserById(payload.sub);
     if (!user) {
+      console.log(`user not found in validate in jwt.strategy.ts`);
+      console.log(payload.sub);
       throw new UnauthorizedException();
     }
     return user; // Attach the user object to the request

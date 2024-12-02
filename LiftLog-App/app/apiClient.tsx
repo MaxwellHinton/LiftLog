@@ -5,14 +5,15 @@ const apiClient = axios.create({
     baseURL: 'https://liftlog-backend.up.railway.app',
 });
 
-apiClient.interceptors.request.use(async (config) => {
-    const token = await SecureStore.getItemAsync('authToken');
+apiClient.interceptors.request.use(
+    async (config) => {
+        const token = await SecureStore.getItemAsync('authToken');
 
-    if(token){
-        config.headers.Authorization = `Bearer ${token}`;
-    }
+        if(token){
+            config.headers.Authorization = `Bearer ${token}`;
+        }
 
-    return config;
+        return config;
 });
 
 export default apiClient;

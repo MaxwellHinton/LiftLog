@@ -49,7 +49,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose }) => {
         console.log("login successful, going to home");
 
         onClose();
-        router.push('./home');
+        router.push('./screens/home');
         
       } catch (error) {
         if (axios.isAxiosError(error)){

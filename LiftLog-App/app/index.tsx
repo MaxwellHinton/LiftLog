@@ -12,9 +12,6 @@ export default function WelcomeScreen() {
     router.push('./screens/signup');
   }
   
-  const handleLogIn = () => {
-  
-  }
 
   return (
     <View style={styles.container}>
