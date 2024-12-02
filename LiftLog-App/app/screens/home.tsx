@@ -4,12 +4,13 @@ import GymMap from '../GymMap';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import apiClient from '../apiClient';
-
+import {UserData, UserGoals} from '../interfaces';
 
 export default function Home() {
 
-  const [userData, setUserData] = useState(null);
-  const [userGoals, setUserGoals] = useState({});
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [machineGoals, setMachineGoals] = useState<UserGoals['machineGoals'] | null>(null);
+  const [userGoals, setUserGoals] = useState<UserGoals | null>(null);
   const [gymMachines, setGymMachines] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -19,8 +20,12 @@ export default function Home() {
         const userId = await SecureStore.getItemAsync('userId');
         if(!userId) throw new Error('User ID not found');
         const userResponse = await apiClient.get(`/users/${userId}`);
+        const user = userResponse.data;
+        
         setUserData(userResponse.data);
-
+        setMachineGoals(user.goals?.machineGoals || {});
+        
+        
         console.log("IN HOME PAGE WITH ACTUAL DATA LETS GO :-:", userResponse.data);
       } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -28,9 +33,8 @@ export default function Home() {
         setLoading(false);
       }
     };
-
-    fetchUserData();
-  })
+    fetchUserData(); // functions called here
+  }, []); // We need empty array here so that the useEffect runs once when the component mounts.
 
   if(loading){
     return <ActivityIndicator size="large" />;
@@ -47,7 +51,8 @@ export default function Home() {
           />
         </View>
 
-        <Text style={styles.welcomeText}>Welcome Max!</Text>
+        <Text style={styles.welcomeText}>
+          Welcome {userData?.yourName || 'Guest'}</Text>
         <TouchableOpacity style={styles.menuButton}>
           <View style={styles.hamburgerBar} />
           <View style={styles.hamburgerBar} />

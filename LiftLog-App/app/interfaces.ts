@@ -16,17 +16,36 @@ export interface MachineLogDto {
     incrementWeight?: number;
 }
   
-  export interface UpdateUserProfileDto {
-    currentGym?: string;
-    weight?: number;
-    profilePicture?: string;
-    goals?: {
-      longTermGoal?: string;
-      consistency?: number;
-      machineGoals?: {
-        [machineId: string]: MachineLogDto;
-      };
+export interface UpdateUserProfileDto {
+  currentGym?: string;
+  weight?: number;
+  profilePicture?: string;
+  goals?: {
+    longTermGoal?: string;
+    consistency?: number;
+    machineGoals?: {
+      [machineId: string]: MachineLogDto;
     };
+  };
+}
+
+export interface UserGoals {
+  longTermGoal?: string;
+  consistency?: number;
+  machineGoals: {
+    [machineId: string]: MachineLogDto;
+  };
+}
+
+export interface UserData {
+  _id: string;
+  age: number;
+  currentGym: string;
+  email: string;
+  gender: string;
+  goals: UserGoals;
+  password: string;
+  yourName: string;
 }
 
 // Gym interface for the gym selection process.
