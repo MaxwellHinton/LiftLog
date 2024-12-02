@@ -20,6 +20,8 @@ export default function Home() {
         if(!userId) throw new Error('User ID not found');
         const userResponse = await apiClient.get(`/users/${userId}`);
         setUserData(userResponse.data);
+
+        console.log("IN HOME PAGE WITH ACTUAL DATA LETS GO :-:", userResponse.data);
       } catch (error) {
         console.error('Failed to fetch user data:', error);
       } finally {

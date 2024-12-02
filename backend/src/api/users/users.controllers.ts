@@ -119,8 +119,10 @@ export class UsersController {
 
     console.log('Attempting to get user with userId: ', userId);
     console.log('req.user = ', req.user);
-    console.log(`req.user.userId = ${req.user.userId}`);
-    if(req.user.userId !== userId){
+    console.log(`req.user.userId = ${req.user._id}`);
+    console.log(`req.user.userId as a string = ${req.user._id.toString()}`);
+
+    if(req.user._id.toString() !== userId){
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
     }
     
