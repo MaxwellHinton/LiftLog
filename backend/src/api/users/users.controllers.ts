@@ -33,6 +33,7 @@ export class UsersController {
   // /users with POST creates a user using only RegisterDto
   @Post()
   async createUser(@Body() userDto: RegisterUserDto): Promise<User> {
+    console.log(`Hitting createUser route for userId`);
     return await this.userService.createUser(userDto);
   }
 
@@ -45,6 +46,7 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserProfileDto,
     @Request() req
   ): Promise<User> {
+    console.log(`Hitting updateUser route for userId: ${userId}`);
 
     if(req.user.userId !== userId){
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);

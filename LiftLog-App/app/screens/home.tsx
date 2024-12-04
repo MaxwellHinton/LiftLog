@@ -19,6 +19,9 @@ export default function Home() {
       try {
         const userId = await SecureStore.getItemAsync('userId');
         if(!userId) throw new Error('User ID not found');
+
+        console.log("In home page trying to fetch the user with id: ", userId);
+
         const userResponse = await apiClient.get(`/users/${userId}`);
         const user = userResponse.data;
         
