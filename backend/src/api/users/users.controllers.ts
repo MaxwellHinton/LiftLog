@@ -65,7 +65,7 @@ export class UsersController {
     console.log("Req.user id: ", req.user._id);
     console.log("Req structure: ", req);
 
-    if(req.user._id !== userId){
+    if(req.user._id.toString() !== userId){
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
     }
     console.log('Update request received for userId:', userId);

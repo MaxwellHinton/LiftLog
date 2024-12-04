@@ -124,6 +124,8 @@ export class UserService {
       return null;
     }
 
+    console.log('object ID valid querying database from service finduserbyid', new Types.ObjectId(userId));
+
     const user = await this.userModel.findById(new Types.ObjectId(userId)).exec();
 
     return user;
