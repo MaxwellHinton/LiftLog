@@ -87,7 +87,7 @@ export default function moreInfoScreen() {
             });
 
             // Register user with their required data.
-            const registerResponse = await apiClient.post('/user', registerData);
+            const registerResponse = await apiClient.post('/users', registerData);
             console.log('User registered: ', registerResponse.data);
 
             const { access_token, user } = registerResponse.data;

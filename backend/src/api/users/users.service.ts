@@ -71,9 +71,12 @@ export class UserService {
     userId: string,
     updateUserDto: UpdateUserProfileDto,
   ): Promise<User> {
-
+    console.log("Update user hit in user.service");
     console.log(`Searching for user with id: ${userId}`);
     const user = await this.findUserById(userId);
+
+    console.log(user);
+    console.log("User gym?", user.currentGym);
 
     if (!user) {
       console.log('User not found:', userId);
