@@ -101,6 +101,7 @@ export class UserService {
       console.log(`Updated Gym:`, updatedGym);
       
       user.currentGym = updateUserDto.currentGym;
+      console.log("CUrrent user gym after updating:", user.currentGym);
     }
     const updatedUser = await this.userModel.findByIdAndUpdate(
       userId,
@@ -123,8 +124,6 @@ export class UserService {
       console.error('Invalid ObjectId:', userId);
       return null;
     }
-
-    console.log('object ID valid querying database from service finduserbyid', new Types.ObjectId(userId));
 
     const user = await this.userModel.findById(new Types.ObjectId(userId)).exec();
 

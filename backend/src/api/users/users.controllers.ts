@@ -61,9 +61,8 @@ export class UsersController {
   ): Promise<User> {
     console.log(`Hitting updateUser route for userId: ${userId}`);
     console.log('Information sent to update: ', updateUserDto);
-    console.log("User access_token", req.user.access_token);
+    console.log("User access_token", req.access_token);
     console.log("Req.user id: ", req.user._id);
-    console.log("Req structure: ", req);
 
     if(req.user._id.toString() !== userId){
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
