@@ -5,6 +5,8 @@ import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image,Moda
 import * as ImagePicker from 'expo-image-picker';
 import { UserContext } from '../contexts/userContext';
 import { RegisterUserDto, UpdateUserProfileDto, GymDisplay } from '../interfaces';
+import * as SecureStore from 'expo-secure-store';
+import apiClient from '../apiClient';
 
 
 export default function moreInfoScreen() {
@@ -85,11 +87,23 @@ export default function moreInfoScreen() {
             });
 
             // Register user with their required data.
-            const registerResponse = await axios.post('https://liftlog-backend.up.railway.app/users', registerData);
+            const registerResponse = await apiClient.post('/user', registerData);
             console.log('User registered: ', registerResponse.data);
 
-            const userId = registerResponse.data._id;
-            console.log(userId);
+            const { access_token, user } = registerResponse.data;
+            console.log("After submitting we here, here is user response: ", registerResponse.data);
+            console.log("User ID", user._id.toString());
+
+            const userId = user._id.toString();
+
+            // store auth token for next interactions and autologin
+            await SecureStore.setItemAsync('authToken', access_token);
+
+            // store id for sending to update etc
+            await SecureStore.setItemAsync('userId', user._id);
+
+            // although we dont call log in, the user has an access token so theyre logged in
+            console.log('User signed up and auto-logged in with token:', access_token);
 
             if (profilePicture) {
                 console.log("Handling profile picture upload");
@@ -102,7 +116,7 @@ export default function moreInfoScreen() {
     
                 try{
                     // try to upload the profile picture
-                    const uploadResponse = await axios.post(`https://liftlog-backend.up.railway.app/users/${userId}/profile-picture`, formData,{
+                    const uploadResponse = await apiClient.post(`/users/${userId}/profile-picture`, formData,{
                         headers: {
                             'Content-Type': 'multipart/form-data',
                         },
@@ -124,7 +138,7 @@ export default function moreInfoScreen() {
                 console.log('Update payload being sent:', updateProfileData);
                 
                 try {
-                    const updatedResponse = await axios.put(`https://liftlog-backend.up.railway.app/users/${userId}`, updateProfileData);
+                    const updatedResponse = await apiClient.put(`/users/${userId}`, updateProfileData);
                     console.log('User profile updated:', updatedResponse.data);
 
                 }catch(error){

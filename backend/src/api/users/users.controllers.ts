@@ -23,18 +23,31 @@ import { Multer } from 'multer';
 import { UpdateUserProfileDto } from './update-user.dto';
 import { User } from './users.schema';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly userService: UserService,
+    private readonly jwtService: JwtService,
   ) {}
 
   // /users with POST creates a user using only RegisterDto
   @Post()
-  async createUser(@Body() userDto: RegisterUserDto): Promise<User> {
+  async createUser(@Body() userDto: RegisterUserDto): Promise<{access_token: string, user: Partial<User> }> {
     console.log(`Hitting createUser route for userId`);
-    return await this.userService.createUser(userDto);
+    const user = await this.userService.createUser(userDto);
+
+    const payload = { email: user.email, sub: user._id.toString() };
+    const access_token = this.jwtService.sign(payload);
+
+    return { access_token,
+      user: {
+        _id: user._id,
+        yourName: user.yourName,
+        email: user.email,
+      }
+    }
   }
 
 
