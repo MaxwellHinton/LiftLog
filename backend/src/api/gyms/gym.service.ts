@@ -89,8 +89,6 @@ async addUser(gymId: string, userId: string): Promise<Gym> {
     console.error(`Gym with ID ${gymId} not found`);
     throw new NotFoundException(`Gym with ID ${gymId} not found`);
   }
-
-  console.log(`Gym after adding user:`, updatedGym);
   return updatedGym;
 }
 

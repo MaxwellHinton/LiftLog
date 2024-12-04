@@ -98,13 +98,12 @@ export class UserService {
 
       console.log(`Adding user to new gym: ${updateUserDto.currentGym}`);
       const updatedGym = await this.gymService.addUser(updateUserDto.currentGym, userId);
-      console.log(`Updated Gym:`, updatedGym);
       
       user.currentGym = updateUserDto.currentGym;
       console.log("CUrrent user gym after updating:", user.currentGym);
     }
     const updatedUser = await this.userModel.findByIdAndUpdate(
-      userId,
+      new Types.ObjectId(userId),
       { $set: updateUserDto },
       { new: true },
     )
