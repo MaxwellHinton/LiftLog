@@ -16,7 +16,7 @@ import { AuthModule } from './api/auth/auth.module';
     GymModule,
     UserModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, 'api/uploads'),
+      rootPath: join(__dirname, './api/uploads'),
       serveRoot: '/uploads',
     }),
     AuthModule,
