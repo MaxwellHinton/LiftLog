@@ -61,14 +61,10 @@ export class UsersController {
   ): Promise<User> {
     console.log(`Hitting updateUser route for userId: ${userId}`);
     console.log('Information sent to update: ', updateUserDto);
-    console.log("User access_token", req.access_token);
-    console.log("Req.user id: ", req.user._id);
 
     if(req.user._id.toString() !== userId){
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
     }
-    console.log('Update request received for userId:', userId);
-    console.log('Update data received:', updateUserDto);
     return await this.userService.updateUser(userId, updateUserDto);
   }
 
@@ -136,9 +132,6 @@ export class UsersController {
   async findUserById(@Param('id') userId: string, @Request() req): Promise<User> {
 
     console.log('Attempting to get user with userId: ', userId);
-    console.log('req.user = ', req.user);
-    console.log(`req.user.userId = ${req.user._id}`);
-    console.log(`req.user.userId as a string = ${req.user._id.toString()}`);
 
     if(req.user._id.toString() !== userId){
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
