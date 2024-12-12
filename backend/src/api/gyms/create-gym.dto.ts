@@ -39,6 +39,18 @@ class MachineDto {
     advanced: number;
     elite: number;
   };
+
+  @IsNumber()
+  @IsNotEmpty()
+  latitude: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  longitude: number;
+
+  @IsString()
+  @IsNotEmpty()
+  image: string;
 }
 
 // Gyms contain:

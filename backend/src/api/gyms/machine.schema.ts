@@ -34,6 +34,15 @@ export class Machine {
     advanced: number;
     elite: number;
   };
+
+  @Prop({ type: Number, required: true })
+  latitude: number;
+
+  @Prop({ type: Number, required: true })
+  longitude: number;
+
+  @Prop({ type: String, required: true })
+  image: string;
 }
 
 export const MachineSchema = SchemaFactory.createForClass(Machine);
