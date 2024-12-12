@@ -7,10 +7,11 @@ import {
   ScrollView,
   Dimensions,
   Modal,
+  TextInput,
 } from "react-native";
 import MapView, { Marker, Overlay, Region } from "react-native-maps";
 import TransformedImage from './TransformedImage'; // Import the TransformedImage component
-
+import apiClient from "./apiClient";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -28,6 +29,9 @@ interface MachineGoals {
 interface GymMapProps {
   machineGoals: MachineGoals | null;
   gymMachines: any[];
+
+  // userId is passed as a string.
+  userId: string | null;
 }
 
 interface Marker {
@@ -38,41 +42,39 @@ interface Marker {
   image: any;
 }
 
-const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines}) => {
+// Image mapping object
+const imageMapping: { [key: string]: any } = {
+  "benchpress64.png": require("../assets/machineMarkers/benchpress64.png"),
+  "barbellbicepcurl64.png": require("../assets/machineMarkers/barbellbicepcurl64.png"),
+  "backsquat64.png": require("../assets/machineMarkers/backsquat64.png"),
+  "pullup64.png": require("../assets/machineMarkers/pullup64.png"),
+};
+
+const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
   const gymImageBounds = [
       { latitude: 0, longitude: 0 }, // Southwest (bottom-left corner)
       { latitude: 0.0008, longitude: 0.0008 },   // Northeast (top-right corner)
   ];
 
-
   /*
     Machine coordinates. Hardcoded for now but could possibly retrieve/store in gym database.
   */
-  const markers = [
-    {
-      id: 1, title: "Bench press", latitude: 0.0001032, longitude: 0.00019786666666666666,
-      image: require("../assets/machineMarkers/benchpress64.png")
-    },
-    {
-      id: 2, title: "Cardio Machines", latitude: 0.00042800000000000005, longitude: 0.00019786666666666666,
-      image: require("../assets/machineMarkers/barbellbicepcurl64.png")
-    },
-    {
-      id: 3, title: "Barbell Back Squat", latitude: 0.00036426666666666667, longitude: 0.0006512,
-      image: require("../assets/machineMarkers/backsquat64.png")
-    },
-    {
-      id: 4, title: "Pull ups", latitude: 0.0001032, longitude: 0.0006512,
-      image: require("../assets/machineMarkers/pullup64.png")
-    },
-    {
-      id: 5, title: "Preacher curls", latitude: 0.0006360000000000001, longitude: 0.0006512,
-      image: require("../assets/machineMarkers/barbellbicepcurl64.png")
-    }
-  ];
+  const markers: Marker[] = gymMachines.map((machine) => ({
+    id: machine._id,
+    title: machine.machineName,
+    latitude: machine.latitude,
+    longitude: machine.longitude,
+    image: imageMapping[machine.image],
+  }));
 
   const [selectedMarker, setSelectedMarker] = useState<Marker | null>(null);
   const [isHelpVisible, setIsHelpVisible] = useState(false);
+
+  // User/machine goal variables
+  const [currentWeight, setCurrentWeight] = useState<string>('');
+  const [currentReps, setCurrentReps] = useState<string>('');
+  const [currentGoal, setCurrentGoal] = useState<string>('')
+
   const mapViewRef = useRef<MapView>(null);
   
   const toggleHelpModal = () => {
@@ -121,6 +123,10 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines}) => {
     }
   };
 
+  function handleClose(): void {
+    setSelectedMarker(null)
+  };
+
   
   function handleMarkerPress(id: number): void {
 
@@ -132,7 +138,46 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines}) => {
 
       const marker = markers.find(marker => marker.id === id);
       setSelectedMarker(marker || null);
+      if (marker && machineGoals) {
+        setCurrentWeight(machineGoals[marker.id]?.currentWeight?.toString() || '');
+        setCurrentReps(machineGoals[marker.id]?.currentReps?.toString() || '');
+        setCurrentGoal(machineGoals[marker.id]?.currentGoal?.toString() || '');
+      }
   }
+
+  const handleSave = async () => {
+    if (selectedMarker && userId) {
+      const updatedGoals = {
+        currentWeight: parseInt(currentWeight, 10),
+        currentReps: parseInt(currentReps, 10),
+        currentGoal: parseInt(currentGoal, 10),
+      };
+
+      const updateData = {
+        goals: {
+          machineGoals: {
+            ...machineGoals,
+            [selectedMarker.id]: updatedGoals
+          }
+        }
+      };
+
+      console.log(updateData);
+
+      try {
+        const goalUpdateResponse = await apiClient.put(`users/${userId}`, updateData);
+        // Update local state if needed
+
+        console.log(goalUpdateResponse.data);
+        if (machineGoals) {
+          machineGoals[selectedMarker.id] = updatedGoals;
+        }
+        setSelectedMarker(null);
+      } catch (error) {
+        console.error('Failed to update machine goals:', error);
+      }
+    }
+  };
 
   return (
     <View style={styles.mapSection}>
@@ -215,7 +260,8 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines}) => {
 
           set visibility and make transparent with an animation for rendering
       */}
-      {/* (selectedMarker && (
+      {/* Marker Modal / machine information */}
+      {selectedMarker && (
         <Modal
           visible={!!selectedMarker}
           transparent
@@ -224,15 +270,48 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines}) => {
         >
           <View style={styles.modalOverlay}>
             <View style={styles.modalContainer}>
-              <Text style={styles.modalTitle}>{selectedMarker!.title}</Text>
-
-              {machineGoals && machineGoals[selectedMarker.id]}
-
+              <Text style={styles.modalTitle}>{selectedMarker.title}</Text>
+              {machineGoals && (
+                <View>
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Current Weight</Text>
+                    <TextInput 
+                      style={styles.input}
+                      value={currentWeight}
+                      onChangeText={setCurrentWeight}
+                      keyboardType="numeric"
+                    />
+                  </View>
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Current Reps</Text>
+                    <TextInput
+                      style={styles.input}
+                      value={currentReps}
+                      onChangeText={setCurrentReps}
+                      keyboardType="numeric"
+                    />
+                  </View>
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Current Goal</Text>
+                    <TextInput
+                      style={styles.input}
+                      value={currentGoal}
+                      onChangeText={setCurrentGoal}
+                      keyboardType="numeric"
+                    />
+                  </View>
+                </View>
+              )}
+              <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                <Text style={styles.saveButtonText}>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
             </View>
           </View>
-
         </Modal>
-      )) */}
+      )}
 
 
     </View>
@@ -298,7 +377,70 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
   },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0)",
+  },
+  modalContainer: {
+    width: "80%",
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalTitle: { 
+    fontSize: 24, 
+    textAlign: 'center',
+    fontFamily: 'Roboto-Mono',
+    paddingBottom: '5%',
+  },
+  inputContainer: {
+    width: '100%',
+    position: 'relative',
+    alignItems: 'center',
+    marginBottom: 10,
+    marginTop: 5,
+  },
+  label: {
+    position: 'absolute',
+    top: '0%',
+    left: '13.5%',
+    fontSize: 12,
+    color: '#888',
+    zIndex: 1,
+    borderRadius: 50,
+    backgroundColor: '#E2E8EB',
+    paddingHorizontal: 4,
+    fontFamily: 'Roboto-Mono',
+  },
+  input: {
+    height: 50,
+    width: '80%',
+    paddingHorizontal: '5%',
+    borderRadius: 20,
+    backgroundColor: '#E2E8EB',
+    fontSize: 16,
+    marginBottom: '8%',
+  },
+  saveButton: {
+    width: '80%',
+    backgroundColor: "#80D0D2",
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignSelf: "center",
+    marginBottom: '2%',
+  },
+  saveButtonText: {
+    fontSize: 20,
+    color: "#000000",
+    fontWeight: "bold",
+    fontFamily: 'Reddit-Sans',
+    textAlign: 'center',
+  },
   closeButton: {
+    width: '80%',
     marginTop: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -307,9 +449,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   closeButtonText: {
-    fontSize: 16,
-    color: "#ffffff",
+    fontSize: 20,
+    color: "#000000",
     fontWeight: "bold",
+    fontFamily: 'Reddit-Sans',
+    textAlign: 'center',
   },
 });
 

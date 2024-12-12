@@ -8,10 +8,12 @@ import {UserData, UserGoals} from '../interfaces';
 export default function Home() {
 
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const [machineGoals, setMachineGoals] = useState<UserGoals['machineGoals'] | null>(null);
   const [userGoals, setUserGoals] = useState<UserGoals | null>(null);
   const [gymMachines, setGymMachines] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [gymName, setGymName] = useState<string>();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -23,17 +25,20 @@ export default function Home() {
 
         const userResponse = await apiClient.get(`/users/${userId}`);
         const user = userResponse.data;
+
+        console.log(user.currentGym);
         
         setUserData(userResponse.data);
+        setUserId(user._id);
         setMachineGoals(user.goals?.machineGoals || {});
 
         // Get user gym data for machine information
 
-        const gymResponse = await apiClient.get(`/users/${user.currentGym}`);
+        const gymResponse = await apiClient.get(`/gyms/${user.currentGym}`);
         const gym = gymResponse.data;
 
+        setGymName(gym.name); 
         setGymMachines(gym.machines || []);
-        
         //console.log("IN HOME PAGE WITH ACTUAL DATA LETS GO :-:", userResponse.data);
       } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -70,11 +75,11 @@ export default function Home() {
 
       {/* Gym Name and Search */}
       <View style={styles.gymSearchSection}>
-        <Text style={styles.gymName}>Home Gym</Text>
+        <Text style={styles.gymName}>{gymName || 'No Gym Selected'}</Text>
       </View>
       
       {/* Gym Map */}
-      <GymMap machineGoals={machineGoals} gymMachines={gymMachines}/>
+      <GymMap machineGoals={machineGoals} gymMachines={gymMachines} userId={userId}/>
 
       <View style={styles.logoContainer}>
         <Image
