@@ -6,6 +6,7 @@ import {
   Text,
   ScrollView,
   Dimensions,
+  Modal,
 } from "react-native";
 import MapView, { Marker, Overlay, Region } from "react-native-maps";
 import TransformedImage from './TransformedImage'; // Import the TransformedImage component
@@ -13,12 +14,40 @@ import TransformedImage from './TransformedImage'; // Import the TransformedImag
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-const GymMap = () => {
+// MachineGoals mimicks the backend machine goal data for each user
+interface MachineGoals {
+  [machineId: string]: {
+    currentWeight?: number;
+    currentReps?: number;
+    currentGoal?: number;
+    incrementWeight?: number;
+  }
+}
+
+// interface that is passed from the home page.
+interface GymMapProps {
+  machineGoals: MachineGoals | null;
+  gymMachines: any[];
+}
+
+interface Marker {
+  id: number;
+  title: string;
+  latitude: number;
+  longitude: number;
+  image: any;
+}
+
+const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines}) => {
   const gymImageBounds = [
       { latitude: 0, longitude: 0 }, // Southwest (bottom-left corner)
       { latitude: 0.0008, longitude: 0.0008 },   // Northeast (top-right corner)
   ];
 
+
+  /*
+    Machine coordinates. Hardcoded for now but could possibly retrieve/store in gym database.
+  */
   const markers = [
     {
       id: 1, title: "Bench press", latitude: 0.0001032, longitude: 0.00019786666666666666,
@@ -42,6 +71,7 @@ const GymMap = () => {
     }
   ];
 
+  const [selectedMarker, setSelectedMarker] = useState<Marker | null>(null);
   const [isHelpVisible, setIsHelpVisible] = useState(false);
   const mapViewRef = useRef<MapView>(null);
   
@@ -94,8 +124,14 @@ const GymMap = () => {
   
   function handleMarkerPress(id: number): void {
 
+    /* 
+      We are given the id of the machine which we can use to get the marker.
 
-    throw new Error("Function not implemented.");
+      then we update selectedMarker to produce the overlay modal.
+    */
+
+      const marker = markers.find(marker => marker.id === id);
+      setSelectedMarker(marker || null);
   }
 
   return (
@@ -113,6 +149,8 @@ const GymMap = () => {
         scrollEnabled={true}
         zoomEnabled={true}
         onRegionChangeComplete={handleRegionChangeComplete}
+        showsCompass={false}
+        showsScale={false}
       >
         {/* Overlay for the gym image */}
         <Overlay
@@ -125,11 +163,11 @@ const GymMap = () => {
 
         {markers.map(marker => (
           <Marker
-          key={marker.id}
-          coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-          title={marker.title}
-          image={marker.image}
-          onPress={() => handleMarkerPress(marker.id)}
+            key={marker.id}
+            coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+            title={marker.title}
+            image={marker.image}
+            onPress={() => handleMarkerPress(marker.id)}
         >
 
         </Marker>
@@ -170,6 +208,33 @@ const GymMap = () => {
           </TouchableOpacity>
         </View>
       )}
+
+      {/* Marker Modal / machine information */}
+
+      {/* Check if marker is null and render the modal if false
+
+          set visibility and make transparent with an animation for rendering
+      */}
+      {/* (selectedMarker && (
+        <Modal
+          visible={!!selectedMarker}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setSelectedMarker(null)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>{selectedMarker!.title}</Text>
+
+              {machineGoals && machineGoals[selectedMarker.id]}
+
+            </View>
+          </View>
+
+        </Modal>
+      )) */}
+
+
     </View>
   );
 };

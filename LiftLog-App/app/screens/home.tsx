@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import GymMap from '../GymMap';
-import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import apiClient from '../apiClient';
 import {UserData, UserGoals} from '../interfaces';
@@ -11,7 +10,7 @@ export default function Home() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [machineGoals, setMachineGoals] = useState<UserGoals['machineGoals'] | null>(null);
   const [userGoals, setUserGoals] = useState<UserGoals | null>(null);
-  const [gymMachines, setGymMachines] = useState([]);
+  const [gymMachines, setGymMachines] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,16 +19,22 @@ export default function Home() {
         const userId = await SecureStore.getItemAsync('userId');
         if(!userId) throw new Error('User ID not found');
 
-        console.log("In home page trying to fetch the user with id: ", userId);
+        //console.log("In home page trying to fetch the user with id: ", userId);
 
         const userResponse = await apiClient.get(`/users/${userId}`);
         const user = userResponse.data;
         
         setUserData(userResponse.data);
         setMachineGoals(user.goals?.machineGoals || {});
+
+        // Get user gym data for machine information
+
+        const gymResponse = await apiClient.get(`/users/${user.currentGym}`);
+        const gym = gymResponse.data;
+
+        setGymMachines(gym.machines || []);
         
-        
-        console.log("IN HOME PAGE WITH ACTUAL DATA LETS GO :-:", userResponse.data);
+        //console.log("IN HOME PAGE WITH ACTUAL DATA LETS GO :-:", userResponse.data);
       } catch (error) {
         console.error('Failed to fetch user data:', error);
       } finally {
@@ -69,7 +74,7 @@ export default function Home() {
       </View>
       
       {/* Gym Map */}
-      <GymMap />
+      <GymMap machineGoals={machineGoals} gymMachines={gymMachines}/>
 
       <View style={styles.logoContainer}>
         <Image
