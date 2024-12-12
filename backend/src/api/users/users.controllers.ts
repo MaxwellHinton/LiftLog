@@ -68,7 +68,7 @@ export class UsersController {
     return await this.userService.updateUser(userId, updateUserDto);
   }
 
-  @UseGuards(JwtAuthGuard) 
+
   @Post(':id/profile-picture')
   @UseInterceptors(
     FileInterceptor('profilePicture', {
