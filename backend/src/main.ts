@@ -2,11 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import * as winston from 'winston';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: WinstonModule.createLogger({
       transports: [
         new winston.transports.Console({
@@ -24,6 +26,10 @@ async function bootstrap() {
     }),
   });
   const port = process.env.PORT || 8082;
+
+  app.useStaticAssets(join(__dirname, 'api', 'uploads'), {
+    prefix: '/uploads/',
+  });
 
   app.enableCors({
     origin: 'https://liftlog-app.vercel.app/',
