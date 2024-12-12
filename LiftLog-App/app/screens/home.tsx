@@ -32,6 +32,8 @@ export default function Home() {
         setUserId(user._id);
         setMachineGoals(user.goals?.machineGoals || {});
 
+        console.log(user.profilePicture);
+
         // Get user gym data for machine information
 
         const gymResponse = await apiClient.get(`/gyms/${user.currentGym}`);
@@ -59,8 +61,11 @@ export default function Home() {
       <View style={styles.header}>
         <View style={styles.profilePicContainer}>
           <Image
-            source={require('../../assets/placeholder-image.png')} // Replace with the actual profile image URL
+            source={userData?.profilePicture 
+              ? { uri: `https://liftlog-backend.up.railway.app/${userData.profilePicture}`} 
+              : require('../../assets/images/muscle.png')} // Replace with the actual profile image URL
             style={styles.profilePic}
+            resizeMode='cover'
           />
         </View>
 
@@ -110,24 +115,21 @@ const styles = StyleSheet.create({
   profilePicContainer: {
     width: 70, 
     height: 70,
-    borderRadius: 25, 
+    borderRadius: 35, 
     backgroundColor: '#cccccc',
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-start',
-    marginTop: 20,
+    overflow: 'hidden',
   },
   
   profilePic: {
-    width: 70, 
-    height: 70,
-    borderRadius: 25,
+    width: '100%', 
+    height: '100%',
   },
   
   welcomeText: {
-    fontSize: 16,
+    fontSize: 20,
     right: '4%',
-    marginTop: '9%',
     color: '#000000',
     fontFamily: 'Reddit-Sans',
   },
@@ -136,7 +138,6 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: '6%',
   },
   hamburgerBar: {
     width: 40,

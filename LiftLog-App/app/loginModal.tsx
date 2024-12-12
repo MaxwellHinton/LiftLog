@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
@@ -7,14 +7,15 @@ import { useRouter } from 'expo-router';
 interface LoginModalProps {
     visible: boolean;
     onClose: () => void;
+    source: string;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose }) => {
-    const router = useRouter();
+const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose, source }) => {
+    //const router = useRouter();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [incorrectFields, setIncorrectFields] = useState<string[]>([]);
-
+    const router = useRouter();
     
     const handleLogin = async () => {
       
@@ -41,15 +42,18 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose }) => {
 
         const { access_token, user} = loginResponse.data;
 
-
-
         await SecureStore.setItemAsync('authToken', access_token);
         await SecureStore.setItemAsync('userId', user.id);
 
         console.log("login successful, going to home");
 
         onClose();
-        router.push('./screens/home');
+
+        if(source === 'signup'){
+          router.push('./home');
+        }else{
+          router.push('./screens/home');
+        }
         
       } catch (error) {
         if (axios.isAxiosError(error)){

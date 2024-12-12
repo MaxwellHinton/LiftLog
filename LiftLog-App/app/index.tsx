@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { Link, useRouter, Route, usePathname, router } from 'expo-router';
-import LoginModal from './screens/loginModal';
+import LoginModal from './loginModal';
 
 export default function WelcomeScreen() {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function WelcomeScreen() {
 
 
       {/* Login Modal */}
-      <LoginModal visible={isLoginVisible} onClose={() => setLoginVisible(false)} />
+      <LoginModal visible={isLoginVisible} onClose={() => setLoginVisible(false)} source="" />
     </View>
   );
 }

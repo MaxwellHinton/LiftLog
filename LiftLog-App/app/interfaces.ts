@@ -46,6 +46,7 @@ export interface UserData {
   goals: UserGoals;
   password: string;
   yourName: string;
+  profilePicture: string;
 }
 
 // Gym interface for the gym selection process.

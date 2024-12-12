@@ -7,7 +7,7 @@ import {View, Text, TextInput, Image,
         FlatList} from 'react-native';
 import { useRouter } from 'expo-router';
 import { UserContext } from '../contexts/userContext';
-import LoginModal from './loginModal';
+import LoginModal from '../loginModal';
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -184,6 +184,7 @@ export default function SignupScreen() {
           <LoginModal
             visible={isLoginModalVisible}
             onClose={(() => setLoginModalVisible(false))}
+            source="signup"
           />
         </View>
       </TouchableWithoutFeedback>
