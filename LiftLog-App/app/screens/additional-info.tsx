@@ -18,11 +18,16 @@ export default function moreInfoScreen() {
 
     // optional user data state variables
     const [weight, setWeight] = useState<string>('');
+    const [weightUnit, setWeightUnit] = useState<string>('');
     const [selectedGym, setSelectedGym] = useState<GymDisplay | null>(null);
     const [profilePicture, setProfilePicture] = useState<string>('');
 
     // Gym selection window state variable
     const [areGymsVisible, setAreGymsVisible] = useState<boolean>(false);
+
+    const handleUnitChange = ( unit: string) => {
+        setWeightUnit(unit);
+    };
 
     useEffect(() => {
         const fetchGyms = async () => {
@@ -192,6 +197,21 @@ export default function moreInfoScreen() {
                     value={weight}
                     onChangeText={setWeight}
                 />
+                {/* Radio Buttons for Units */}
+                <View style={styles.radioGroup}>
+                <TouchableOpacity
+                    style={[styles.radioButton, weightUnit === 'kg' && styles.radioButtonSelected]}
+                    onPress={() => handleUnitChange('kg')}
+                >
+                    <Text style={styles.radioText}>kg</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.radioButton, weightUnit === 'lbs' && styles.radioButtonSelected]}
+                    onPress={() => handleUnitChange('lbs')}
+                >
+                    <Text style={styles.radioText}>lbs</Text>
+                </TouchableOpacity>
+                </View>
             </View>
     
             {/* Gym Selection */}
@@ -201,16 +221,7 @@ export default function moreInfoScreen() {
                     <TouchableOpacity onPress={() => setAreGymsVisible(true)} style={styles.dropdownTrigger}>
                         {selectedGym ? (
                         <View style={styles.selectedGymContainer}>
-                            <Image
-                            source={require('../../assets/placeholder-image.png')} // Placeholder image
-                            style={styles.gymImage}
-                            />
-                            <View style={styles.gymInfo}>
                             <Text style={styles.gymName}>{selectedGym.name}</Text>
-                            <Text style={styles.gymAddress}>
-                                {selectedGym.address || 'Address not available'}
-                            </Text>
-                            </View>
                         </View>
                         ) : (
                         <Text style={styles.placeholderText}></Text>
@@ -233,12 +244,15 @@ export default function moreInfoScreen() {
                             setAreGymsVisible(false);
                         }}
                         >
-                        <Image
-                            source={require('../../assets/placeholder-image.png')}
-                            style={styles.gymImage}
-                        />
                         <View style={styles.gymInfo}>
-                            <Text style={styles.gymName}>{item.name}</Text>
+                            <View style={styles.gymRow}>
+                                <Text style={styles.gymName}>{item.name}</Text>
+                                <Image
+                                    source={require('../../assets/placeholder-image.png')}
+                                    style={styles.gymImage}
+                                />
+                            </View>
+
                             <Text style={styles.gymAddress}>
                             {item.address || 'Address not available'}
                             </Text>
@@ -293,8 +307,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 24,
-        fontWeight: 'bold',
-        fontFamily: 'Roboto-Mono-Bold',
+        fontFamily: 'Roboto-Mono',
         color: '#000000',
     },
     logo: {
@@ -316,13 +329,40 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'relative',
         alignItems: 'center',
-      },
+    },
+
+    // Weight measurement radio button styling
+    radioGroup: {
+        position: 'absolute',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        right: '4%',
+    },
+    radioButton: {
+        paddingVertical: '4%',
+        paddingHorizontal: '6%',
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        marginHorizontal: '2%',
+        backgroundColor: '#f9f9f9',
+    },
+      radioButtonSelected: {
+        backgroundColor: '#FBFF96', // Highlight color for selected button
+        borderColor: '#000',
+    },
+    radioText: {
+        fontSize: 16,
+        fontFamily: 'Reddit-Sans',
+        color: '#000',
+    },
     label: {
         position: 'absolute',
         top: '0%',
         left: '13.5%',
         fontSize: 12,
-        color: '#888',
+        color: '#000000',
         zIndex: 1,
         borderRadius: 50,
         backgroundColor: 'E2E8EB',
@@ -355,7 +395,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     imagePickerText: {
-        color: '#888',
+        color: '#000000',
         textAlign: 'center',
         fontFamily: 'Roboto-Mono',
     },
@@ -364,7 +404,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: '5%',
         padding: 8,
         width: '80%',
-        marginBottom: 16,
+        marginBottom: '3%',
         borderRadius: 20,
         backgroundColor: '#E2E8EB',
     },
@@ -379,11 +419,18 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
+        borderWidth: 1,
         backgroundColor: '#ccc',
+        marginLeft: '10%',
     },
     gymInfo: {
         marginLeft: 10,
         justifyContent: 'center',
+    },
+    gymRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: '3%'
     },
     gymName: {
         fontSize: 16,
@@ -396,9 +443,11 @@ const styles = StyleSheet.create({
         color: '#666',
         fontFamily: 'Roboto-Mono',
     },
+
+    // MODAL STYLING --------------------
     modalOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.27)',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -414,14 +463,15 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
+        borderBottomColor: '#000000',
     },
     modalCloseButton: {
         marginTop: 10,
         padding: 10,
         width: '55%',
-        backgroundColor: '#80D0D2',
+        backgroundColor: '#FBFF96',
         borderRadius: 20,
+        borderWidth: 1.5,
     },
     modalCloseButtonText: {
         color: '#000000',
@@ -432,7 +482,8 @@ const styles = StyleSheet.create({
     button: {
         width: '80%',
         paddingVertical: '3%',
-        backgroundColor: '#80D0D2',
+        backgroundColor: '#FBFF96',
+        borderWidth: 1.5,
         borderRadius: 50,
         alignItems: 'center',
         marginTop: '5%',
