@@ -59,29 +59,25 @@ export default function Home() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
+        <View style={styles.menuButton}>
+          <View style={[styles.line, styles.line1]}></View>
+          <View style={[styles.line, styles.line2]}></View>
+          <View style={[styles.line, styles.line3]}></View>
+        </View>
+        {/* Gym Name and Search */}
+        <Text style={styles.gymName}>{gymName || 'No Gym Selected'}</Text>
+
         <View style={styles.profilePicContainer}>
           <Image
             source={userData?.profilePicture 
               ? { uri: `https://liftlog-backend.up.railway.app/${userData.profilePicture}`} 
-              : require('../../assets/images/muscle.png')} // Replace with the actual profile image URL
+              : require('../../assets/images/defaultProfilePicture.png')}
             style={styles.profilePic}
             resizeMode='cover'
           />
         </View>
-
-        <Text style={styles.welcomeText}>
-          Welcome {userData?.yourName || 'Guest'}</Text>
-        <TouchableOpacity style={styles.menuButton}>
-          <View style={styles.hamburgerBar} />
-          <View style={styles.hamburgerBar} />
-          <View style={styles.hamburgerBar} />
-        </TouchableOpacity>
       </View>
 
-      {/* Gym Name and Search */}
-      <View style={styles.gymSearchSection}>
-        <Text style={styles.gymName}>{gymName || 'No Gym Selected'}</Text>
-      </View>
       
       {/* Gym Map */}
       <GymMap machineGoals={machineGoals} gymMachines={gymMachines} userId={userId}/>
@@ -107,15 +103,18 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#80D0D2',
+    backgroundColor: '#FBFF96',
     paddingVertical: 15,
     paddingHorizontal: 25,
     justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    height: '12%'
   },
   profilePicContainer: {
-    width: 70, 
-    height: 70,
+    width: '20%',
+    height: '100%',
     borderRadius: 35, 
+    borderWidth: 1.5,
     backgroundColor: '#cccccc',
     justifyContent: 'center',
     alignItems: 'center',
@@ -126,33 +125,29 @@ const styles = StyleSheet.create({
     width: '100%', 
     height: '100%',
   },
-  
-  welcomeText: {
-    fontSize: 20,
-    right: '4%',
-    color: '#000000',
-    fontFamily: 'Reddit-Sans',
-  },
   menuButton: {
-    width: 40,
-    height: 40,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between", // Even spacing between lines
+    alignItems: "flex-start", // Center the lines horizontally
+    width: '18%', // Width of the overall icon
+    height: '90%', // Height of the overall icon
   },
-  hamburgerBar: {
-    width: 40,
-    height: 7,
-    backgroundColor: '#ffffff',
-    borderRadius: 7,
+  line: {
+    height: 18, // Height of each line
+    backgroundColor: "#CCCCCC", // Light gray color for the lines
+    borderRadius: 30, // Rounded edges for a modern look
+    borderWidth: 1.5,
+  },
+  line1: {
+    width: '100%', // Width of each line
+  },
+  line2: {
+    width: '70%',
+  },
+  line3: {
+    width: '50%',
   },
 
-
-  // Gym Name and Search Section
-  gymSearchSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 20,
-  },
+  // Gym Name
   gymName: {
     fontSize: 20,
     fontFamily: 'Roboto-Mono-Bold',
@@ -164,22 +159,21 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 15,
-    borderRadius: 10,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: '#cccccc',
+
   },
 
   logoContainer: {
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: '5%',
+    borderTopWidth: 1.5,
   },
   logoImage: {
     width: 40,
     height: 40,
     marginBottom: '1%',
+    marginTop: '3%'
   },
   logoText: {
     fontSize: 20,

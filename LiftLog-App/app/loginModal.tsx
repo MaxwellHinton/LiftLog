@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Alert, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
@@ -78,6 +78,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose, source }) => 
   return (
     <Modal visible={visible} transparent animationType="slide">
       <View style={styles.modalOverlay}>
+        <KeyboardAvoidingView
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}
+                        keyboardVerticalOffset={100} // Adjust this value to control the shift
+                        style={styles.keyboardAvoidingContainer}
+        >
+
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.modalContainer}>
           <Text style={styles.title}>Login</Text>
 
@@ -90,7 +97,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose, source }) => 
                 placeholderTextColor="#888"
                 value={email}
                 onChangeText={setEmail}
-              />
+                />
             </View>
 
             <View style={styles.inputContainer}>
@@ -101,7 +108,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose, source }) => 
                 secureTextEntry
                 value={password}
                 onChangeText={setPassword}
-              />
+                />
             </View>
           </View>
 
@@ -115,6 +122,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose, source }) => 
             </TouchableOpacity>
           </View>
         </View>
+      </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
       </View>
     </Modal>
   );
@@ -124,53 +133,61 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose, source }) => 
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.27)',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: '5%',
   },
+  keyboardAvoidingContainer: {
+    width: '95%', // Full width to match the overlay
+    alignItems: 'center', // Center the modal horizontally
+  },
+  
   modalContainer: {
     backgroundColor: '#fff',
     padding: 20,
     borderRadius: 10,
+    borderWidth: 1,
     width: '80%',
+    minHeight: '50%',
     alignItems: 'center', // Center all content horizontally
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: '0%',
     textAlign: 'center',
-    fontFamily: 'Roboto-Mono-Bold',
+    fontFamily: 'Roboto-Mono',
   },
   inputsWrapper: {
     width: '100%', // Ensure inputs span the modal width
     justifyContent: 'center', // Vertically align inputs
     alignItems: 'center', // Center inputs horizontally
+    marginTop: '3%',
+    
   },
   inputContainer: {
     width: '100%',
-    marginBottom: 20,
+    marginBottom: '10%',
     alignItems: 'center',
   },
   label: {
     position: 'absolute',
     top: '0%',
-    left: '14%',
+    left: '12%',
     fontSize: 12,
-    color: '#888',
+    color: '#000000',
     zIndex: 1,
     backgroundColor: '#E2E8EB',
     borderRadius: 50,
     fontFamily: 'Roboto-Mono',
+    
   },
   incorrectLabel: {
     color: 'red',
   },
   input: {
-    width: '80%',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    width: '90%',
+    paddingVertical: '4%',
     borderRadius: 20,
     backgroundColor: '#E2E8EB',
     fontSize: 16,
@@ -181,12 +198,13 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    width: '80%',
+    width: '70%',
     paddingVertical: '3%',
-    backgroundColor: '#80D0D2',
+    backgroundColor: '#FBFF96',
+    borderWidth: 1.5,
     borderRadius: 50,
     alignItems: 'center',
-    marginTop: '5%',
+    marginBottom: '8%',
   },
   buttonText: {
     fontSize: 20,

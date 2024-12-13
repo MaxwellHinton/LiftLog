@@ -169,9 +169,6 @@ export default function SignupScreen() {
           <TouchableOpacity style={styles.button} onPress={handleNext/*goToHomeForDev*/}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity style= {styles.button} onPress={()=> {router.back()}}>
-            <Text style={styles.buttonText}>Back</Text>
-          </TouchableOpacity> */}
 
           {/* Footer */}
           <Text style={styles.footerText}>
@@ -240,7 +237,7 @@ const styles = StyleSheet.create({
     top: '0%',
     left: '13.5%',
     fontSize: 12,
-    color: '#888',
+    color: '#000000',
     zIndex: 1,
     borderRadius: 50,
     backgroundColor: '#E2E8EB',
@@ -262,10 +259,11 @@ const styles = StyleSheet.create({
   button: {
     width: '80%',
     paddingVertical: '3%',
-    backgroundColor: '#80D0D2',
+    backgroundColor: '#FBFF96',
     borderRadius: 50,
+    borderWidth: 1.5,
     alignItems: 'center',
-    marginTop: '5%',
+    marginTop: '4%',
   },
   buttonText: {
     fontSize: 20,
@@ -306,10 +304,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 22,
     marginBottom: 10,
-    fontFamily: 'Roboto-Mono-Bold',
+    fontFamily: 'Roboto-Mono',
   },
   modalOption: {
     padding: 15,
@@ -328,7 +325,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 10,
     width: '55%',
-    backgroundColor: '#80D0D2',
+    backgroundColor: '#FBFF96',
+    borderWidth: 1.5,
     borderRadius: 20,
   },
   modalCloseButtonText: {

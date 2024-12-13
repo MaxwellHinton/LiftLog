@@ -13,9 +13,15 @@ import MapView, { Marker, Overlay, Region } from "react-native-maps";
 import TransformedImage from './TransformedImage'; // Import the TransformedImage component
 import apiClient from "./apiClient";
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+const { width: width, height: height } = Dimensions.get("window");
 
-// MachineGoals mimicks the backend machine goal data for each user
+/* 
+  
+
+  interfaces
+
+
+*/
 interface MachineGoals {
   [machineId: string]: {
     currentWeight?: number;
@@ -24,16 +30,11 @@ interface MachineGoals {
     incrementWeight?: number;
   }
 }
-
-// interface that is passed from the home page.
 interface GymMapProps {
   machineGoals: MachineGoals | null;
   gymMachines: any[];
-
-  // userId is passed as a string.
   userId: string | null;
 }
-
 interface Marker {
   id: number;
   title: string;
@@ -42,7 +43,19 @@ interface Marker {
   image: any;
 }
 
-// Image mapping object
+// MAP STYLE IN JSON FORMAT - for Google Maps Styling Wizard
+const customMapStyle = [
+
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#ffffff" }
+    ]
+  },
+]
+
+// Image mapping object - used to avoid the error with using require in markers
 const imageMapping: { [key: string]: any } = {
   "benchpress64.png": require("../assets/machineMarkers/benchpress64.png"),
   "barbellbicepcurl64.png": require("../assets/machineMarkers/barbellbicepcurl64.png"),
@@ -185,6 +198,7 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
         ref={mapViewRef}
         provider="google"
         style={styles.map}
+        customMapStyle={customMapStyle}
         initialRegion={{
           latitude: 0.0004,
           longitude: 0.0004,
@@ -196,6 +210,7 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
         onRegionChangeComplete={handleRegionChangeComplete}
         showsCompass={false}
         showsScale={false}
+        showsMyLocationButton={false}
       >
         {/* Overlay for the gym image */}
         <Overlay
@@ -214,17 +229,12 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
             image={marker.image}
             onPress={() => handleMarkerPress(marker.id)}
         >
-
         </Marker>
         ))}
       </MapView>
 
       {/* Button Section */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.resetButton}>
-          <Text style={styles.resetButtonText}>↺</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity style={styles.helpButton} onPress={toggleHelpModal}>
           <Text style={styles.helpButtonText}>?</Text>
         </TouchableOpacity>
@@ -302,12 +312,14 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
                   </View>
                 </View>
               )}
+
               <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
                 <Text style={styles.saveButtonText}>Save</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
                 <Text style={styles.closeButtonText}>Close</Text>
               </TouchableOpacity>
+
             </View>
           </View>
         </Modal>
@@ -324,32 +336,22 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   map: {
-    width: screenWidth,
-    height: screenHeight * 0.67,
+    width: '100%',
+    height: '100%',
   },
   buttonContainer: {
+    flexDirection: "row", // Horizontal layout
+    justifyContent: "flex-end", // Align buttons to the right
+    alignItems: "center", // Center buttons vertically
+    margin: "3%", // Responsive margin
     position: "absolute",
-    bottom: 20,
-    right: 20,
-    flexDirection: "row",
-  },
-  resetButton: {
-    backgroundColor: "#80D0D2",
-    borderRadius: 25,
-    width: 50,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 10,
-  },
-  resetButtonText: {
-    fontSize: 24,
-    color: "#ffffff",
-    fontWeight: "bold",
+    bottom: "0%",
+    right: "3%",
   },
   helpButton: {
-    backgroundColor: "#80D0D2",
+    backgroundColor: "#FBFF96",
     borderRadius: 25,
+    borderWidth: 1,
     width: 50,
     height: 50,
     justifyContent: "center",
@@ -357,7 +359,7 @@ const styles = StyleSheet.create({
   },
   helpButtonText: {
     fontSize: 24,
-    color: "#ffffff",
+    color: "#000000",
     fontWeight: "bold",
   },
   helpContainer: {
@@ -407,7 +409,7 @@ const styles = StyleSheet.create({
     top: '0%',
     left: '13.5%',
     fontSize: 12,
-    color: '#888',
+    color: '#000000',
     zIndex: 1,
     borderRadius: 50,
     backgroundColor: '#E2E8EB',
@@ -425,8 +427,9 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     width: '80%',
-    backgroundColor: "#80D0D2",
+    backgroundColor: "#FBFF96",
     borderRadius: 20,
+    borderWidth: 1.5,
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignSelf: "center",
@@ -444,8 +447,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: "#80D0D2",
+    backgroundColor: "#FBFF96",
     borderRadius: 20,
+    borderWidth: 1.5,
     alignSelf: "center",
   },
   closeButtonText: {

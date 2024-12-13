@@ -58,26 +58,27 @@ const styles = StyleSheet.create({
     height: undefined,
     aspectRatio: 1, // Ensures the logo maintains a square aspect ratio
     marginBottom: '5%',
+    marginTop: '5%',
   },
   header: {
     alignItems: 'center',
     width: '100%',
-    paddingTop: '20%',
+    paddingTop: '40%',
   },
   headerBox: {
     position: 'absolute',
     top: 0,
-    backgroundColor: "#80D0D2",
+    backgroundColor: "#FBFF96",
+    borderBottomWidth: 1.5,
     zIndex: 1,
     left: 0,
     right: 0,
-    height: '15%',
+    height: '13%',
   },
   title: {
     fontSize: 64,
-    fontWeight: 'bold',
     color: '#000000',
-    fontFamily: 'Roboto-Mono-Bold',
+    fontFamily: 'Roboto-Mono',
   },
   subtitle: {
     fontSize: 16,
@@ -91,14 +92,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: '30%',
     justifyContent: 'space-between',
+    bottom: '8%',
   },
   button: {
     width: '70%',
     paddingVertical: '3%',
-    backgroundColor: '#80D0D2',
+    backgroundColor: '#FBFF96',
     borderRadius: 50,
     alignItems: 'center',
     marginVertical: '1%',
+    borderWidth: 1.5,
     
   },
   buttonText: {
