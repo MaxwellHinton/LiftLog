@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: '#E2E8EB',
     fontSize: 16,
+    paddingLeft: '7.5%',
   },
   buttonContainer: {
     flexDirection: 'column',
