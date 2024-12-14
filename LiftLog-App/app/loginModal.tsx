@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Alert, Keyb
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
+import apiClient from './apiClient';
 
 interface LoginModalProps {
     visible: boolean;
@@ -37,7 +38,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose, source }) => 
       };
 
       try {
-        const loginResponse = await axios.post('https://liftlog-backend.up.railway.app/auth/login', userLogin);
+        const loginResponse = await apiClient.post('auth/login', userLogin);
         console.log('User successfully logged in: ', loginResponse.data);
 
         const { access_token, user} = loginResponse.data;
@@ -55,7 +56,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose, source }) => 
           router.push('./screens/home');
         }
         
-      } catch (error) {
+      } 
+      catch (error) {
         if (axios.isAxiosError(error)){
           if(error.response?.status === 401){
             // set missing fields to highlight labels
@@ -66,10 +68,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose, source }) => 
             Alert.alert('Invalid credentials', 'The email or password you entered is incorrect.');
             return;
           } else{
-            Alert.alert('Login failed', 'Please try again later.');
+              Alert.alert('Login failed', 'Please try again later.');
           }
         }
-
       }
       
       setIncorrectFields([]);

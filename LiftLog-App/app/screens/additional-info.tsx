@@ -32,8 +32,8 @@ export default function moreInfoScreen() {
     useEffect(() => {
         const fetchGyms = async () => {
             try {
-                const response = await axios.get<GymDisplay[]>('https://liftlog-backend.up.railway.app/gyms');
-                setGyms(response.data);
+                const apiResponse = await apiClient.get<GymDisplay[]>('/gyms');
+                setGyms(apiResponse.data);
             } catch(error) {
                 Alert.alert('Error',  'Failed to load gyms. Please try again later.');
             }
@@ -82,6 +82,7 @@ export default function moreInfoScreen() {
             const updateProfileData: UpdateUserProfileDto = {
                 currentGym: selectedGym ? selectedGym._id : undefined,
                 weight: weight ? parseFloat(weight): undefined,
+                unitWeight: weightUnit ? weightUnit : undefined,
             };
 
             Object.keys(updateProfileData).forEach((key) => {
@@ -126,7 +127,8 @@ export default function moreInfoScreen() {
                             'Content-Type': 'multipart/form-data',
                         },
                     });
-                    console.log('Profile picture uploaded: ', uploadResponse.data);
+
+                    // locally update profile picture
                     updateProfileData.profilePicture = uploadResponse.data.profilePicture;
                 } catch (error) {
                     console.error("Error uploading profile picture: ", error);

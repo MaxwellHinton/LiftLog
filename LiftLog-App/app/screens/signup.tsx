@@ -23,10 +23,6 @@ export default function SignupScreen() {
     setGenderModalVisible(false);
   };
 
-  const goToHomeForDev = () => {
-    router.push('./home');
-  }
-
   const handleNext = () => {
 
     const {  yourName, email, password, age, gender } = userData;

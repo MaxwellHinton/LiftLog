@@ -28,6 +28,10 @@ export class UpdateUserProfileDto {
   @IsOptional()
   weight?: number;
 
+  @IsString()
+  @IsOptional()
+  unitWeight?: string;
+
   @IsUrl()
   @IsOptional()
   profilePicture?: string;

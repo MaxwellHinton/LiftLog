@@ -58,6 +58,9 @@ export class User {
 
   @Prop({ type: Number })
   weight: number;
+  
+  @Prop({ type: String })
+  unitWeight: string;
 
   @Prop({ type: String })
   profilePicture?: string;

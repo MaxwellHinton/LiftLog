@@ -101,12 +101,10 @@ export class UsersController {
     @Param('id') userId: string,
     @UploadedFile() file: Multer.File,
     ) {
-      console.log('uploadProfilePicture called');
+      console.log('Hitting upload profile picture function -----');
       if (!file) {
         throw new HttpException('File not provided', HttpStatus.BAD_REQUEST);
       }
-
-      console.log('Received file:', file);
 
       const profilePicturePath = path.join('uploads', 'profile-pictures', file.filename).replace(/\\/g, '/');
 

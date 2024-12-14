@@ -19,6 +19,7 @@ export interface MachineLogDto {
 export interface UpdateUserProfileDto {
   currentGym?: string;
   weight?: number;
+  unitWeight?: string;
   profilePicture?: string;
   goals?: {
     longTermGoal?: string;
@@ -47,6 +48,8 @@ export interface UserData {
   password: string;
   yourName: string;
   profilePicture: string;
+  weight: number;
+  unitWeight: string;
 }
 
 // Gym interface for the gym selection process.
