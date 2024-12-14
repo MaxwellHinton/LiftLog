@@ -8,6 +8,8 @@ import {
   Dimensions,
   Modal,
   TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import MapView, { Marker, Overlay, Region } from "react-native-maps";
 import TransformedImage from './TransformedImage'; // Import the TransformedImage component
@@ -34,6 +36,7 @@ interface GymMapProps {
   machineGoals: MachineGoals | null;
   gymMachines: any[];
   userId: string | null;
+  unitWeight: string;
 }
 interface Marker {
   id: number;
@@ -63,7 +66,7 @@ const imageMapping: { [key: string]: any } = {
   "pullup64.png": require("../assets/machineMarkers/pullup64.png"),
 };
 
-const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
+const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId, unitWeight}) => {
   const gymImageBounds = [
       { latitude: 0, longitude: 0 }, // Southwest (bottom-left corner)
       { latitude: 0.0008, longitude: 0.0008 },   // Northeast (top-right corner)
@@ -95,7 +98,6 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
   };
 
   const handleRegionChangeComplete = (region: Region) => {
-      
       
     const minLat = gymImageBounds[0].latitude;
     const maxLat = gymImageBounds[1].latitude;
@@ -139,7 +141,6 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
   function handleClose(): void {
     setSelectedMarker(null)
   };
-
   
   function handleMarkerPress(id: number): void {
 
@@ -176,6 +177,7 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
       };
 
       console.log(updateData);
+      setSelectedMarker(null);
 
       try {
         const goalUpdateResponse = await apiClient.put(`users/${userId}`, updateData);
@@ -185,7 +187,6 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
         if (machineGoals) {
           machineGoals[selectedMarker.id] = updatedGoals;
         }
-        setSelectedMarker(null);
       } catch (error) {
         console.error('Failed to update machine goals:', error);
       }
@@ -247,13 +248,16 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
             <Text style={styles.tipText}>
               Navigate the gym using the interactive map.
             </Text>
+            <View style={styles.tipLine}></View>
             <Text style={styles.tipText}>
-              Click on a machine to log your lift, goals, reps, and to find out
+              Click on a machine to log your lift and to find out
               more information.
             </Text>
+            <View style={styles.tipLine}></View>
             <Text style={styles.tipText}>
               Use the search feature to navigate to a machine.
             </Text>
+            <View style={styles.tipLine}></View>
           </ScrollView>
           <TouchableOpacity
             style={styles.closeButton}
@@ -277,51 +281,55 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId}) => {
           transparent
           animationType="slide"
           onRequestClose={() => setSelectedMarker(null)}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContainer}>
-              <Text style={styles.modalTitle}>{selectedMarker.title}</Text>
-              {machineGoals && (
-                <View>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Current Weight</Text>
-                    <TextInput 
-                      style={styles.input}
-                      value={currentWeight}
-                      onChangeText={setCurrentWeight}
-                      keyboardType="numeric"
-                    />
+          >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>{selectedMarker.title}</Text>
+                {machineGoals && (
+                  <View>
+                    <View style={styles.inputContainer}>
+                      <Text style={styles.label}>Current Weight</Text>
+                      <TextInput 
+                        style={styles.input}
+                        value={currentWeight}
+                        onChangeText={setCurrentWeight}
+                        keyboardType="numeric"
+                      />
+                      <Text style={styles.unitLabel}>{unitWeight}</Text>
+                    </View>
+                    <View style={styles.inputContainer}>
+                      <Text style={styles.label}>Current Reps</Text>
+                      <TextInput
+                        style={styles.input}
+                        value={currentReps}
+                        onChangeText={setCurrentReps}
+                        keyboardType="numeric"
+                      />
+                    </View>
+                    <View style={styles.inputContainer}>
+                      <Text style={styles.label}>Current Goal</Text>
+                      <TextInput
+                        style={styles.input}
+                        value={currentGoal}
+                        onChangeText={setCurrentGoal}
+                        keyboardType="numeric"
+                      />
+                      <Text style={styles.unitLabel}>{unitWeight}</Text>
+                    </View>
                   </View>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Current Reps</Text>
-                    <TextInput
-                      style={styles.input}
-                      value={currentReps}
-                      onChangeText={setCurrentReps}
-                      keyboardType="numeric"
-                    />
-                  </View>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Current Goal</Text>
-                    <TextInput
-                      style={styles.input}
-                      value={currentGoal}
-                      onChangeText={setCurrentGoal}
-                      keyboardType="numeric"
-                    />
-                  </View>
-                </View>
-              )}
+                )}
 
-              <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                <Text style={styles.saveButtonText}>Save</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
-                <Text style={styles.closeButtonText}>Close</Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                  <Text style={styles.saveButtonText}>Save</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
+                  <Text style={styles.closeButtonText}>Close</Text>
+                </TouchableOpacity>
 
+              </View>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
         </Modal>
       )}
 
@@ -370,14 +378,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 10,
     padding: 20,
+    borderWidth: 1,
   },
   helpContent: {
-    paddingVertical: 10,
+    paddingVertical: '4%',
   },
   tipText: {
     fontSize: 16,
-    textAlign: "center",
-    marginBottom: 10,
+    textAlign: "left",
+    fontFamily: 'Reddit-Sans',
+  },
+  tipLine: {
+    borderBottomWidth: 1,
+    marginBottom: '5%',
+    marginTop: '5%',
   },
   modalOverlay: {
     flex: 1,
@@ -390,6 +404,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
+    borderWidth: 1,
   },
   modalTitle: { 
     fontSize: 24, 
@@ -416,6 +431,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     fontFamily: 'Roboto-Mono',
   },
+  unitLabel: {
+    position: 'absolute',
+    top: '0%',
+    right: '18%',
+    transform: [{ translateY: 14 }],
+    fontSize: 16,
+    fontFamily: 'Roboto-Mono',
+    color: '#000000',
+  },
   input: {
     height: 50,
     width: '80%',
@@ -424,6 +448,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E2E8EB',
     fontSize: 16,
     marginBottom: '8%',
+    fontFamily: 'Roboto-Mono',
   },
   saveButton: {
     width: '80%',

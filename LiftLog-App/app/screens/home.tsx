@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator, Animated } from 'react-native';
 import GymMap from '../GymMap';
 import * as SecureStore from 'expo-secure-store';
 import apiClient from '../apiClient';
@@ -15,6 +15,12 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [gymName, setGymName] = useState<string>();
 
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const slideAnimation = useRef(new Animated.Value(-100)).current;
+
+  // users unit preference to be sent.
+  const [unitWeight, setUnitWeight] = useState<string>('');
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -28,9 +34,12 @@ export default function Home() {
 
         console.log(user.currentGym);
         
+
+        // set user information
         setUserData(userResponse.data);
         setUserId(user._id);
         setMachineGoals(user.goals?.machineGoals || {});
+        setUnitWeight(user.unitWeight || 'kg');
 
         console.log(user.profilePicture);
 
@@ -55,32 +64,71 @@ export default function Home() {
     return <ActivityIndicator size="large" />;
   }
 
+  const handleSettingsButton = () => {
+    console.log('howdy');
+  };
+
+  const handleMenuButton = () =>  {
+    setShowMenu(!showMenu);
+
+    // trigger slide down animation
+    Animated.timing(slideAnimation, {
+      toValue: showMenu ? 0 : 100,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.menuButton}>
-          <View style={[styles.line, styles.line1]}></View>
-          <View style={[styles.line, styles.line2]}></View>
-          <View style={[styles.line, styles.line3]}></View>
-        </View>
-        {/* Gym Name and Search */}
-        <Text style={styles.gymName}>{gymName || 'No Gym Selected'}</Text>
 
-        <View style={styles.profilePicContainer}>
-          <Image
-            source={userData?.profilePicture 
-              ? { uri: `https://liftlog-backend.up.railway.app/${userData.profilePicture}`} 
-              : require('../../assets/images/defaultProfilePicture.png')}
-            style={styles.profilePic}
-            resizeMode='cover'
-          />
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.menuButton} onPress={handleMenuButton}>
+            <View style={[styles.line, styles.line1]}></View>
+            <View style={[styles.line, styles.line2]}></View>
+            <View style={[styles.line, styles.line3]}></View>
+          </TouchableOpacity>
+          {/* Gym Name and Search */}
+          <Text style={styles.gymName}>{gymName || 'No Gym Selected'}</Text>
+
+          <View style={styles.profilePicContainer}>
+            <Image
+              source={userData?.profilePicture 
+                ? { uri: `https://liftlog-backend.up.railway.app/${userData.profilePicture}`} 
+                : require('../../assets/images/defaultProfilePicture.png')}
+              style={styles.profilePic}
+              resizeMode='cover'
+            />
+          </View>
         </View>
-      </View>
+        <Animated.View style={[
+          styles.menu, 
+          { transform: [{ translateY: slideAnimation}] },
+          ]}
+        >
+
+        <TouchableOpacity style={styles.menuDropdownBtn}>
+          <Text style={styles.menuButtonText}>Option 1</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menuDropdownBtn}>
+          <Text style={styles.menuButtonText}>Option 2</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menuDropdownBtn} onPress={handleSettingsButton}  >
+          <Image
+            source={require('../../assets/images/settingsButton.png')}
+            style={styles.settingsImage}
+          />
+          
+        </TouchableOpacity>
+
+
+        </Animated.View>
+
 
       
       {/* Gym Map */}
-      <GymMap machineGoals={machineGoals} gymMachines={gymMachines} userId={userId}/>
+      <GymMap machineGoals={machineGoals} gymMachines={gymMachines} userId={userId} unitWeight={unitWeight}/>
 
       <View style={styles.logoContainer}>
         <Image
@@ -104,15 +152,46 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FBFF96',
-    paddingVertical: 15,
-    paddingHorizontal: 25,
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    height: '12%'
+    height: '12%',
+    width: '100%',
+    position: 'relative',
+    zIndex: 3,
+  },
+  menu: {
+    position: 'absolute',
+    top: '0%', // 99.5% instead of 100% to also block out the headers bottom border
+    width: '80%',
+    left: '10%',
+    height: '8%',
+    backgroundColor: '#FBFF96',
+    zIndex: 2,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderTopWidth: 1,
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  menuDropdownBtn: {
+    borderRadius: 35,
+    alignItems: 'center',
+  },
+  settingsImage: {
+    width: 50,
+    height: 50,
+    resizeMode: 'contain',
+  },
+  menuButtonText: {
+    fontSize: 12,
+    color: '#000000',
   },
   profilePicContainer: {
-    width: '20%',
-    height: '100%',
+    width: '16%',
+    height: '65%',
+    right: '5%',
     borderRadius: 35, 
     borderWidth: 1.5,
     backgroundColor: '#cccccc',
@@ -120,7 +199,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
   },
-  
   profilePic: {
     width: '100%', 
     height: '100%',
@@ -128,8 +206,9 @@ const styles = StyleSheet.create({
   menuButton: {
     justifyContent: "space-between", // Even spacing between lines
     alignItems: "flex-start", // Center the lines horizontally
-    width: '18%', // Width of the overall icon
-    height: '90%', // Height of the overall icon
+    width: '16%', // Width of the overall icon
+    height: '65%', // Height of the overall icon
+    left: '5%',
   },
   line: {
     height: 18, // Height of each line
