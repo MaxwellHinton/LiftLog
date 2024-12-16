@@ -4,6 +4,7 @@ import GymMap from '../GymMap';
 import * as SecureStore from 'expo-secure-store';
 import apiClient from '../apiClient';
 import {UserData, UserGoals} from '../interfaces';
+import SettingsModal from './settingsModal';
 
 export default function Home() {
 
@@ -15,48 +16,56 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [gymName, setGymName] = useState<string>();
 
+  // settings menu
+  const [showSettings, setShowSettings] = useState<boolean>(false);
+
+
+  // drop down menu
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const slideAnimation = useRef(new Animated.Value(-100)).current;
 
   // users unit preference to be sent.
   const [unitWeight, setUnitWeight] = useState<string>('');
+  const [userWeight, setUserWeight] = useState<string>('');
+
+  const fetchUserData = async () => {
+    try {
+      const userId = await SecureStore.getItemAsync('userId');
+      if(!userId) throw new Error('User ID not found');
+
+      //console.log("In home page trying to fetch the user with id: ", userId);
+
+      const userResponse = await apiClient.get(`/users/${userId}`);
+      const user = userResponse.data;
+
+      console.log(user.currentGym);
+      
+
+      // set user information
+      setUserData(userResponse.data);
+      setUserId(user._id);
+      setMachineGoals(user.goals?.machineGoals || {});
+      setUnitWeight(user.unitWeight || 'kg');
+      setUserWeight(user.weight || '');
+
+      console.log(user.profilePicture);
+
+      // Get user gym data for machine information
+
+      const gymResponse = await apiClient.get(`/gyms/${user.currentGym}`);
+      const gym = gymResponse.data;
+
+      setGymName(gym.name || ''); 
+      setGymMachines(gym.machines || []);
+      //console.log("IN HOME PAGE WITH ACTUAL DATA LETS GO :-:", userResponse.data);
+    } catch (error) {
+      console.error('Failed to fetch user data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userId = await SecureStore.getItemAsync('userId');
-        if(!userId) throw new Error('User ID not found');
-
-        //console.log("In home page trying to fetch the user with id: ", userId);
-
-        const userResponse = await apiClient.get(`/users/${userId}`);
-        const user = userResponse.data;
-
-        console.log(user.currentGym);
-        
-
-        // set user information
-        setUserData(userResponse.data);
-        setUserId(user._id);
-        setMachineGoals(user.goals?.machineGoals || {});
-        setUnitWeight(user.unitWeight || 'kg');
-
-        console.log(user.profilePicture);
-
-        // Get user gym data for machine information
-
-        const gymResponse = await apiClient.get(`/gyms/${user.currentGym}`);
-        const gym = gymResponse.data;
-
-        setGymName(gym.name); 
-        setGymMachines(gym.machines || []);
-        //console.log("IN HOME PAGE WITH ACTUAL DATA LETS GO :-:", userResponse.data);
-      } catch (error) {
-        console.error('Failed to fetch user data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchUserData(); // functions called here
   }, []); // We need empty array here so that the useEffect runs once when the component mounts.
 
@@ -64,8 +73,26 @@ export default function Home() {
     return <ActivityIndicator size="large" />;
   }
 
+  const handleCreditsButton = () => {
+    console.log('credits button pressed');
+  }
+
+  const handleMachinesButton = () => {
+    console.log('My Machines pressed');
+  }
+
   const handleSettingsButton = () => {
     console.log('howdy');
+
+    /* 
+      Settings page needs to be a modal that pops up the modal 
+
+
+      on press the menu needs to hide.
+    
+    */
+    handleMenuButton();
+    setShowSettings(true);
   };
 
   const handleMenuButton = () =>  {
@@ -108,19 +135,23 @@ export default function Home() {
           ]}
         >
 
-        <TouchableOpacity style={styles.menuDropdownBtn}>
-          <Text style={styles.menuButtonText}>Option 1</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDropdownBtn}>
-          <Text style={styles.menuButtonText}>Option 2</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDropdownBtn} onPress={handleSettingsButton}  >
-          <Image
-            source={require('../../assets/images/settingsButton.png')}
-            style={styles.settingsImage}
-          />
-          
-        </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.menuBtn} onPress={handleCreditsButton}>
+              <Text style={styles.menuButtonText}>Credits</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuBtn} onPress={handleMachinesButton}>
+              <Text style={styles.menuButtonText}>Machines</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuBtn} onPress={handleSettingsButton}  >
+              {/* <Image
+                source={require('../../assets/images/settingsButton.png')}
+                style={styles.settingsImage}
+              /> */}
+              <Text style={styles.menuButtonText}>Settings</Text>
+              
+            </TouchableOpacity>
+
+          </View>
 
 
         </Animated.View>
@@ -128,7 +159,9 @@ export default function Home() {
 
       
       {/* Gym Map */}
-      <GymMap machineGoals={machineGoals} gymMachines={gymMachines} userId={userId} unitWeight={unitWeight}/>
+      <GymMap machineGoals={machineGoals} gymMachines={gymMachines} 
+              userId={userId} unitWeight={unitWeight}
+      />
 
       <View style={styles.logoContainer}>
         <Image
@@ -137,7 +170,15 @@ export default function Home() {
         />
         <Text style={styles.logoText}>LiftLog</Text>
       </View>
-      
+
+      <SettingsModal 
+        visible={showSettings} onClose={() => setShowSettings(false)} 
+        weight={userWeight} unit={unitWeight}
+        userGym={gymName || ''}
+        userId={userId}
+        refreshData={fetchUserData}
+      />
+        
       </View>
   );
 }
@@ -159,33 +200,53 @@ const styles = StyleSheet.create({
     position: 'relative',
     zIndex: 3,
   },
+
+  // drop down menu styling -------------------------------------
   menu: {
     position: 'absolute',
     top: '0%', // 99.5% instead of 100% to also block out the headers bottom border
     width: '80%',
     left: '10%',
-    height: '8%',
+    height: '10%',
     backgroundColor: '#FBFF96',
     zIndex: 2,
+    borderRadius: 5,
     borderBottomWidth: 1,
     borderLeftWidth: 1,
     borderRightWidth: 1,
-    borderTopWidth: 1,
-    padding: 10,
+    paddingVertical: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'center'
   },
-  menuDropdownBtn: {
-    borderRadius: 35,
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  menuBtn: {
+    height: '90%',
+    width: '30%',
+    borderWidth: 1,
+    borderRadius: 25,
+    justifyContent: 'center',
+    backgroundColor: '#ffffff',
+    shadowColor: '#000000', // Shadow color
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset (x, y)
+    shadowOpacity: 0.2, // Shadow transparency (0 to 1)
+    shadowRadius: 100, // How far the shadow spreads
+    elevation: 4,
   },
   settingsImage: {
-    width: 50,
-    height: 50,
+    height: "100%",
+    width: "100%",
     resizeMode: 'contain',
   },
   menuButtonText: {
-    fontSize: 12,
+    fontSize: 18,
+    textAlign: 'center',
+    fontFamily: 'Reddit-Sans-Bold',
     color: '#000000',
   },
   profilePicContainer: {
@@ -228,7 +289,7 @@ const styles = StyleSheet.create({
 
   // Gym Name
   gymName: {
-    fontSize: 20,
+    fontSize: 24,
     fontFamily: 'Roboto-Mono-Bold',
     color: '#000000',
   },

@@ -7,6 +7,7 @@ import { UserContext } from '../contexts/userContext';
 import { RegisterUserDto, UpdateUserProfileDto, GymDisplay } from '../interfaces';
 import * as SecureStore from 'expo-secure-store';
 import apiClient from '../apiClient';
+import GymSelectionModal from '../modals/GymSelectionModal';
 
 
 export default function moreInfoScreen() {
@@ -201,18 +202,18 @@ export default function moreInfoScreen() {
                 />
                 {/* Radio Buttons for Units */}
                 <View style={styles.radioGroup}>
-                <TouchableOpacity
-                    style={[styles.radioButton, weightUnit === 'kg' && styles.radioButtonSelected]}
-                    onPress={() => handleUnitChange('kg')}
-                >
-                    <Text style={styles.radioText}>kg</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.radioButton, weightUnit === 'lbs' && styles.radioButtonSelected]}
-                    onPress={() => handleUnitChange('lbs')}
-                >
-                    <Text style={styles.radioText}>lbs</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.radioButton, weightUnit === 'kg' && styles.radioButtonSelected]}
+                        onPress={() => handleUnitChange('kg')}
+                    >
+                        <Text style={styles.radioText}>kg</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.radioButton, weightUnit === 'lbs' && styles.radioButtonSelected]}
+                        onPress={() => handleUnitChange('lbs')}
+                    >
+                        <Text style={styles.radioText}>lbs</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
     
