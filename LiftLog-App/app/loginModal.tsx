@@ -80,9 +80,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onClose, source }) => 
     <Modal visible={visible} transparent animationType="slide">
       <View style={styles.modalOverlay}>
         <KeyboardAvoidingView
-                        behavior={Platform.OS === "ios" ? "padding" : "height"}
-                        keyboardVerticalOffset={100} // Adjust this value to control the shift
-                        style={styles.keyboardAvoidingContainer}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={100} // Adjust this value to control the shift
+          style={styles.keyboardAvoidingContainer}
         >
 
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
