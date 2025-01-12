@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/LiftLogIcon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.mongman"
@@ -21,7 +21,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/LiftLogIcon.png"
     },
     "plugins": [
       "expo-router",
@@ -47,6 +47,7 @@
       "eas": {
         "projectId": "3910c742-a090-4407-ac03-1d3ce352e8a3"
       }
-    }
+    },
+    "owner": "mongman"
   }
 }

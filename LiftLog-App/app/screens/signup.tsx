@@ -162,7 +162,7 @@ export default function SignupScreen() {
 
 
           {/* Button */}
-          <TouchableOpacity style={styles.button} onPress={handleNext/*goToHomeForDev*/}>
+          <TouchableOpacity style={styles.button} onPress={handleNext/*goToHomeDev*/}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
 

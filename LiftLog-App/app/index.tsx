@@ -11,11 +11,6 @@ export default function WelcomeScreen() {
   const handleGetStarted = () => {
     router.push('./screens/signup');
   }
-  
-
-  const handleDevSetting = () => {
-    router.push('./screens/my-machines');
-  }
 
   return (
     <View style={styles.container}>
@@ -40,9 +35,9 @@ export default function WelcomeScreen() {
         <TouchableOpacity style={[styles.button, styles.marginTop]} onPress={handleGetStarted}>
           <Text style={styles.buttonText}>Sign-Up</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.marginTop]} onPress={handleDevSetting}>
+        {/* <TouchableOpacity style={[styles.button, styles.marginTop]} onPress={handleDevSetting}>
           <Text style={styles.buttonText}>Settingd for dev</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
 
