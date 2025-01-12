@@ -58,12 +58,16 @@ const HomePage = () => {
       <section id="home" className="section">
 
       <div className="logo-header">
-        <h1 className="logo-text">LiftLog.</h1>
+        <div className='logoNameImage'>
+          <h1 className="logo-text">LiftLog.</h1>
+          <img src='/icons/sections/muscle.png' className='logo-image'></img>
+
+        </div>
 
         <div className={`nav-menu ${showMenu ? 'show' : ''}`}>
           <a href="#home" className="nav-menu-items">Home</a>
           <a href="#about" className="nav-menu-items">About</a>
-          <a href="#signup" className="nav-menu-items">Signup</a>
+          <a href="#features" className="nav-menu-items">Features</a>
           <a href="#contact" className="nav-menu-items">Contact</a>
         </div>
 
@@ -121,7 +125,7 @@ const HomePage = () => {
                 <li>Progress tracking</li>
                 <li>Goal setting</li>
                 <li>Interactive Gym map</li>
-                <li>Leaderboards and local gym community engagement</li>
+                <li>Leaderboards and local gym community engagement (in progress)</li>
               </ul>
           </div>
           <div className="image-container">
@@ -131,33 +135,35 @@ const HomePage = () => {
         <a href="#about"></a>
       </section>
 
-      <section id="signup" className="section signup-section">
+      <section id="features" className="section signup-section">
         <div className="content-section">
-          <div className="image-container">
-            <img src="/icons/sections/muscle.png" alt="Signup Icon" />
+          <div className="demo-image-container">
+            <img src="/icons/appDemos/HOME MAP FINAL DEMO1.png" alt="Signup Icon" />
           </div>
           <div className="text-container">
-            <h2>Signup</h2>
+            <h2>Interactive Map</h2>
             <div className="header-line"></div>
-            <p>Download the app and begin your journey today.<br></br>You can also sign up on this website.</p>
-            <form className="signup-form">
-              <label htmlFor="fname">First name:</label>
-              <input type="text" id="fname" name="fname"></input>
-              <label htmlFor="lname">Last name:</label>
-              <input type="text" id="lname" name="lname"></input>
-              <label htmlFor="email">Email:</label>
-              <input type="email" id="email" name="email"></input>
-              <label htmlFor="password">Password:</label>
-              <input type="password" id="password" name="password"></input>
-            </form>
-            <div className="signup-button-container">
-              <button className="signup-button" onClick={() => {
-                // Add your registration logic here
-              }}>Register</button>
-            </div>
+            <p>LiftLog features an interactive gym map that can be tailored to your 
+              community gym. Click on machine icons to bring up more information and log your lifts.<br>
+            </br></p>
           </div>
         </div>
-        <a href="#signup"></a>
+        <a href="#features"></a>
+      </section>
+
+      <section id="demos" className="section demos-section">
+        <div className="content-section">
+          <div className="text-container">
+            <h2>My Machines Tab</h2>
+            <div className="header-line"></div>
+            <p>Find all your favourite machines in one place!<br>
+            </br></p>
+          </div>
+          <div className="demo-image-container">
+            <img src="/icons/appDemos/MY MACHINE FINAL DEMO1.png"></img>
+          </div>
+        </div>
+        <a href="#demos"></a>
       </section>
 
       <section id="contact" className="section contact-section">

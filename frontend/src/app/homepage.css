@@ -38,12 +38,16 @@ html, body {
 #about {
   background-image: url('/icons/background/backgroundWHITE.png');
 }
-#signup {
+#features {
   background-image: url('/icons/background/backgroundWHITE.png');
 }
 #contact {
   background-image: url('/icons/background/backgroundWHITE.png');
 }
+#demos {
+  background-image: url('/icons/background/backgroundWHITE.png');
+}
+
 
 .homepage-background {
   position: absolute;
@@ -120,7 +124,7 @@ html, body {
   align-items: center;
   padding: 0 100px;
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid black;
 }
 
 .logo-text {
@@ -128,8 +132,18 @@ html, body {
   font-family: 'Roboto mono';
   font-weight: bold;
   line-height: 1.2;
+  padding-top: 15px;
 }
 
+.logoNameImage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-image {
+  width: 64px;
+}
 .menu-button {
   background: none;
   border: none;
@@ -271,9 +285,12 @@ html, body {
   transform: translateY(-4px);
 }
 
+
+
+
 /* about section styling */
 
-.about-section .content-section {
+.about-section .content-section .demos-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -342,6 +359,28 @@ h2 {
   margin-bottom: 5px;
 }
 
+/* demos section styling */
+.demos-section {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px
+}
+
+.demos-section p {
+  font-family: 'Public Sans';
+  font-size: 22px;
+  width: 50%;
+  text-align: left;
+  width: 350px;
+
+}
+
+.demo-image-container {
+  
+}
+
 /* Signup section styling */
 
 .signup-section {
@@ -354,7 +393,7 @@ h2 {
 
 .signup-section p {
   font-family: 'Public Sans';
-  font-size: 18px;
+  font-size: 22px;
   width: 50%;
   text-align: left;
   width: 350px;
@@ -365,16 +404,6 @@ h2 {
   height: 1px;
   background-color: black;
   margin-bottom: 10px;
-}
-
-.signup-section form {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-family: 'Public Sans';
-  font-size: 22px;
-  color: black;
-  width: 350px;
 }
 
 .signup-section .content-section {
@@ -396,11 +425,6 @@ h2 {
   border-radius: 5px;
 }
 
-.signup-button-container {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
 
 .signup-section .signup-button {
   padding: 10px 20px;
