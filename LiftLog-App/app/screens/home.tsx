@@ -5,8 +5,11 @@ import * as SecureStore from 'expo-secure-store';
 import apiClient from '../apiClient';
 import {UserData, UserGoals} from '../interfaces';
 import SettingsModal from './settingsModal';
+import { useRouter } from 'expo-router';
 
 export default function Home() {
+
+  const router = useRouter();
 
   const [userData, setUserData] = useState<UserData | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -33,8 +36,6 @@ export default function Home() {
       const userId = await SecureStore.getItemAsync('userId');
       if(!userId) throw new Error('User ID not found');
 
-      //console.log("In home page trying to fetch the user with id: ", userId);
-
       const userResponse = await apiClient.get(`/users/${userId}`);
       const user = userResponse.data;
 
@@ -48,8 +49,6 @@ export default function Home() {
       setUnitWeight(user.unitWeight || 'kg');
       setUserWeight(user.weight || '');
 
-      console.log(user.profilePicture);
-
       // Get user gym data for machine information
 
       const gymResponse = await apiClient.get(`/gyms/${user.currentGym}`);
@@ -57,7 +56,7 @@ export default function Home() {
 
       setGymName(gym.name || ''); 
       setGymMachines(gym.machines || []);
-      //console.log("IN HOME PAGE WITH ACTUAL DATA LETS GO :-:", userResponse.data);
+
     } catch (error) {
       console.error('Failed to fetch user data:', error);
     } finally {
@@ -78,7 +77,17 @@ export default function Home() {
   }
 
   const handleMachinesButton = () => {
-    console.log('My Machines pressed');
+
+    router.push({
+      pathname: './my-machines',
+      params: {
+        gymName: gymName,
+        gymMachines: JSON.stringify(gymMachines),
+        machineGoals: JSON.stringify(machineGoals),
+        userId: userId,
+        unitWeight: unitWeight,
+      },
+    });
   }
 
   const handleSettingsButton = () => {

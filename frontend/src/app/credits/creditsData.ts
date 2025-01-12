@@ -81,6 +81,13 @@ export const creditsData = [
       author: "icongeek26",
       authorUrl: "https://www.flaticon.com/authors/icongeek26",
       flaticonUrl: "https://www.flaticon.com/free-icon/contact-book_1250592?term=contact&page=1&position=13&origin=search&related_id=1250592"
+    },
+    // app icons
+    {
+      iconName: 'Image Free Icon',
+      author: 'Freepik',
+      authorUrl: 'https://www.freepik.com/?_gl=1*1gibjde*test_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*test_ga_523JXC6VL7*MTczNDQ4Nzg0Ni45LjEuMTczNDQ4Nzg3MC4zNi4wLjA.*fp_ga*MTA0NjM5MjMwNS4xNzMwNzkyNjU4*fp_ga_1ZY8468CQB*MTczNDQ4Nzg0Ni4xMC4xLjE3MzQ0ODc4NzAuMzYuMC4w',
+      flaticonUrl: 'https://www.flaticon.com/free-icon/image_739249?term=default+image&page=1&position=1&origin=tag&related_id=739249'
     }
   ];
   

@@ -60,6 +60,21 @@ export interface GymDisplay {
     imageUrl?: string;
 }
 
+export interface MachineDisplay {
+  _id: string;
+  machineName: string;
+  image: string;
+}
+
+export interface MachineGoals {
+  [machineId: string]: {
+    currentWeight?: number;
+    currentReps?: number;
+    currentGoal?: number;
+    incrementWeight?: number;
+  }
+}
+
 const interfaces = {};
   
 export default interfaces;
