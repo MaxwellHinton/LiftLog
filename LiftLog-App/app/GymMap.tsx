@@ -14,6 +14,7 @@ import {
 import MapView, { Marker, Overlay, Region } from "react-native-maps";
 import TransformedImage from './TransformedImage'; // Import the TransformedImage component
 import apiClient from "./apiClient";
+import { MachineGoals } from "./interfaces";
 
 const { width: width, height: height } = Dimensions.get("window");
 
@@ -24,14 +25,6 @@ const { width: width, height: height } = Dimensions.get("window");
 
 
 */
-interface MachineGoals {
-  [machineId: string]: {
-    currentWeight?: number;
-    currentReps?: number;
-    currentGoal?: number;
-    incrementWeight?: number;
-  }
-}
 interface GymMapProps {
   machineGoals: MachineGoals | null;
   gymMachines: any[];
@@ -148,8 +141,11 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId, unitW
       We are given the id of the machine which we can use to get the marker.
 
       then we update selectedMarker to produce the overlay modal.
+      
     */
 
+
+      
       const marker = markers.find(marker => marker.id === id);
       setSelectedMarker(marker || null);
       if (marker && machineGoals) {
@@ -180,8 +176,12 @@ const GymMap: React.FC<GymMapProps> = ({machineGoals, gymMachines, userId, unitW
       setSelectedMarker(null);
 
       try {
+        console.log('sending update request to id: ', userId);
+        console.log('payload: ', updateData);
         const goalUpdateResponse = await apiClient.put(`users/${userId}`, updateData);
         // Update local state if needed
+
+        console.log('Response: ', goalUpdateResponse.data);
 
         console.log(goalUpdateResponse.data);
         if (machineGoals) {

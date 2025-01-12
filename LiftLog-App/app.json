@@ -4,25 +4,17 @@
     "slug": "LiftLog-App",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/LiftLogIcon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
-      "config": {
-        "googleMapsApiKey": "AIzaSyDJd9IKZeak9lZ4oSrSkwDEc_DeSJwNCLc"
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyDJd9IKZeak9lZ4oSrSkwDEc_DeSJwNCLc"
-        }
       },
       "package": "com.mongman"
     },
